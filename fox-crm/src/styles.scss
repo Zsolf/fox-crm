@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Times New Roman', Times, serif, "Helvetica Neue", sans-serif; }
+
+/* Importing Bootstrap SCSS file. */
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap/scss/bootstrap';
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+  $primary: mat-palette($mat-blue,100);
+  $accent: mat-palette($mat-orange,200);
+
+  $theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);

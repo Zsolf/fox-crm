@@ -1,0 +1,15 @@
+<body>
+    <app-menubar></app-menubar>
+    <div class="main-page">
+        <mat-button-toggle-group >
+            <mat-button-toggle #toggleMainSum>Értékesítés összegzés</mat-button-toggle>
+            <mat-button-toggle #toggleMainCD>Cégadatok</mat-button-toggle>
+            <mat-button-toggle style="margin-right: 2px;" #toggleMainCont>Kapcsolat</mat-button-toggle>
+        </mat-button-toggle-group>
+        {{toggleMainCD.checked}}
+        <div>
+            <app-company-data-page>
+            </app-company-data-page>
+        </div>
+    </div>
+</body>
