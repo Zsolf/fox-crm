@@ -1,6 +1,4 @@
-body {
-    background-color: #FAFAFA;
-}
+
 
 mat-button-toggle-group {
     border: none !important;
@@ -11,27 +9,30 @@ mat-button-toggle-group {
   }
   
 mat-button-toggle {
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-weight: bold;
     border: 1px rgba(0,0,0,0) solid !important;
     margin-top: 5px !important;
     z-index: 3 !important;
-    background-color: #acd2e9;
+    background-color: #dc8059;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;  
 }
   
 mat-button-toggle:hover {
-    background-color: #6fbceb !important;
+    background-color: #FFFFFF !important;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px; 
+    border:none;
 }
   
 .mat-button-toggle-checked {
     box-shadow: 0 0 5px #000 !important;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px; 
-    background-color: #6fbceb !important;
+    background-color: #FFFFFF !important;
 }
 
 .main-page{
-    margin-top: 80px;
+    padding-top: 80px;
 }
