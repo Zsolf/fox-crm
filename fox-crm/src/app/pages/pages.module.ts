@@ -5,12 +5,13 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { CompanyDataPageComponent } from './main-page/company-data-page/company-data-page.component';
 import { ContactPageComponent } from './main-page/contact-page/contact-page.component';
 import { SummaryPageComponent } from './main-page/summary-page/summary-page.component';
+import { CompanyDialogComponent } from './main-page/company-data-page/company-dialog/company-dialog.component';
 
 @NgModule({
-  declarations: [MainPageComponent, CompanyDataPageComponent, ContactPageComponent, SummaryPageComponent],
+  declarations: [MainPageComponent, CompanyDataPageComponent, ContactPageComponent, SummaryPageComponent, CompanyDialogComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [MainPageComponent]
 })

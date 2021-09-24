@@ -6,6 +6,7 @@
     display: inline-block;
     justify-content:space-between; 
     min-width: 600px;
+    z-index: 99;
 }
 
 .mat-card-two{
@@ -31,12 +32,54 @@
     width: 95%;
 }
 
-h2 {
+.name {
     
     font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
     font-size:40px;
     font-variant:small-caps;
     text-align: left;
     font-weight:bold;
-    padding:15px 0px 15px 0px; /* Tweak this to your liking */
+    padding:15px 15px 0px 15px;
+}
+
+h2{
+    padding:0px 0px 0px 15px;
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+
+}
+
+.text-div{
+    display: flex;
+    width: 100%
+}
+
+.icon{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.edit-icon{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;   
+}
+
+.first-line{
+    display: flex;
+}
+
+.second-card-line{
+    margin-inline: 3% !important;
+    position: absolute;
+    width: max-content;
+    display: flex;
+    width: 93%;
+    padding-top: 200px;
+}
+
+a{
+    cursor: pointer;
+    z-index: 100;
 }

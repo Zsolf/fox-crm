@@ -1,0 +1,23 @@
+
+<form [formGroup]="form">
+    <h3>Cég adatok módosítása</h3>
+    <mat-form-field>
+        <mat-label>Cég neve</mat-label>
+        <input matInput focus formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Cég tulajdonos</mat-label>
+        <input matInput focus formControlName="ceoName" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Székhely</mat-label>
+        <input matInput focus formControlName="address" required>
+        <mat-hint>Utca , Város (Irányítószám)</mat-hint>
+    </mat-form-field>
+
+    
+</form>
+<div>
+    <button mat-button (click)="dialogRef.close()">Mégsem</button>
+    <button mat-button [mat-dialog-close]="form.value" [disabled]="form.invalid">Módosítás</button>
+</div>

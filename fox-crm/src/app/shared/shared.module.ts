@@ -6,6 +6,12 @@ import { MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field'
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -17,13 +23,28 @@ import {MatCardModule} from '@angular/material/card';
     MatIconModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatInputModule
+    
   ],
   exports: [MenubarComponent,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatCardModule]
+    MatCardModule,
+    MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatInputModule]
 })
 export class SharedModule { }

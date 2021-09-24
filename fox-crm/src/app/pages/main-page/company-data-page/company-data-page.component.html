@@ -1,13 +1,48 @@
-<div class="cards">
-    <mat-card class="mat-card-one">  
-        <div>
-            <h2>
-                {{comp.name}}
-            </h2>
+<div>
+    <div class="cards">
+        <mat-card (mouseenter) ="mouseEnterFirst()"  (mouseleave) ="mouseLeaveFirst()" class="mat-card-one">  
+        <div class="first-line">
+            <div class="text-div">
+                <h2 class="name">
+                    {{comp.name}}
+                </h2>
+                <img src="assets/company-icon.png"  class="icon">
+            </div>
+            <a [hidden]="!firstEditIconVisible" (click)="openDialog()" ><img src="assets/pen-icon.png" class="edit-icon"></a>
         </div>
-    </mat-card>
-    <div class="card-div">
-        <mat-card class="mat-card-two">  
+            <h2>
+                {{comp.address}}
+            </h2>
+            <h2>
+                {{comp.ceoName}}
+            </h2>
         </mat-card>
+        <div class="card-div">
+            <mat-card class="mat-card-two">  
+            </mat-card>
+        </div>
+    </div>
+    <div class="second-card-line"> 
+            <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-one">  
+                <div class="first-line">
+                    <div class="text-div">
+                        <h2 class="name">
+                            Elérhetőségek
+                        </h2>
+                        <img src="assets/company-icon.png"  class="icon">
+                    </div>
+                    <a [hidden]="!secondEditIconVisible"  (click)="openDialog()" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+                </div>
+                    <h2>
+                        {{comp.webpage}}
+                    </h2>
+                    <h2>
+                        {{comp.phone}}
+                    </h2>
+                    <h2>
+                        {{comp.email}}
+                    </h2>
+        </mat-card>
+    
     </div>
 </div>
