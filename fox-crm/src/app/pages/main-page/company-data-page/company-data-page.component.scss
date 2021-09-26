@@ -83,3 +83,21 @@ a{
     cursor: pointer;
     z-index: 100;
 }
+
+.title{
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size:30px;
+    font-variant:small-caps;
+    text-align: left;
+    font-weight:bold;
+    padding:15px 15px 0px 15px;
+}
+
+.third-card-line{
+    margin-inline: 3% !important;
+    position: absolute;
+    width: max-content;
+    display: flex;
+    width: 93%;
+    padding-top: 400px;
+}

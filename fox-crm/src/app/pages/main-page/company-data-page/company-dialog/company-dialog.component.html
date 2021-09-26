@@ -1,20 +1,35 @@
 
 <form [formGroup]="form">
     <h3>Cég adatok módosítása</h3>
-    <mat-form-field>
-        <mat-label>Cég neve</mat-label>
+    <mat-form-field [hidden]=!isMainDialog>
+        <mat-label >Cég neve</mat-label>
         <input matInput focus formControlName="name" required>
     </mat-form-field>
-    <mat-form-field>
-        <mat-label>Cég tulajdonos</mat-label>
+    <mat-form-field [hidden]=!isMainDialog>
+        <mat-label >Cég tulajdonos</mat-label>
         <input matInput focus formControlName="ceoName" required>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field [hidden]=!isMainDialog>
         <mat-label>Székhely</mat-label>
         <input matInput focus formControlName="address" required>
         <mat-hint>Utca , Város (Irányítószám)</mat-hint>
     </mat-form-field>
-
+    <mat-form-field [hidden]=!isContactDialog>
+        <mat-label>Telefonszám</mat-label>
+        <input matInput focus formControlName="phone" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isContactDialog>
+        <mat-label>Email</mat-label>
+        <input matInput focus formControlName="email" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isMainDialog>
+        <mat-label>Adószám</mat-label>
+        <input matInput focus formControlName="taxNumber" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isWebpageDialog>
+        <mat-label>Weboldal</mat-label>
+        <input matInput focus formControlName="webpage" required>
+    </mat-form-field>
     
 </form>
 <div>

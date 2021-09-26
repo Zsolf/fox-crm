@@ -4,6 +4,8 @@ import { ICompany } from 'src/app/shared/models/company.model';
 import { IPerson } from 'src/app/shared/models/person.model';
 import { MatDialog} from '@angular/material/dialog';
 import { CompanyDialogComponent } from './company-dialog/company-dialog.component';
+import { IComment } from 'src/app/shared/models/comment.model';
+import { element } from 'protractor';
 
 @Component({
   selector: 'fcrm-company-data-page',
@@ -17,10 +19,16 @@ export class CompanyDataPageComponent implements OnInit {
   comp: ICompany;
   ceo: IPerson;
 
+  comments: IComment[];
+  commentIds: string[];
   firstEditIconVisible: boolean;
   secondEditIconVisible: boolean;
+  thirdEditIconVisible: boolean;
 
-  ngOnInit(): void {
+  isCommentSet: boolean;
+  fbReadFinished: boolean;
+
+  async ngOnInit(): Promise<void> {
     this.comp = {
       id: "",
       name: "",
@@ -33,14 +41,28 @@ export class CompanyDataPageComponent implements OnInit {
       webpage: "",
     }
 
-    this.getCompany();
+    this.comments = []
 
+    await this.getData();
     this.firstEditIconVisible = false;
     this.secondEditIconVisible = false;
+    this.thirdEditIconVisible = false;
+    this.isCommentSet = false;
+    await this.getComments()
+    
+
   }
 
-    getCompany(){
-    this.fbService.getById("companies","3t92wuZZJdLVM0zrUaGB").subscribe(result =>{
+  ngDoCheck(){
+    if(!this.isCommentSet && this.commentIds.length > 0 && this.fbReadFinished){
+    this.getComments()
+    this.isCommentSet = true;
+    }
+  }
+
+
+    async getData(){
+      await this.fbService.getById("companies","3t92wuZZJdLVM0zrUaGB").subscribe(async result =>{
       this.comp.id = result.id;
       this.comp.name = result.name;
       this.comp.ceoName = result.ceoName;
@@ -50,13 +72,31 @@ export class CompanyDataPageComponent implements OnInit {
       this.comp.taxNumber = result.taxNumber;
       this.comp.address = result.address;
       this.comp.webpage = result.webpage;
+
+      
+      await this.fbService.getIdFromLinkedDB("company-comments",this.comp.id,"companyId","commentId").subscribe(async result => {   
+        this.commentIds = await result;
+        console.log(result)
+        this.fbReadFinished = true;
+      }) ;   
      })
-     
-  }
+    }
+
+
+    getComments(){
+      this.commentIds.forEach(element => {
+        this.fbService.getById("comments",element).subscribe(async result =>{
+          if(this.comments.find(elem =>{ 
+            return elem.id == element
+          }) == undefined){
+          this.comments.push(result)
+          }
+        })
+      });
+    }
 
   mouseEnterFirst(){
     this.firstEditIconVisible = true;
-    console.log("first")
   }
 
   mouseLeaveFirst(){
@@ -71,10 +111,19 @@ export class CompanyDataPageComponent implements OnInit {
     this.secondEditIconVisible = false;
   }
 
-  openDialog(): void {
+  mouseEnterThird(){
+    this.thirdEditIconVisible = true;
+  }
+
+  mouseLeaveThird(){
+    this.thirdEditIconVisible = false;
+  }
+
+  openDialog(dialogType: string): void {
     const dialogRef = this.dialog.open(CompanyDialogComponent, {
       width: '250px',
-      data: this.comp
+      data: {company: this.comp, dialogType: dialogType}
+      
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -82,6 +131,14 @@ export class CompanyDataPageComponent implements OnInit {
       this.comp.name = result.name
       this.comp.ceoName = result.ceoName
       this.comp.address = result.address
+      this.comp.taxNumber = result.taxNumber
+      this.comp.email = result.email
+      this.comp.phone = result.phone
+      this.comp.webpage = result.webpage
+
+      this.fbService.update("companies",this.comp.id, this.comp)
     });
+
+
   }
 }

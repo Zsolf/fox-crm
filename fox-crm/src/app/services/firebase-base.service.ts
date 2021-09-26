@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { element } from 'protractor';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,31 @@ export class FirebaseBaseService {
       return this.afs.collection(collectionName).doc(id).valueChanges();
     }
 
+    async update(collectionName: string, id: string, data: any){
+      this.afs.collection(collectionName).doc(id).update(data);
+    }
+
+    getIdFromLinkedDB(collectionName: string, givenId: string, givenIdName: string, searchedIdName: string): Observable<any[]>{
+      let ids = []
+      let result = this.afs.collection(collectionName, ref => {
+        let query = ref.where(givenIdName, '==', givenId)
+        
+        query.get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+              ids.push(doc.get(searchedIdName))
+          });
+      })
+      .catch(function(error) {
+          console.log("Error getting documents: ", error);
+      });
+        return query
+      })
+      return of(ids)
+    }
+
+    getFilteredByIdList(collectionName: string, givenId: string, givenIdName: string): Observable<any>{
+      let coll = this.afs.collection(collectionName,ref => ref.where(givenIdName, '==', givenId))
+      return coll.valueChanges()
+    }
   
 }

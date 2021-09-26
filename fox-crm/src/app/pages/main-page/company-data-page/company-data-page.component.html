@@ -8,7 +8,7 @@
                 </h2>
                 <img src="assets/company-icon.png"  class="icon">
             </div>
-            <a [hidden]="!firstEditIconVisible" (click)="openDialog()" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+            <a [hidden]="!firstEditIconVisible" (click)="openDialog('mainDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
         </div>
             <h2>
                 {{comp.address}}
@@ -19,6 +19,12 @@
         </mat-card>
         <div class="card-div">
             <mat-card class="mat-card-two">  
+                <mat-label>
+                    <h2>Megjegyzések</h2>
+                </mat-label>
+                <mat-card class="comment" *ngFor=" let comment of comments">
+                    <h4>{{comment.createdAt.toDate().getYear() + 1900}}</h4>
+                </mat-card>
             </mat-card>
         </div>
     </div>
@@ -26,16 +32,13 @@
             <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-one">  
                 <div class="first-line">
                     <div class="text-div">
-                        <h2 class="name">
+                        <h2 class="title">
                             Elérhetőségek
                         </h2>
-                        <img src="assets/company-icon.png"  class="icon">
+                        <img src="assets/contact-icon.png"  class="icon">
                     </div>
-                    <a [hidden]="!secondEditIconVisible"  (click)="openDialog()" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+                    <a [hidden]="!secondEditIconVisible"  (click)="openDialog('contactDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
                 </div>
-                    <h2>
-                        {{comp.webpage}}
-                    </h2>
                     <h2>
                         {{comp.phone}}
                     </h2>
@@ -45,4 +48,21 @@
         </mat-card>
     
     </div>
+    <div class="third-card-line"> 
+        <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-one">  
+            <div class="first-line">
+                <div class="text-div">
+                    <h2 class="title">
+                        Weboldal
+                    </h2>
+                    <img src="assets/web-icon.png"  class="icon">
+                </div>
+                <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+            </div>
+                <h2>
+                    {{comp.webpage}}
+                </h2>
+    </mat-card>
+
+</div>
 </div>
