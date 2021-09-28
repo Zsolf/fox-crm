@@ -12,11 +12,12 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { toDate } from './pipes/to-date.pipe';
 
 
 
 @NgModule({
-  declarations: [MenubarComponent],
+  declarations: [MenubarComponent, toDate],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -30,8 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MatInputModule
-    
+    MatInputModule,
   ],
   exports: [MenubarComponent,
     MatToolbarModule,
@@ -45,6 +45,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MatInputModule]
+    MatInputModule,
+  toDate]
 })
 export class SharedModule { }

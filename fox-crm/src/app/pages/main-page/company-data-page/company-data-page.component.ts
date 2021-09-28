@@ -5,7 +5,8 @@ import { IPerson } from 'src/app/shared/models/person.model';
 import { MatDialog} from '@angular/material/dialog';
 import { CompanyDialogComponent } from './company-dialog/company-dialog.component';
 import { IComment } from 'src/app/shared/models/comment.model';
-import { element } from 'protractor';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Firebase from 'firebase';
 
 @Component({
   selector: 'fcrm-company-data-page',
@@ -21,12 +22,20 @@ export class CompanyDataPageComponent implements OnInit {
 
   comments: IComment[];
   commentIds: string[];
+
   firstEditIconVisible: boolean;
   secondEditIconVisible: boolean;
   thirdEditIconVisible: boolean;
 
   isCommentSet: boolean;
   fbReadFinished: boolean;
+
+  showEditIcon: {id: string, show: boolean}[];
+
+  
+  form: FormGroup = new FormGroup ({
+    textArea: new FormControl('', Validators.maxLength(500))
+  })
 
   async ngOnInit(): Promise<void> {
     this.comp = {
@@ -41,7 +50,11 @@ export class CompanyDataPageComponent implements OnInit {
       webpage: "",
     }
 
+
     this.comments = []
+    this.commentIds = []
+    this.showEditIcon = []
+
 
     await this.getData();
     this.firstEditIconVisible = false;
@@ -76,7 +89,6 @@ export class CompanyDataPageComponent implements OnInit {
       
       await this.fbService.getIdFromLinkedDB("company-comments",this.comp.id,"companyId","commentId").subscribe(async result => {   
         this.commentIds = await result;
-        console.log(result)
         this.fbReadFinished = true;
       }) ;   
      })
@@ -90,7 +102,20 @@ export class CompanyDataPageComponent implements OnInit {
             return elem.id == element
           }) == undefined){
           this.comments.push(result)
+          this.showEditIcon.push({id: result.id, show: false})
           }
+          this.comments.sort((a,b)=> {
+            if(a.createdAt > b.createdAt){
+              return 1
+            }
+            if(a.createdAt == b.createdAt){
+              return 0
+            }
+            if(a.createdAt < b.createdAt){
+              return -1
+            }
+          }
+        )
         })
       });
     }
@@ -141,4 +166,45 @@ export class CompanyDataPageComponent implements OnInit {
 
 
   }
+
+  createComment(){
+    let comment = {
+      id: "",
+      text: this.form.get("textArea").value,
+      createdBy: "Én",
+      createdAt: Firebase.firestore.Timestamp.fromDate(new Date())
+    }
+    
+    this.fbService.add("comments",comment).then(res => {
+      this.fbService.add("company-comments",{commentId: res, companyId: this.comp.id})
+      comment.id = res
+    })
+    this.comments.push(comment)
+    this.resetCommentField()
+  }
+
+  resetCommentField(){
+    this.form.get("textArea").setValue('')
+  }
+
+  showIcon(id: string, show: boolean){
+    this.showEditIcon.find( value => {
+      if(value.id == id){
+        value.show = show
+      }
+      if(value.id != id && value.show == true){
+        value.show = false
+      }
+    })
+    console.log(this.showEditIcon)
+  }
+
+  isShowIconTrue(id: string): boolean{
+    let elem = this.showEditIcon.find( value => (value.id == id))
+    return elem.show
+  }
+
+
 }
+
+
