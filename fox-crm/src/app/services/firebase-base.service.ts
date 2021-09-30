@@ -24,7 +24,7 @@ export class FirebaseBaseService {
     update(collectionName: string, id: string, data: any){
       this.afs.collection(collectionName).doc(id).update(data);
     }
-    
+
     delete(collectionName: string, id: string){
       return this.afs.collection(collectionName).doc(id).delete()
     }

@@ -36,3 +36,204 @@ mat-button-toggle:hover {
 .main-page{
     padding-top: 80px;
 }
+
+.mat-card-one{
+    height: fit-content;
+    width: 70%;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0 !important;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 600px;
+    z-index: 2;
+}
+
+.mat-card-two{
+    height: fit-content;
+    width: 100%;
+    background-color: #FFFFFF;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 200px;
+}
+
+.card-div{
+    padding-left: 50px;
+    margin-right: 2%;
+    width: 30%;
+}
+
+.cards {
+    margin-inline: 3% !important;
+    position: absolute;
+    width: max-content;
+    display: flex;
+    width: 95%;
+}
+
+.name {
+    
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size:40px;
+    font-variant:small-caps;
+    text-align: left;
+    font-weight:bold;
+    padding:15px 15px 0px 15px;
+}
+
+h2{
+    padding:0px 0px 0px 15px;
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+
+}
+
+.text-div{
+    display: flex;
+    width: 100%
+}
+
+.icon{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.edit-icon{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;   
+}
+
+.first-line{
+    display: flex;
+}
+
+.second-card-line{
+    margin-inline: 3% !important;
+    position: absolute;
+    width: fit-content;
+    display: flex;
+    width: 93%;
+    margin-top: 200px;
+    z-index: 1;
+    
+}
+
+a{
+    cursor: pointer;
+    z-index: 1;
+}
+
+.title{
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size:30px;
+    font-variant:small-caps;
+    text-align: left;
+    font-weight:bold;
+    padding:15px 15px 0px 15px;
+}
+
+.third-card-line{
+    margin-inline: 3% !important;
+    position: absolute;
+    display: flex;
+    width: 93%;
+    margin-top: 400px;
+    z-index: 0;
+}
+
+.commentCard{
+    margin-bottom: 5px;
+    height: fit-content;
+    width: inherit;
+    z-index: 6px;
+    
+}
+
+.commentText{
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    width: 75%;
+    overflow-wrap: break-word;
+    z-index: 3;
+}
+
+.date{
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+    z-index: 4;
+    display: flex;
+}
+
+.comments{
+    max-height: 445px;
+    overflow-y: auto;
+    z-index: 5;
+    position:relative;
+}
+
+.commentField{
+    position: relative;
+    z-index: 5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: 400px;
+    min-width: 200px;
+}
+
+.commentForm{
+    width: 100%;
+    max-height: 400px;
+}
+
+.textArea{
+    max-height: 250px;
+    white-space: pre-wrap;
+}
+
+.smallIcon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 40px;
+    top: 5px;
+    z-index: 4
+}
+
+.editedIcon{
+    width: 20px;
+    height: 20px;
+}
+
+.editTextArea{
+    resize: none;
+    max-height: 250px;
+    height: 250px;
+}
+
+.smallDeleteIcon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    z-index: 4
+}
+
+.saturate { 
+    filter: grayscale(100%); 
+    width: 50px;
+    height: 50px;
+    opacity: 50%;
+}
+
+.void{
+    text-align: center;
+    position: relative;
+    vertical-align:middle;
+    width: 100%;
+}

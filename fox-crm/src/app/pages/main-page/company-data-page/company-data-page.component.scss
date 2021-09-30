@@ -143,6 +143,7 @@ a{
     margin-top: 10px;
     margin-bottom: 10px;
     max-height: 400px;
+    min-width: 200px;
 }
 
 .commentForm{
@@ -182,4 +183,18 @@ a{
     right: 10px;
     top: 5px;
     z-index: 4
+}
+
+.saturate { 
+    filter: grayscale(100%); 
+    width: 50px;
+    height: 50px;
+    opacity: 50%;
+}
+
+.void{
+    text-align: center;
+    position: relative;
+    vertical-align:middle;
+    width: 100%;
 }

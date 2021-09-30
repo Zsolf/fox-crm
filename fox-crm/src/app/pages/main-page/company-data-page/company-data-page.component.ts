@@ -12,17 +12,17 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 @Component({
   selector: 'fcrm-company-data-page',
   templateUrl: './company-data-page.component.html',
-  styleUrls: ['./company-data-page.component.scss']
+  styleUrls: ['../main-page.component.scss']
 })
 export class CompanyDataPageComponent implements OnInit {
 
   constructor( private fbService: FirebaseBaseService, public dialog: MatDialog) { }
 
   comp: ICompany;
-  ceo: IPerson;
 
   comments: IComment[];
   commentIds: string[];
+  toBeDeletedId: string[];
 
   firstEditIconVisible: boolean;
   secondEditIconVisible: boolean;
@@ -30,6 +30,7 @@ export class CompanyDataPageComponent implements OnInit {
 
   isCommentSet: boolean;
   fbReadFinished: boolean;
+  isCommentNeedToBeDeleted: boolean;
 
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
@@ -67,12 +68,14 @@ export class CompanyDataPageComponent implements OnInit {
 
     this.editRemainingText = 0
     this.commentRemainingText = 0
+    this.toBeDeletedId = []
 
     await this.getData();
     this.firstEditIconVisible = false;
     this.secondEditIconVisible = false;
     this.thirdEditIconVisible = false;
     this.isCommentSet = false;
+    this.isCommentNeedToBeDeleted = false;
     await this.getComments()
     
 
@@ -82,6 +85,10 @@ export class CompanyDataPageComponent implements OnInit {
     if(!this.isCommentSet && this.commentIds.length > 0 && this.fbReadFinished){
     this.getComments()
     this.isCommentSet = true;
+    }
+    if(this.isCommentNeedToBeDeleted && this.toBeDeletedId.length > 0){
+      this.deleteComment();
+      this.isCommentNeedToBeDeleted = false;
     }
   }
 
@@ -185,20 +192,24 @@ export class CompanyDataPageComponent implements OnInit {
       data: {comment: this.comments.find(value => value.id == id)}    
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if(result == "delete"){
         let index = this.comments.indexOf(com)
         if (index !== -1) {
           this.comments.splice(index, 1);
         }
+        let id = ""
         this.fbService.delete("comments",com.id)
-        this.fbService.getIdFromLinkedDB("company-comments",com.id,"commentId","id").subscribe( res => {
-          this.fbService.delete("company-comments",res[0])
+        await this.fbService.getIdFromLinkedDB("company-comments",com.id,"commentId","id").subscribe( async res => {
+          this.toBeDeletedId = await res
+          this.isCommentNeedToBeDeleted = true;
         })
       }
     });
+  }
 
-
+  deleteComment(){
+    this.fbService.delete("company-comments", this.toBeDeletedId[0]).then(value => {this.toBeDeletedId = []})
   }
 
   createComment(){
@@ -220,7 +231,6 @@ export class CompanyDataPageComponent implements OnInit {
     this.showEditArea.push({id:  comment.id, show: false})
     this.showEditIcon.push({id:  comment.id, show: false})
     this.resetCommentField()
-    console.log(comment.text)
   }
 
   resetCommentField(){
