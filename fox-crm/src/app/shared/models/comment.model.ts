@@ -7,4 +7,7 @@ export interface IComment{
     text: string;
     createdBy: string;
     createdAt: TimeStamp;
+    isEdited: boolean;
+    updatedAt: TimeStamp;
+    updatedBy: string;
 }

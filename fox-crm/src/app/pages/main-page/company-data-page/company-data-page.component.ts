@@ -3,10 +3,11 @@ import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { ICompany } from 'src/app/shared/models/company.model';
 import { IPerson } from 'src/app/shared/models/person.model';
 import { MatDialog} from '@angular/material/dialog';
-import { CompanyDialogComponent } from './company-dialog/company-dialog.component';
+import { CompanyDialogComponent} from './company-dialog/company-dialog.component';
 import { IComment } from 'src/app/shared/models/comment.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Firebase from 'firebase';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'fcrm-company-data-page',
@@ -31,10 +32,18 @@ export class CompanyDataPageComponent implements OnInit {
   fbReadFinished: boolean;
 
   showEditIcon: {id: string, show: boolean}[];
+  showEditArea: {id: string, show: boolean}[];
+
+  editRemainingText: number;
+  commentRemainingText: number;
 
   
   form: FormGroup = new FormGroup ({
     textArea: new FormControl('', Validators.maxLength(500))
+  })
+
+  editForm: FormGroup = new FormGroup({   
+    editTextArea: new FormControl('', Validators.maxLength(500))
   })
 
   async ngOnInit(): Promise<void> {
@@ -54,7 +63,10 @@ export class CompanyDataPageComponent implements OnInit {
     this.comments = []
     this.commentIds = []
     this.showEditIcon = []
+    this.showEditArea = []
 
+    this.editRemainingText = 0
+    this.commentRemainingText = 0
 
     await this.getData();
     this.firstEditIconVisible = false;
@@ -100,9 +112,10 @@ export class CompanyDataPageComponent implements OnInit {
         this.fbService.getById("comments",element).subscribe(async result =>{
           if(this.comments.find(elem =>{ 
             return elem.id == element
-          }) == undefined){
-          this.comments.push(result)
-          this.showEditIcon.push({id: result.id, show: false})
+          }) == undefined && result != undefined){
+            this.comments.push(result)
+            this.showEditIcon.push({id: result.id, show: false})
+            this.showEditArea.push({id: result.id, show: false})
           }
           this.comments.sort((a,b)=> {
             if(a.createdAt > b.createdAt){
@@ -152,7 +165,6 @@ export class CompanyDataPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.comp.name = result.name
       this.comp.ceoName = result.ceoName
       this.comp.address = result.address
@@ -167,12 +179,37 @@ export class CompanyDataPageComponent implements OnInit {
 
   }
 
+  openConfirmDialog(id: string): void {
+    let com = this.comments.find(value => value.id == id)
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {comment: this.comments.find(value => value.id == id)}    
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == "delete"){
+        let index = this.comments.indexOf(com)
+        if (index !== -1) {
+          this.comments.splice(index, 1);
+        }
+        this.fbService.delete("comments",com.id)
+        this.fbService.getIdFromLinkedDB("company-comments",com.id,"commentId","id").subscribe( res => {
+          this.fbService.delete("company-comments",res[0])
+        })
+      }
+    });
+
+
+  }
+
   createComment(){
     let comment = {
       id: "",
-      text: this.form.get("textArea").value,
+      text: this.form.get("textArea").value.trim(),
       createdBy: "Én",
-      createdAt: Firebase.firestore.Timestamp.fromDate(new Date())
+      createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
+      isEdited: false,
+      updatedAt: Firebase.firestore.Timestamp.fromDate(new Date()),
+      updatedBy: "Én"
     }
     
     this.fbService.add("comments",comment).then(res => {
@@ -180,7 +217,10 @@ export class CompanyDataPageComponent implements OnInit {
       comment.id = res
     })
     this.comments.push(comment)
+    this.showEditArea.push({id:  comment.id, show: false})
+    this.showEditIcon.push({id:  comment.id, show: false})
     this.resetCommentField()
+    console.log(comment.text)
   }
 
   resetCommentField(){
@@ -196,13 +236,56 @@ export class CompanyDataPageComponent implements OnInit {
         value.show = false
       }
     })
-    console.log(this.showEditIcon)
   }
 
   isShowIconTrue(id: string): boolean{
-    let elem = this.showEditIcon.find( value => (value.id == id))
-    return elem.show
+    return this.showEditIcon.find( value => (value.id == id)).show
   }
+
+  showArea(id: string, show: boolean, text?: string){
+    this.showEditArea.find( value => {
+      if(value.id == id){
+        value.show = show
+        if(show == true){
+          this.editForm.get("editTextArea").setValue(text)
+          this.valueChange('E')
+        }
+      }
+      if(value.id != id && value.show == true){
+        value.show = false
+      }
+    })
+  }
+
+  isShowAreaTrue(id: string): boolean{
+    return this.showEditArea.find( value => (value.id == id)).show    
+  }
+
+  editComment(id: string){
+    let comment = this.comments.find( com =>{
+      if(com.id == id){
+        com.updatedAt = Firebase.firestore.Timestamp.fromDate(new Date());
+        com.isEdited = true;
+        com.text = this.editForm.get("editTextArea").value.trim()
+        return com
+      }
+    })
+    this.fbService.update("comments",id ,comment)
+    this.showArea(comment.id, false)
+    this.editForm.get("editTextArea").setValue('')
+  }
+
+  valueChange(id: string) {
+    switch(id){
+      case "E":
+        this.editRemainingText = this.editForm.get("editTextArea").value.length
+        break;
+      case "C":
+        this.commentRemainingText = this.form.get("textArea").value.length
+        break;
+    }
+    
+   }
 
 
 }

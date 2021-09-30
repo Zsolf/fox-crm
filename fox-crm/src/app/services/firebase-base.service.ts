@@ -21,8 +21,12 @@ export class FirebaseBaseService {
       return this.afs.collection(collectionName).doc(id).valueChanges();
     }
 
-    async update(collectionName: string, id: string, data: any){
+    update(collectionName: string, id: string, data: any){
       this.afs.collection(collectionName).doc(id).update(data);
+    }
+    
+    delete(collectionName: string, id: string){
+      return this.afs.collection(collectionName).doc(id).delete()
     }
 
     getIdFromLinkedDB(collectionName: string, givenId: string, givenIdName: string, searchedIdName: string): Observable<any[]>{

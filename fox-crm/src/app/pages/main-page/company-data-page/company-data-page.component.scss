@@ -126,7 +126,8 @@ a{
     position: absolute;
     right: 10px;
     bottom: 0px;
-    z-index: 4
+    z-index: 4;
+    display: flex;
 }
 
 .comments{
@@ -151,9 +152,30 @@ a{
 
 .textArea{
     max-height: 250px;
+    white-space: pre-wrap;
 }
 
 .smallIcon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 40px;
+    top: 5px;
+    z-index: 4
+}
+
+.editedIcon{
+    width: 20px;
+    height: 20px;
+}
+
+.editTextArea{
+    resize: none;
+    max-height: 250px;
+    height: 250px;
+}
+
+.smallDeleteIcon{
     width: 30px;
     height: 30px;
     position: absolute;

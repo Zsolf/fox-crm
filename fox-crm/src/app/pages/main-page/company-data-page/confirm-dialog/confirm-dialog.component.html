@@ -1,0 +1,15 @@
+<h2>Biztos törölni szeretnéd ez a hozzáaszólást?</h2>
+<mat-card class="commentCard"> 
+    <div class="text-div">
+        <img src="assets/avatar-icon.png"  class="icon">
+        <h4 class="commentText" style="white-space: pre-line" >{{comment.text}}</h4>
+        <div class="date">
+            <img src="assets/black-pen-icon.png" class="editedIcon">
+            <h5>{{comment.createdAt | toDate }}</h5>
+        </div>
+    </div>
+</mat-card>
+<div>
+    <button mat-button mat-dialog-close="delete" (click)="dialogRef.close()">Mégsem</button>
+    <button mat-button color="warn" [mat-dialog-close]="delete" >Törlés</button>
+</div>

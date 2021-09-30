@@ -23,12 +23,26 @@
                     <h2>Megjegyzések</h2>
                 </mat-label>
                 <div class="comments">
-                    <mat-card (mouseover)="showIcon(this.comment.id, true)" (mouseleave)="showIcon(thi.comment.id, false)" class="commentCard" *ngFor=" let comment of comments"> 
-                        <div class="text-div">
+                    <mat-card (mouseover)="showIcon(comment.id, true)" (mouseleave)="showIcon(comment.id, false)" class="commentCard" *ngFor=" let comment of comments"> 
+                        <div *ngIf="!isShowAreaTrue(comment.id)" class="text-div">
                             <img src="assets/avatar-icon.png"  class="icon">
-                            <h4 class="commentText">{{comment.text}}</h4>
-                            <h5 class="date">{{comment.createdAt | toDate }}</h5>
-                            <a><img *ngIf="isShowIconTrue(this.comment.id)" src="assets/pen-icon.png"  class="smallIcon"></a>
+                            <h4 class="commentText" style="white-space: pre-line" >{{comment.text}}</h4>
+                            <div class="date">
+                                <img *ngIf="comment.isEdited" src="assets/black-pen-icon.png" class="editedIcon">
+                                <h5>{{comment.createdAt | toDate }}</h5>
+                            </div>
+                            <a (click)="showArea(comment.id, true, comment.text)"><img *ngIf="isShowIconTrue(this.comment.id)" src="assets/pen-icon.png"  class="smallIcon"></a>
+                            <a (click)="openConfirmDialog(comment.id)"><img *ngIf="isShowIconTrue(this.comment.id)" src="assets/delete-icon.png"  class="smallDeleteIcon"></a>
+                        </div>
+                        <div *ngIf="isShowAreaTrue(comment.id)">
+                            <form [formGroup]="editForm" >
+                            <mat-form-field appearance="fill" class="commentForm">
+                                <textarea matInput class="editTextArea" formControlName="editTextArea" (ngModelChange)="valueChange('E')" required></textarea>
+                                <mat-hint><b>{{editRemainingText}}</b>/500 (max)</mat-hint>
+                              </mat-form-field>
+                            </form>
+                            <button mat-button color="warn" (click)="showArea(comment.id, false)" >Mégsem</button>
+                            <button mat-button [disabled]="editForm.invalid" (click)="editComment(comment.id)">Módosítás</button>
                         </div>
                     </mat-card>
                 </div>
@@ -36,8 +50,8 @@
             <mat-card class="commentField">
                 <form [formGroup]="form" >
                     <mat-form-field appearance="fill" class="commentForm">
-                      <textarea matInput class="textArea" placeholder="Hózzászólás írása..." formControlName="textArea" required></textarea>
-                      <mat-hint>max 500 karakter</mat-hint>
+                      <textarea matInput class="textArea" placeholder="Hózzászólás írása..." formControlName="textArea" (ngModelChange)="valueChange('C')" required></textarea>
+                      <mat-hint><b>{{commentRemainingText}}</b>/500 (max)</mat-hint>
                     </mat-form-field>
                     </form>
                     <button mat-button color="warn" (click)="resetCommentField()" >Törlés</button>
@@ -62,8 +76,7 @@
                     <h2>
                         {{comp.email}}
                     </h2>
-        </mat-card>
-    
+        </mat-card> 
     </div>
     <div class="third-card-line"> 
         <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-one">  
