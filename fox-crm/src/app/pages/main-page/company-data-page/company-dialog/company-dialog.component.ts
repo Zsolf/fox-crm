@@ -17,6 +17,7 @@ export class CompanyDialogComponent implements OnInit {
     isWebpageDialog: boolean;
 
   form: FormGroup = new FormGroup ({
+    id: new FormControl (this.data.company.id),
     name: new FormControl(this.data.company.name),
     ceoName: new FormControl(this.data.company.ceoName),
     address: new FormControl(this.data.company.address),

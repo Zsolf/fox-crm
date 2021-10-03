@@ -5,11 +5,13 @@ import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { IComment } from 'src/app/shared/models/comment.model';
 import { IPerson } from 'src/app/shared/models/person.model';
 import Firebase from 'firebase';
+import { ConfirmDialogComponent } from '../company-data-page/confirm-dialog/confirm-dialog.component';
+import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 
 @Component({
   selector: 'fcrm-contact-page',
   templateUrl: './contact-page.component.html',
-  styleUrls: ['../main-page.component.scss']
+  styleUrls: ['../main-page.component.scss', './contact-page.component.scss']
 })
 export class ContactPageComponent implements OnInit {
 
@@ -25,6 +27,7 @@ export class ContactPageComponent implements OnInit {
   fbReadFinished: boolean;
   isCommentNeedToBeDeleted: boolean;
   firstEditIconVisible: boolean;
+  secondEditIconVisible: boolean;
 
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
@@ -43,14 +46,7 @@ export class ContactPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    this.person = {
-      id: "",
-      firstName: "",
-      lastName: "",
-      position: "",
-      email: "",
-      phone: ""
-    }
+    this.person = {} as IPerson
 
     this.comments = []
     this.commentIds = []
@@ -63,7 +59,7 @@ export class ContactPageComponent implements OnInit {
 
     await this.getData();
     this.firstEditIconVisible = false;
-
+    this.secondEditIconVisible = false;
     this.isCommentSet = false;
     this.isCommentNeedToBeDeleted = false;
     await this.getComments()
@@ -71,11 +67,26 @@ export class ContactPageComponent implements OnInit {
 
   }
 
+  ngDoCheck(){
+    if(!this.isCommentSet && this.commentIds.length > 0 && this.fbReadFinished){
+    this.getComments()
+    this.isCommentSet = true;
+    }
+    if(this.isCommentNeedToBeDeleted && this.toBeDeletedId.length > 0){
+      this.deleteComment();
+      this.isCommentNeedToBeDeleted = false;
+    }
+  }
+
   async getData(){
+    await this.fbService.getById("persons","uZVmugS6F4jN1WbfLInz").subscribe(async result =>{
+      this.person = result
+
     await this.fbService.getIdFromLinkedDB("person-comments",this.person.id,"personId","commentId").subscribe(async result => {   
       this.commentIds = await result;
       this.fbReadFinished = true;
-    }) ;   
+    }) ;  
+  }) 
   }
 
   getComments(){
@@ -104,8 +115,44 @@ export class ContactPageComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
-    
+  openDialog(dialogType: string): void {
+    const dialogRef = this.dialog.open(ContactDialogComponent, {
+      width: '250px',
+      data: {person: this.person, dialogType: dialogType}
+      
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined){
+        this.person = result
+
+        this.fbService.update("persons",this.person.id, this.person)
+      }
+    });
+
+
+  }
+
+  openConfirmDialog(id: string): void {
+    let com = this.comments.find(value => value.id == id)
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {comment: this.comments.find(value => value.id == id)}    
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if(result == "delete"){
+        let index = this.comments.indexOf(com)
+        if (index !== -1) {
+          this.comments.splice(index, 1);
+        }
+        let id = ""
+        this.fbService.delete("comments",com.id)
+        await this.fbService.getIdFromLinkedDB("person-comments",com.id,"commentId","id").subscribe( async res => {
+          this.toBeDeletedId = await res
+          this.isCommentNeedToBeDeleted = true;
+        })
+      }
+    });
   }
 
   mouseEnterFirst(){
@@ -114,6 +161,14 @@ export class ContactPageComponent implements OnInit {
 
   mouseLeaveFirst(){
     this.firstEditIconVisible = false;
+  }
+
+  mouseEnterSecond(){
+    this.secondEditIconVisible = true;
+  }
+
+  mouseLeaveSecond(){
+    this.secondEditIconVisible = false;
   }
 
   deleteComment(){

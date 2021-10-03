@@ -19,6 +19,8 @@ export class CompanyDataPageComponent implements OnInit {
   constructor( private fbService: FirebaseBaseService, public dialog: MatDialog) { }
 
   comp: ICompany;
+  contactPerson: IPerson;
+  oldComp: ICompany;
 
   comments: IComment[];
   commentIds: string[];
@@ -31,6 +33,8 @@ export class CompanyDataPageComponent implements OnInit {
   isCommentSet: boolean;
   fbReadFinished: boolean;
   isCommentNeedToBeDeleted: boolean;
+  isPersonSet: boolean;
+  isCompanyNeedToBeUpdated: boolean;
 
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
@@ -48,17 +52,9 @@ export class CompanyDataPageComponent implements OnInit {
   })
 
   async ngOnInit(): Promise<void> {
-    this.comp = {
-      id: "",
-      name: "",
-      contactPersonId:"",
-      ceoName: "",
-      email: "",
-      phone: "",
-      taxNumber: "",
-      address: "",
-      webpage: "",
-    }
+    this.comp = {} as ICompany
+    this.comp = {} as ICompany
+    this.contactPerson = {} as IPerson
 
 
     this.comments = []
@@ -76,6 +72,8 @@ export class CompanyDataPageComponent implements OnInit {
     this.thirdEditIconVisible = false;
     this.isCommentSet = false;
     this.isCommentNeedToBeDeleted = false;
+    this.isPersonSet = false;
+    this.isCompanyNeedToBeUpdated = false;
     await this.getComments()
     
 
@@ -90,6 +88,19 @@ export class CompanyDataPageComponent implements OnInit {
       this.deleteComment();
       this.isCommentNeedToBeDeleted = false;
     }
+    if(this.isPersonSet == false && this.fbReadFinished ){
+      this.getPerson();
+      this.isPersonSet = true;
+    }
+    if(this.isCompanyNeedToBeUpdated && this.oldComp != this.comp){
+      this.isCompanyNeedToBeUpdated = false;
+      this.updateCompany()
+    }
+  }
+
+
+  updateCompany() {
+    this.fbService.update("companies",this.comp.id, this.comp)
   }
 
 
@@ -140,6 +151,12 @@ export class CompanyDataPageComponent implements OnInit {
       });
     }
 
+    getPerson(){
+      this.fbService.getById("persons", this.comp.contactPersonId).subscribe(result =>{
+        this.contactPerson = result;
+      })
+    }
+
   mouseEnterFirst(){
     this.firstEditIconVisible = true;
   }
@@ -171,16 +188,13 @@ export class CompanyDataPageComponent implements OnInit {
       
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.comp.name = result.name
-      this.comp.ceoName = result.ceoName
-      this.comp.address = result.address
-      this.comp.taxNumber = result.taxNumber
-      this.comp.email = result.email
-      this.comp.phone = result.phone
-      this.comp.webpage = result.webpage
 
-      this.fbService.update("companies",this.comp.id, this.comp)
+    dialogRef.afterClosed().subscribe(async result => {
+      if(result != undefined){
+       this.oldComp = this.comp
+       this.comp = result
+       this.isCompanyNeedToBeUpdated = true;
+      }
     });
 
 

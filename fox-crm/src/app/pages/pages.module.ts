@@ -7,9 +7,10 @@ import { ContactPageComponent } from './main-page/contact-page/contact-page.comp
 import { SummaryPageComponent } from './main-page/summary-page/summary-page.component';
 import { CompanyDialogComponent } from './main-page/company-data-page/company-dialog/company-dialog.component';
 import { ConfirmDialogComponent } from './main-page/company-data-page/confirm-dialog/confirm-dialog.component';
+import { ContactDialogComponent } from './main-page/contact-page/contact-dialog/contact-dialog.component';
 
 @NgModule({
-  declarations: [MainPageComponent, CompanyDataPageComponent, ContactPageComponent, SummaryPageComponent, CompanyDialogComponent, ConfirmDialogComponent],
+  declarations: [MainPageComponent, CompanyDataPageComponent, ContactPageComponent, SummaryPageComponent, CompanyDialogComponent, ConfirmDialogComponent, ContactDialogComponent],
   imports: [
     CommonModule,
     SharedModule,

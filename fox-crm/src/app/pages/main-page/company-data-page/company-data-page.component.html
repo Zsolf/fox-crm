@@ -14,7 +14,10 @@
                 {{comp.address}}
             </h2>
             <h2>
-                {{comp.ceoName}}
+                <img src="assets/ceo-icon.png"  class="icon"> {{comp.ceoName}}
+            </h2>
+            <h2>
+                <img src="assets/cp-icon.png" class="icon"> {{contactPerson.firstName + contactPerson.lastName}}
             </h2>
         </mat-card>
         <div class="card-div">
@@ -94,7 +97,7 @@
                 <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
             </div>
                 <h2>
-                    {{comp.webpage}}
+                    <a href="https://{{comp.webpage}}/">{{comp.webpage}}</a>
                 </h2>
     </mat-card>
 

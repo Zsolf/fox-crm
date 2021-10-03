@@ -115,7 +115,7 @@ h2{
     width: fit-content;
     display: flex;
     width: 93%;
-    margin-top: 200px;
+    margin-top: 280px;
     z-index: 1;
     
 }
@@ -139,7 +139,7 @@ a{
     position: absolute;
     display: flex;
     width: 93%;
-    margin-top: 400px;
+    margin-top: 465px;
     z-index: 0;
 }
 
@@ -237,3 +237,5 @@ a{
     vertical-align:middle;
     width: 100%;
 }
+
+a { color: inherit; } 
