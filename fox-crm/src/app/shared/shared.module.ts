@@ -13,12 +13,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { toDate } from './pipes/to-date.pipe';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
 @NgModule({
   declarations: [MenubarComponent, toDate],
   imports: [
+    AppRoutingModule,
     CommonModule,
     MatToolbarModule,
     MatIconModule,
@@ -46,6 +48,7 @@ import { toDate } from './pipes/to-date.pipe';
     BrowserModule,
     BrowserAnimationsModule,
     MatInputModule,
-  toDate]
+  toDate,
+  AppRoutingModule,]
 })
 export class SharedModule { }

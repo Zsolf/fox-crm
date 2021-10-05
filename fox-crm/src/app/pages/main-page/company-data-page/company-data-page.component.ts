@@ -12,7 +12,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 @Component({
   selector: 'fcrm-company-data-page',
   templateUrl: './company-data-page.component.html',
-  styleUrls: ['../main-page.component.scss']
+  styleUrls: ['../company-page.component.scss']
 })
 export class CompanyDataPageComponent implements OnInit {
 

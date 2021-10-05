@@ -11,7 +11,7 @@ import { ContactDialogComponent } from './contact-dialog/contact-dialog.componen
 @Component({
   selector: 'fcrm-contact-page',
   templateUrl: './contact-page.component.html',
-  styleUrls: ['../main-page.component.scss', './contact-page.component.scss']
+  styleUrls: ['../company-page.component.scss', './contact-page.component.scss']
 })
 export class ContactPageComponent implements OnInit {
 
