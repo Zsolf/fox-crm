@@ -51,5 +51,9 @@ export class FirebaseBaseService {
       let coll = this.afs.collection(collectionName,ref => ref.where(givenIdName, '==', givenId))
       return coll.valueChanges()
     }
+
+    getAll(collectionName: string): Observable<any[]>{
+      return this.afs.collection(collectionName).valueChanges();
+    }
   
 }
