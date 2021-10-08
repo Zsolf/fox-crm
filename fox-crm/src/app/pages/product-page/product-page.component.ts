@@ -21,41 +21,73 @@ export class ProductPageComponent implements OnInit {
   products: IProduct[];
   dataSource : MatTableDataSource<IProduct>
   emptyProduct: Array<any>;
+  productForm;
 
-
+  editActivated: boolean;
   added: boolean;
+  formInvalid: boolean;
 
   displayedColumns: string[];
 
 
   ngOnInit(): void {
-    const editForm = (e) => new FormGroup({
+    this.productForm = (e) => new FormGroup({
       name: new FormControl(e.name,Validators.required),
-      description: new FormControl(e.description),
-      code: new FormControl(e.code,Validators.required),
+      description: new FormControl(e.description, Validators.maxLength(500)),
+      code: new FormControl(e.code,[Validators.required,Validators.maxLength(10)]),
       size: new FormControl(e.size),
-      color: new FormControl(e.color, Validators.required),
-      madeOf: new FormControl(e.madeOf,Validators.required),
-      price: new FormControl(e.price, Validators.required)
+      color: new FormControl(e.color,[Validators.required, Validators.maxLength(15)]),
+      madeOf: new FormControl(e.madeOf, [Validators.required, Validators.maxLength(30)]),
+      price: new FormControl(e.price, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(15),])
     });
 
-    
+    this.editActivated= false;
     this.products = []
     this.emptyProduct = [{
       currentData: {} as IProduct, 
       originalData: {} as IProduct, 
       editable: false, 
-      validator: editForm({} as IProduct)}]
+      validator: this.productForm({} as IProduct)}]
     this.getProducts()
     this.added = false; 
+    this.formInvalid = true;
     this.displayedColumns = ['code','name','color','size','madeOf','price']
   }
 
   addProduct() {
-    this.fbService.add("products",this.products[0])
+    this.fbService.add("products",{
+      id: "",
+      name: this.emptyProduct[0].validator.get("name").value,
+      description: this.emptyProduct[0].validator.get("description").value,
+      code: this.emptyProduct[0].validator.get("code").value,
+      size: this.emptyProduct[0].validator.get("size").value,
+      color: this.emptyProduct[0].validator.get("color").value,
+      madeOf: this.emptyProduct[0].validator.get("madeOf").value,
+      price: Number(this.emptyProduct[0].validator.get("price").value)
+    })
+
+    this.emptyProduct = [{
+      currentData: {} as IProduct, 
+      originalData: {} as IProduct, 
+      editable: false, 
+      validator: this.productForm({} as IProduct)
+    }]
+
+  }
+
+  cancelAddField(){
+    this.emptyProduct = [{
+      currentData: {} as IProduct, 
+      originalData: {} as IProduct, 
+      editable: false, 
+      validator: this.productForm({} as IProduct)
+    }]
+
+    this.editActivated= false;
   }
 
   ngDoCheck(){
+    this.formInvalid = this.emptyProduct[0].validator.invalid
   }
 
   getProducts(){

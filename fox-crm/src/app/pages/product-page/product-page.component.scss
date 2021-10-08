@@ -1,7 +1,6 @@
 .tableDiv{
     margin-top: 100px;
     margin-inline: 20px;
-    
 }
 
 table {
@@ -16,14 +15,45 @@ table {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;
     cursor: pointer; 
+    min-width: 200px;
 }
 
+.mat-header-row{
+top:63px;
+position: sticky;
+
+}
 
 .mat-row:hover .mat-cell {
   border-color: currentColor;
 }
 
-input{
-    border: black;
-    border-radius: 2px;
+
+.mat-table{
+    min-width: 500px
+}
+
+.stickyField{
+    position: sticky;
+    bottom: 20px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center; 
+}
+
+.icon{
+    width: 80px;
+    height: 80px;
+    bottom: 3px;
+    right: 10px;
+    left:100%;
+    position: sticky;
+}
+
+.iconDiv{
+    position: sticky;
+    display: unset;
+    cursor: crosshair;
 }
