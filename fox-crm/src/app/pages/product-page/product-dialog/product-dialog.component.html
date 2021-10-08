@@ -1,1 +1,18 @@
-<p>product-dialog works!</p>
+<div>
+    <h1 mat-dialog-title class="title">{{product.name}}</h1>
+    <div mat-dialog-content>
+        <div class="listDiv">
+            <ul>
+                <li>Kód: {{product.code}}</li>
+                <li>Méret: {{product.size}}</li>
+                <li>Szín: {{product.color}}</li>
+            </ul>
+            <ul>
+                <li>Anyag: {{product.madeOf}}</li>
+                <li>Ár: {{product.price}} HUF </li>
+            </ul>
+        </div>
+        <h2>Leírás</h2>
+        <h3>{{product.description}}</h3>
+    </div>  
+</div>

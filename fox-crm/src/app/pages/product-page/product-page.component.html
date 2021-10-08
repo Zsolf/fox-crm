@@ -1,36 +1,77 @@
 <div class="tableDiv">
-    <table mat-table [dataSource]="products" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort matSortActive="name" matSortDirection="desc">
     <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef> Termékkód</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Termékkód</th>
         <td mat-cell *matCellDef="let element"> {{element.code}} </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Név</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Név</th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
   
     <ng-container matColumnDef="color">
-      <th mat-header-cell *matHeaderCellDef> Szín </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Szín </th>
       <td mat-cell *matCellDef="let element"> {{element.color}} </td>
     </ng-container>
   
     <ng-container matColumnDef="size">
-      <th mat-header-cell *matHeaderCellDef> Méret </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Méret </th>
       <td mat-cell *matCellDef="let element"> {{element.size}} </td>
     </ng-container>
   
     <ng-container matColumnDef="madeOf">
-      <th mat-header-cell *matHeaderCellDef> Anyag </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Anyag </th>
       <td mat-cell *matCellDef="let element"> {{element.madeOf}} </td>
     </ng-container>
 
     <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef> Ár</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ár</th>
         <td mat-cell *matCellDef="let element"> {{element.price}} HUF </td>
     </ng-container>
   
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true">
     <tr mat-row (click)="getRow(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">Nincs adat</td>
+    </tr>
+  </table>
+  <table style="background: transparent;" mat-table [dataSource]="emptyProduct" matSort>
+    <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Termékkód</th>
+        <td mat-cell style="cursor:auto !important;" *matCellDef="let row"> 
+            <mat-form-field >
+                <input [formControl]="row.validator.get('code')" type="text" matInput>
+            </mat-form-field>
+         </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Név</th>
+      <td mat-cell style="cursor:auto !important;" *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="color">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Szín </th>
+      <td mat-cell style="cursor:auto !important;" *matCellDef="let element"> {{element.color}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="size">
+      <th  mat-header-cell *matHeaderCellDef mat-sort-header>Méret </th>
+      <td mat-cell style="cursor:auto !important;" *matCellDef="let element"> {{element.size}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="madeOf">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Anyag </th>
+      <td mat-cell style="cursor:auto !important;" *matCellDef="let element"> {{element.madeOf}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ár</th>
+        <td mat-cell style="cursor:auto !important;" *matCellDef="let element"> {{element.price}} HUF </td>
+    </ng-container>
+  
+    <tr mat-header-row style="opacity: 0%;" *matHeaderRowDef="displayedColumns; sticky: true">
+    <tr mat-row style="cursor:auto !important;" class="mat-elevation-z8" *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>

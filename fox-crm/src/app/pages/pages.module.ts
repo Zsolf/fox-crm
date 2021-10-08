@@ -11,13 +11,25 @@ import { ContactDialogComponent } from './main-page/contact-page/contact-dialog/
 import { ProductPageComponent } from './product-page/product-page.component';
 import { MatTableModule} from '@angular/material/table';
 import { ProductDialogComponent } from './product-page/product-dialog/product-dialog.component'
+import { MatSortModule } from '@angular/material/sort';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
-  declarations: [CompanyPageComponent, CompanyDataPageComponent, ContactPageComponent, SummaryPageComponent, CompanyDialogComponent, ConfirmDialogComponent, ContactDialogComponent, ProductPageComponent, ProductDialogComponent],
+  declarations: [CompanyPageComponent, 
+    CompanyDataPageComponent, 
+    ContactPageComponent, 
+    SummaryPageComponent, 
+    CompanyDialogComponent,
+    ConfirmDialogComponent,
+    ContactDialogComponent,
+    ProductPageComponent,
+    ProductDialogComponent,],
   imports: [
     CommonModule,
     SharedModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    BrowserModule
   ],
   exports: [CompanyPageComponent]
 })
