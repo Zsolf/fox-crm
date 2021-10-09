@@ -24,8 +24,8 @@ position: sticky;
 
 }
 
-.mat-row:hover .mat-cell {
-  border-color: currentColor;
+.rows.mat-row:hover .mat-cell{
+  border-color: currentColor ;
 }
 
 
@@ -35,17 +35,24 @@ position: sticky;
 
 .stickyField{
     position: sticky;
-    bottom: 20px;
+    bottom: 10px;
+    margin-inline: 20px;
+    top: -100px;
 }
 
 .buttons{
     display: flex;
     justify-content: center; 
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px grey;  
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;  
 }
 
 .icon{
-    width: 80px;
-    height: 80px;
+    margin-top: 10px;
+    width: 70px;
+    height: 70px;
     bottom: 3px;
     right: 10px;
     left:100%;

@@ -7,11 +7,25 @@ import { IPerson } from 'src/app/shared/models/person.model';
 import Firebase from 'firebase';
 import { ConfirmDialogComponent } from '../company-data-page/confirm-dialog/confirm-dialog.component';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'fcrm-contact-page',
   templateUrl: './contact-page.component.html',
-  styleUrls: ['../company-page.component.scss', './contact-page.component.scss']
+  styleUrls: ['../company-page.component.scss', './contact-page.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class ContactPageComponent implements OnInit {
 

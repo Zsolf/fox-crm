@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,21 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
 @Component({
   selector: 'fcrm-product-page',
   templateUrl: './product-page.component.html',
-  styleUrls: ['./product-page.component.scss']
+  styleUrls: ['./product-page.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class ProductPageComponent implements OnInit {
 
@@ -34,7 +49,7 @@ export class ProductPageComponent implements OnInit {
     this.productForm = (e) => new FormGroup({
       name: new FormControl(e.name,Validators.required),
       description: new FormControl(e.description, Validators.maxLength(500)),
-      code: new FormControl(e.code,[Validators.required,Validators.maxLength(10)]),
+      code: new FormControl(e.code,[Validators.required,Validators.maxLength(15)]),
       size: new FormControl(e.size),
       color: new FormControl(e.color,[Validators.required, Validators.maxLength(15)]),
       madeOf: new FormControl(e.madeOf, [Validators.required, Validators.maxLength(30)]),
@@ -66,12 +81,7 @@ export class ProductPageComponent implements OnInit {
       price: Number(this.emptyProduct[0].validator.get("price").value)
     })
 
-    this.emptyProduct = [{
-      currentData: {} as IProduct, 
-      originalData: {} as IProduct, 
-      editable: false, 
-      validator: this.productForm({} as IProduct)
-    }]
+    this.cancelAddField();
 
   }
 
@@ -105,6 +115,16 @@ export class ProductPageComponent implements OnInit {
       width: '500px',
       data: {product: row}
     });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if(result == "delete"){
+        this.fbService.delete("products",row.id);
+      }
+      if(result instanceof Object){
+      this.fbService.update("products",result.id,result)
+      }
+    });
+
   }
 
 

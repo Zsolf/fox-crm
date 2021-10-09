@@ -8,11 +8,26 @@ import { IComment } from 'src/app/shared/models/comment.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Firebase from 'firebase';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'fcrm-company-data-page',
   templateUrl: './company-data-page.component.html',
-  styleUrls: ['../company-page.component.scss']
+  styleUrls: ['../company-page.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class CompanyDataPageComponent implements OnInit {
 

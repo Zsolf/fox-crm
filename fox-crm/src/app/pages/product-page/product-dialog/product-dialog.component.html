@@ -1,6 +1,8 @@
 <div>
-    <h1 mat-dialog-title class="title">{{product.name}}</h1>
-    <div mat-dialog-content>
+    <a *ngIf="!isEdit" (click)="dialogRef.close()"><img class="smallIcon" src="assets/close-icon.png"></a>
+    <a *ngIf="isEdit" (click)="resetDialog()"><img class="smallIcon" src="assets/close-icon.png"></a>
+    <h1 *ngIf="!isEdit" mat-dialog-title class="title">{{product.name}}</h1>
+    <div *ngIf="!isEdit" mat-dialog-content>
         <div class="listDiv">
             <ul>
                 <li>Kód: {{product.code}}</li>
@@ -12,7 +14,71 @@
                 <li>Ár: {{product.price}} HUF </li>
             </ul>
         </div>
-        <h2>Leírás</h2>
+        <h2 *ngIf="product.description != null">Leírás</h2>
         <h3>{{product.description}}</h3>
-    </div>  
+    </div>
+    <div *ngIf="isEdit" mat-dialog-content>
+        <form [formGroup]="editForm">
+            <h1 mat-dialog-title class="title">
+                <mat-form-field>
+                <mat-label>Neve</mat-label>
+                <input matInput formControlName="name" required>
+            </mat-form-field>
+        </h1>
+            <div class="listDiv">
+                <ul>
+                    <li>
+                        <mat-form-field>
+                            <mat-label>Kód</mat-label>
+                            <input matInput formControlName="code" required>
+                        </mat-form-field>
+                    </li>
+                    <li>
+                        <mat-form-field>
+                            <mat-label>Méret</mat-label>
+                            <input matInput formControlName="size">
+                        </mat-form-field>
+                </li>
+                    <li>
+                        <mat-form-field>
+                            <mat-label>Szín</mat-label>
+                            <input matInput formControlName="color" required>
+                        </mat-form-field>
+                </li>
+                </ul>
+                <ul>
+                    <li>
+                        <mat-form-field>
+                        <mat-label>Anyag</mat-label>
+                        <input matInput formControlName="madeOf" required>
+                        </mat-form-field>
+                </li>
+                    <li>
+                        <mat-form-field>
+                        <mat-label>Ár (HUF)</mat-label>
+                        <input matInput formControlName="price" required>
+                    </mat-form-field>
+                </li>
+                </ul>
+            </div>
+            <h2>Leírás</h2>
+            <h3>
+                <mat-form-field appearance="fill" class="commentForm">
+                <textarea matInput class="editTextArea" formControlName="description" (ngModelChange)="valueChange()"></textarea>
+                <mat-hint><b>{{editRemainingText}}</b>/500 (max)</mat-hint>
+              </mat-form-field>
+            </h3>
+        </form>
+    </div>
+    <button *ngIf="!isDelete && !isEdit" mat-raised-button color="warn" (click)="isDelete=true;">Törlés</button>
+    <button *ngIf="isDelete" [disabled]="!isDeleteCorrect" mat-raised-button color="warn" [mat-dialog-close]="delete">Törlés</button>
+    <button mat-raised-button *ngIf="!isEdit" color="primary" (click)="isEdit=true; isDelete=false;">Módosítás</button> 
+    <button mat-raised-button *ngIf="isEdit" color="primary" [disabled]="editForm.invalid" [mat-dialog-close]="editForm.value">Módosítás</button>  
+    
+</div>
+<div *ngIf="isDelete" >
+    <mat-form-field>
+        <input [formControl]="deleteForm.get('code')" placeholder="pl.: A-BC-D-E01" type="text" matInput>
+        <mat-hint>Erősítsd meg a törlés műveletet a termék <strong>Kód</strong>jának beírásával!</mat-hint>
+    </mat-form-field> 
 </div>

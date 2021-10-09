@@ -1,4 +1,4 @@
-<div>
+<div [@fadeAnimation]="'in'">
     <div class="cards">
             <mat-card (mouseenter) ="mouseEnterFirst()"  (mouseleave) ="mouseLeaveFirst()" class="mat-card-one">  
             <div class="first-line">
@@ -24,7 +24,7 @@
                             <h2 style="color: gray; opacity: 50%;">Hatalmas üresség...</h2>
                             <img src="assets/Foxcrm-logo2.png" class="saturate">
                         </div>
-                        <mat-card (mouseover)="showIcon(comment.id, true)" (mouseleave)="showIcon(comment.id, false)" class="commentCard" *ngFor=" let comment of comments"> 
+                        <mat-card (mouseover)="showIcon(comment.id, true)" (mouseleave)="showIcon(comment.id, false)" class="commentCard" *ngFor=" let comment of comments" [@fadeAnimation]="'in'"> 
                             <div *ngIf="!isShowAreaTrue(comment.id)" class="text-div">
                                 <img src="assets/avatar-icon.png"  class="icon">
                                 <h4 class="commentText" style="white-space: pre-line" >{{comment.text}}</h4>
