@@ -42,8 +42,8 @@
                                     <mat-hint><b>{{editRemainingText}}</b>/500 (max)</mat-hint>
                                   </mat-form-field>
                                 </form>
-                                <button mat-button color="warn" (click)="showArea(comment.id, false)" >Mégsem</button>
-                                <button mat-button [disabled]="editForm.invalid" (click)="editComment(comment.id)">Módosítás</button>
+                                <button mat-button color="accent" (click)="showArea(comment.id, false)" >Mégsem</button>
+                                <button mat-button color="primary" [disabled]="editForm.invalid" (click)="editComment(comment.id)">Módosítás</button>
                             </div>
                         </mat-card>
                     </div>
@@ -55,8 +55,8 @@
                           <mat-hint><b>{{commentRemainingText}}</b>/500 (max)</mat-hint>
                         </mat-form-field>
                         </form>
-                        <button mat-button color="warn" (click)="resetCommentField()" >Törlés</button>
-                        <button mat-button [disabled]="form.invalid" (click)="createComment()">Elküldés</button>
+                        <button mat-button color="accent" (click)="resetCommentField()" >Törlés</button>
+                        <button mat-button color="primary" [disabled]="form.invalid" (click)="createComment()">Elküldés</button>
                 </mat-card>
             </div>
         </div>

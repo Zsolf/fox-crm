@@ -1,4 +1,4 @@
-<body>
-<app-menubar></app-menubar>
+<body>  
+<app-menubar *ngIf="router.url !== '/login'" ></app-menubar>
 <router-outlet></router-outlet>
 </body>

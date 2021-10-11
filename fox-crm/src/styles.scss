@@ -11,8 +11,8 @@ body { margin: 0; font-family: 'Baskerville',Times,'Times New Roman',serif; }
 @import '~@angular/material/theming';
 @include mat-core();
 
-  $primary: mat-palette($mat-blue,100);
-  $accent: mat-palette($mat-orange,200);
+  $primary: mat-palette($mat-blue,500);
+  $accent: mat-palette($mat-orange,800);
 
   $theme: mat-light-theme($primary, $accent);
 

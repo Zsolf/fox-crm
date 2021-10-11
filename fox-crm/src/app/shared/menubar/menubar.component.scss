@@ -1,6 +1,6 @@
 .mat-toolbar {
     z-index: 5;
-    background: #009CFF;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0479c2), color-stop(40%,#53cbf1), color-stop(100%,#009CFF));
 }
 
 .menubar{
@@ -14,4 +14,5 @@
 .logo{
     padding-right: 5px;
     padding-bottom: 5px;
+    width: 120px
 }

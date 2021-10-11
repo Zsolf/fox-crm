@@ -70,8 +70,8 @@
             </h3>
         </form>
     </div>
-    <button *ngIf="!isDelete && !isEdit" mat-raised-button color="warn" (click)="isDelete=true;">Törlés</button>
-    <button *ngIf="isDelete" [disabled]="!isDeleteCorrect" mat-raised-button color="warn" [mat-dialog-close]="delete">Törlés</button>
+    <button *ngIf="!isDelete && !isEdit" mat-raised-button color="accent" (click)="isDelete=true;">Törlés</button>
+    <button *ngIf="isDelete" [disabled]="!isDeleteCorrect" mat-raised-button color="accent" [mat-dialog-close]="delete">Törlés</button>
     <button mat-raised-button *ngIf="!isEdit" color="primary" (click)="isEdit=true; isDelete=false;">Módosítás</button> 
     <button mat-raised-button *ngIf="isEdit" color="primary" [disabled]="editForm.invalid" [mat-dialog-close]="editForm.value">Módosítás</button>  
     
