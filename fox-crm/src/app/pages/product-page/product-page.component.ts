@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { IProduct } from 'src/app/shared/models/product.model';
@@ -74,10 +74,10 @@ export class ProductPageComponent implements OnInit {
       id: "",
       name: this.emptyProduct[0].validator.get("name").value,
       description: this.emptyProduct[0].validator.get("description").value,
-      code: this.emptyProduct[0].validator.get("code").value,
-      size: this.emptyProduct[0].validator.get("size").value,
-      color: this.emptyProduct[0].validator.get("color").value,
-      madeOf: this.emptyProduct[0].validator.get("madeOf").value,
+      code: this.emptyProduct[0].validator.get("code").value.toUpperCase(),
+      size: this.emptyProduct[0].validator.get("size").value.toLowerCase(),
+      color: this.emptyProduct[0].validator.get("color").value.toLowerCase(),
+      madeOf: this.emptyProduct[0].validator.get("madeOf").value.toLowerCase(),
       price: Number(this.emptyProduct[0].validator.get("price").value)
     })
 
@@ -104,7 +104,7 @@ export class ProductPageComponent implements OnInit {
     this.fbService.getAll("products").subscribe(result =>{
       this.products = result;
       this.dataSource = new MatTableDataSource(this.products)
-      this.dataSource.sort = this.sort;
+      this.sortData(this.sort)
     }).unsubscribe
 
     
@@ -125,6 +125,36 @@ export class ProductPageComponent implements OnInit {
       }
     });
 
+  }
+
+  sortData(sort: Sort) {
+    const data = this.dataSource;
+    if (!sort.active || sort.direction === '') {
+      this.dataSource = data;
+      return;
+    }
+  
+    this.dataSource = new MatTableDataSource(this.dataSource.data.slice().sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'code': return this.compareString(a.code, b.code, isAsc);
+        case 'name': return this.compareString(a.name, b.name, isAsc);
+        case 'color': return this.compareString(a.color, b.color, isAsc);
+        case 'madeOf': return this.compareString(a.madeOf, b.madeOf, isAsc);
+        case 'price': return this.compareNumber(a.price, b.price, isAsc);
+        case 'size': return this.compareString(a.size, b.size, isAsc);
+        default: return 0;
+      }
+    }))
+  }
+  
+  
+  compareNumber(a: number, b: number, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  
+  compareString(a: string, b: string, isAsc: boolean) {
+    return a.localeCompare(b, 'hu') * (isAsc ? 1 : -1);
   }
 
 
