@@ -48,8 +48,8 @@
                                 <mat-hint><b>{{editRemainingText}}</b>/500 (max)</mat-hint>
                               </mat-form-field>
                             </form>
-                            <button mat-button color="warn" (click)="showArea(comment.id, false)" >Mégsem</button>
-                            <button mat-button [disabled]="editForm.invalid" (click)="editComment(comment.id)">Módosítás</button>
+                            <button mat-button color="accent" (click)="showArea(comment.id, false)" >Mégsem</button>
+                            <button mat-button color="primary" [disabled]="editForm.invalid" (click)="editComment(comment.id)">Módosítás</button>
                         </div>
                     </mat-card>
                 </div>
@@ -61,13 +61,13 @@
                       <mat-hint><b>{{commentRemainingText}}</b>/500 (max)</mat-hint>
                     </mat-form-field>
                     </form>
-                    <button mat-button color="warn" (click)="resetCommentField()" >Törlés</button>
-                    <button mat-button [disabled]="form.invalid" (click)="createComment()">Elküldés</button>
+                    <button mat-button color="accent" (click)="resetCommentField()" >Törlés</button>
+                    <button mat-button color="primary" [disabled]="form.invalid" (click)="createComment()">Elküldés</button>
             </mat-card>
         </div>
     </div>
     <div class="second-card-line"> 
-            <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-one">  
+            <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-third">  
                 <div class="first-line">
                     <div class="text-div">
                         <h2 class="title">
@@ -83,10 +83,8 @@
                     <h2>
                         {{comp.email}}
                     </h2>
-        </mat-card> 
-    </div>
-    <div class="third-card-line"> 
-        <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-one">  
+        </mat-card>
+        <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-fourth">  
             <div class="first-line">
                 <div class="text-div">
                     <h2 class="title">
@@ -96,9 +94,31 @@
                 </div>
                 <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
             </div>
-                <h2>
-                    <a href="https://{{comp.webpage}}/">{{comp.webpage}}</a>
+            <ul>
+                <li>
+                   <h2>
+                       <a href="https://{{comp.webpage}}/">{{comp.webpage}}</a>
+                   </h2>
+               </li>
+           </ul>
+    </mat-card> 
+    <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-fourth">  
+        <div class="first-line">
+            <div class="text-div">
+                <h2 class="title">
+                    Adószám
                 </h2>
-    </mat-card>
+                <img src="assets/web-icon.png"  class="icon">
+            </div>
+            <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+        </div>
+        <ul>
+             <li>
+                <h2>{{comp.taxNumber}}</h2>
+            </li>
+        </ul>
+</mat-card> 
+    </div>
+    <div class="third-card-line"> 
 
-</div>
+    </div>

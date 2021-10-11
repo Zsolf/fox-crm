@@ -14,23 +14,23 @@ mat-button-toggle {
     border: 1px rgba(0,0,0,0) solid !important;
     margin-top: 5px !important;
     z-index: 3 !important;
-    background-color: #dc8059;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;  
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#daeaf3),color-stop(90%,#addbf8));
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;  
 }
   
 mat-button-toggle:hover {
-    background-color: #FFFFFF !important;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px; 
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#9ed2f0),color-stop(90%,#81caf7)) !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; 
     border:none;
 }
   
 .mat-button-toggle-checked {
     box-shadow: 0 0 5px #000 !important;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px; 
-    background-color: #FFFFFF !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; 
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#80c8f1),color-stop(90%,#4cafec)) !important;
 }
 
 .main-page{
@@ -93,15 +93,15 @@ h2{
 }
 
 .icon{
-    width: 50px;
-    height: 50px;
-    margin-top: 5px;
+    width: 45px;
+    height: 45px;
+    margin-top: 1px;
     margin-left: 10px;
 }
 
 .edit-icon{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin-top: 5px;   
 }
 
@@ -239,3 +239,37 @@ a{
 }
 
 a { color: inherit; } 
+
+.mat-card-third{
+    margin-top: 20px;
+    height: fit-content;
+    width: 20%;
+    height: 200px;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0 !important;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 400px;
+    z-index: 2;
+}
+
+.mat-card-fourth{
+    margin-top: 20px;
+    height: fit-content;
+    width: 10%;
+    height: 200px;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0 !important;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 300px;
+    z-index: 2;
+}
+
+.mat-card-third + .mat-card-fourth{
+    margin-left: 1.5%;
+}
+
+.mat-card-fourth + .mat-card-fourth{
+    margin-left: 1.5%;
+}
