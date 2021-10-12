@@ -15,6 +15,7 @@ export class CompanyDialogComponent implements OnInit {
     isContactDialog: boolean;
     isMainDialog: boolean;
     isWebpageDialog: boolean;
+    isTaxDialog: boolean;
 
   form: FormGroup = new FormGroup ({
     id: new FormControl (this.data.company.id),
@@ -31,6 +32,7 @@ export class CompanyDialogComponent implements OnInit {
     this.isContactDialog = false;
     this.isMainDialog = false;
     this.isWebpageDialog = false;
+    this.isTaxDialog = false;
 
     switch(this.data.dialogType){
      case "mainDialog":{
@@ -45,6 +47,10 @@ export class CompanyDialogComponent implements OnInit {
        this.isWebpageDialog = true;
        break;
      }
+     case "taxDialog":{
+      this.isTaxDialog = true;
+      break;
+    }
 
     }
   }

@@ -30,6 +30,10 @@
         <mat-label>Weboldal</mat-label>
         <input matInput formControlName="webpage" required>
     </mat-form-field>
+    <mat-form-field [hidden]=!isTaxDialog>
+        <mat-label>Adószám</mat-label>
+        <input matInput formControlName="taxNumber" required>
+    </mat-form-field>
     
 </form>
 <div>

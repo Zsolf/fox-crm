@@ -112,11 +112,12 @@ h2{
 .second-card-line{
     margin-inline: 3% !important;
     position: absolute;
-    width: fit-content;
     display: flex;
-    width: 93%;
+    width: 70%;
     margin-top: 280px;
     z-index: 1;
+    flex-wrap:wrap;
+    flex-grow: 5;
     
 }
 
@@ -257,7 +258,7 @@ a { color: inherit; }
     margin-top: 20px;
     height: fit-content;
     width: 10%;
-    height: 200px;
+    height: 150px;
     background-color: #FFFFFF;
     border-top-left-radius: 0 !important;
     display: inline-block;
@@ -267,9 +268,9 @@ a { color: inherit; }
 }
 
 .mat-card-third + .mat-card-fourth{
-    margin-left: 1.5%;
+    margin-left: 2%;
 }
 
 .mat-card-fourth + .mat-card-fourth{
-    margin-left: 1.5%;
+    margin-left: 2%;
 }

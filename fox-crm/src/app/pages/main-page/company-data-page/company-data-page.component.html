@@ -77,12 +77,18 @@
                     </div>
                     <a [hidden]="!secondEditIconVisible"  (click)="openDialog('contactDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
                 </div>
-                    <h2>
-                        {{comp.phone}}
-                    </h2>
+                <ul>
+                    <li>
+                        <h2>
+                            {{comp.phone}}
+                        </h2>
+                   </li>
+                   <li>
                     <h2>
                         {{comp.email}}
                     </h2>
+                 </li>
+               </ul>
         </mat-card>
         <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-fourth">  
             <div class="first-line">
@@ -102,15 +108,15 @@
                </li>
            </ul>
     </mat-card> 
-    <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-fourth">  
+    <mat-card (mouseenter) ="mouseEnterFourth()"  (mouseleave) ="mouseLeaveFourth()" class="mat-card-fourth">  
         <div class="first-line">
             <div class="text-div">
                 <h2 class="title">
                     Adószám
                 </h2>
-                <img src="assets/web-icon.png"  class="icon">
+                <img src="assets/money-icon.png"  class="icon">
             </div>
-            <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+            <a [hidden]="!fourthEditIconVisible"  (click)="openDialog('taxDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
         </div>
         <ul>
              <li>

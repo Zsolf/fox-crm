@@ -44,6 +44,7 @@ export class CompanyDataPageComponent implements OnInit {
   firstEditIconVisible: boolean;
   secondEditIconVisible: boolean;
   thirdEditIconVisible: boolean;
+  fourthEditIconVisible: boolean;
 
   isCommentSet: boolean;
   fbReadFinished: boolean;
@@ -85,6 +86,7 @@ export class CompanyDataPageComponent implements OnInit {
     this.firstEditIconVisible = false;
     this.secondEditIconVisible = false;
     this.thirdEditIconVisible = false;
+    this.fourthEditIconVisible = false;
     this.isCommentSet = false;
     this.isCommentNeedToBeDeleted = false;
     this.isPersonSet = false;
@@ -194,6 +196,14 @@ export class CompanyDataPageComponent implements OnInit {
 
   mouseLeaveThird(){
     this.thirdEditIconVisible = false;
+  }
+
+  mouseEnterFourth(){
+    this.fourthEditIconVisible = true;
+  }
+
+  mouseLeaveFourth(){
+    this.fourthEditIconVisible = false;
   }
 
   openDialog(dialogType: string): void {
