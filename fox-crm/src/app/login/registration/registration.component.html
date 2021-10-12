@@ -1,1 +1,52 @@
-<p>registration works!</p>
+<div class="cardDiv" >
+    <mat-card class="main">  
+            <h1>Regisztráció</h1>
+            <form>
+                    <div class="neighbour">
+                        <mat-form-field class="small-form-field" appearance="outline" hideRequiredMarker="true">
+                            <mat-form-field class="smallLabel" appearance="outline" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="Keresztnév" required>
+                            </mat-form-field>
+                            <input matInput type="text" required>
+                        </mat-form-field>
+                        <mat-form-field class="small-form-field" appearance="outline" hideRequiredMarker="true">
+                            <mat-form-field class="smallLabel" appearance="outline" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="Vezetéknév" required>
+                            </mat-form-field>
+                            <input matInput type="text" required>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="outline" hideRequiredMarker="true">
+                        <mat-form-field class="label" appearance="outline" hideRequiredMarker="true">
+                            <input matInput disabled="true" type="text" value="E-mail" required>
+                        </mat-form-field>
+                        <input matInput type="email" required>
+                    </mat-form-field>
+                    <mat-form-field  appearance="outline" hideRequiredMarker="true">
+                        <mat-form-field class="labelPhone" appearance="outline" hideRequiredMarker="true">
+                            <input matInput disabled="true" type="text" value="Telefonszám" required>
+                        </mat-form-field>
+                        <mat-form-field style="width: 70px !important; left: -22px !important" class="label" appearance="fill" hideRequiredMarker="true">
+                            <input matInput disabled="true" type="text" value="+36" required>
+                        </mat-form-field>
+                        <input matInput  class="phone" type="tel" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" hideRequiredMarker="true">
+                        <mat-form-field class="label" appearance="outline" hideRequiredMarker="true">
+                            <input matInput disabled="true" type="text" value="Pozíció" required>
+                        </mat-form-field>
+                        <input matInput type="text" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" hideRequiredMarker="true">
+                        <mat-form-field class="label" appearance="outline" hideRequiredMarker="true">
+                            <input matInput disabled="true" type="text" value="Jelszó" required>
+                        </mat-form-field>
+                        <input matInput type="password" required>
+                    </mat-form-field>
+            </form>
+        <div class="buttons">
+            <button class="login" mat-raised-button >Regisztráció</button>
+            <button mat-raised-button color="primary" routerLink='/login' >Vissza</button>
+        </div>
+    </mat-card>
+</div>
