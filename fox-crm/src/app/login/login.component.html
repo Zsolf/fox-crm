@@ -2,20 +2,22 @@
     <mat-card class="main">  
         
             <h1>Bejelentkezés</h1>
-            <form>
+            <form [formGroup]="form">
                 <h2>Email</h2>
                     <mat-form-field>
                         <img class="icon" src="assets/email-icon.png">
-                        <input matInput  required>
+                        <input matInput formControlName="email" required>
+                        <mat-hint style="color: red">{{alertMessage}}</mat-hint>
                     </mat-form-field>
             <h2>Jelszó</h2>
                     <mat-form-field >
                         <img class="icon" src="assets/password-icon.png">
-                        <input matInput type="password" required>
+                        <input matInput formControlName="password" type="password" required>
+                        <mat-hint>Minimum 6 karakter</mat-hint>
                     </mat-form-field>
             </form>
         <div class="buttons">
-            <button class="login" mat-raised-button color="primary" >Bejelentkezés</button>
+            <button class="login" [disabled]="form.invalid" mat-raised-button (click)="login()" color="primary" >Bejelentkezés</button>
             <button mat-raised-button color="accent" routerLink='/registration' >Regisztráció</button>
         </div>
     </mat-card>

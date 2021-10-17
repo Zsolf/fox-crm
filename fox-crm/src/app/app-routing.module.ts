@@ -5,13 +5,15 @@ import { RegistrationComponent } from './login/registration/registration.compone
 import { CompanyPageComponent } from './pages/main-page/company-page.component';
 import { ProductPageComponent } from './pages/product-page/product-page.component';
 import { SalePageComponent } from './pages/sale-page/sale-page.component';
+import { AuthGuard } from './shared/guards/auth.guards';
 
 const routes: Routes = [ 
-  { path: 'products', component: ProductPageComponent},
-  { path: 'company', component: CompanyPageComponent},
-  { path: 'sale', component: SalePageComponent},
+  { path: 'products', component: ProductPageComponent, canActivate: [AuthGuard]},
+  { path: 'company', component: CompanyPageComponent, canActivate: [AuthGuard]},
+  { path: 'sale', component: SalePageComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
-  { path: 'registration', component: RegistrationComponent}];
+  { path: 'registration', component: RegistrationComponent},
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy'})],
