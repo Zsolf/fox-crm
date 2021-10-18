@@ -6,13 +6,14 @@
     display: flex;
     justify-content: center; 
     margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .main{
     width: 700px;
     min-width: 700px;
-    height: 900px;
-    min-height: 900px;
+    height: 1000px;
+    min-height: 1000px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -152,4 +153,15 @@ button{
 
 .phone{
     left: 105px;
+    width: 170px !important;
+}
+
+
+.pass{
+    left: 40px;
+    width: 235px !important;
+}
+
+span{
+    color: red;
 }
