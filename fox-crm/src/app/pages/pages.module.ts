@@ -14,6 +14,7 @@ import { ProductDialogComponent } from './product-page/product-dialog/product-di
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserModule } from '@angular/platform-browser';
 import { SalePageModule } from './sale-page/sale-page.module';
+import { ProfilePageModule } from './profile-page/profile-page.module';
 
 @NgModule({
   declarations: [CompanyPageComponent, 
@@ -31,7 +32,8 @@ import { SalePageModule } from './sale-page/sale-page.module';
     MatTableModule,
     MatSortModule,
     BrowserModule,
-    SalePageModule
+    SalePageModule,
+    ProfilePageModule
   ],
   exports: []
 })

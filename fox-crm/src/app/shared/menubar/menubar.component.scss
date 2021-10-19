@@ -16,3 +16,29 @@
     padding-bottom: 5px;
     width: 120px
 }
+
+.icon{
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+
+.account{
+    position: absolute;
+    right: 30px;
+}
+
+.name{
+    position: relative;
+    top: 2px;
+}
+
+.settings-icon{
+    margin-left: 10px;
+    position: relative;
+    top: 6.5px;
+}
+
+a :hover{
+    cursor: pointer;
+}

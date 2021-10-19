@@ -1,0 +1,29 @@
+.cardDiv{
+    display: flex;
+    justify-content: center; 
+    margin-top: 100px;
+    margin-bottom: 5%;
+    margin-inline: 5%;
+}
+
+.main{
+    width: 1500px;
+    min-width: 1000px;
+    height: 600px;
+    min-height: 600px;
+}
+
+.sideBar{
+    width: 300px;
+    height: 570px;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items:center;
+}
+
+.menuItem{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0479c2), color-stop(40%,#53cbf1), color-stop(100%,#009CFF)) !important;
+    width: 100%;
+}

@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { toDate } from './pipes/to-date.pipe';
 import { AppRoutingModule } from '../app-routing.module';
+import { MatMenuModule } from '@angular/material/menu'
 
 
 
@@ -34,6 +35,7 @@ import { AppRoutingModule } from '../app-routing.module';
     BrowserModule,
     BrowserAnimationsModule,
     MatInputModule,
+    MatMenuModule
   ],
   exports: [MenubarComponent,
     MatToolbarModule,

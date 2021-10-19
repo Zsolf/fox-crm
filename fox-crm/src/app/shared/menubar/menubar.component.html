@@ -10,5 +10,20 @@
         <button mat-button routerLinkActive='active' routerLink='/sale' >
             <span>Értékesítési adatlap</span>
         </button>
+        <div class="account">
+        <img src="assets/avatar-icon.png" class="icon" >
+        <span class="name">{{user.firstName + " " + user.lastName}}</span>
+        <a [matMenuTriggerFor]="menu" >	<mat-icon class="settings-icon">menu</mat-icon></a>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/my-profile">
+                <mat-icon>person</mat-icon>
+                Profilom
+            </button>
+            <button mat-menu-item routerLink="/login">
+                <mat-icon>exit_to_app</mat-icon>
+                Kijelentkezés
+            </button>
+        </mat-menu> 
+        </div>
   </mat-toolbar>
 </div>
