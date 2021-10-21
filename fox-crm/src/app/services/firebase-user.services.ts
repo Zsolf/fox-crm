@@ -11,6 +11,9 @@ export class UserService {
 
     getByEmail(email: string): Observable<any>{
         return this.afs.collection("users",ref => ref.where("email", '==', email)).valueChanges()
-      }
+    }
     
+    update(id: string, data: any){
+        this.afs.collection("users").doc(id).update(data);
+    }
 }

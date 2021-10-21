@@ -7,10 +7,11 @@
 }
 
 .main{
-    width: 1500px;
-    min-width: 1000px;
+    width: 1400px;
+    min-width: 1400px;
     height: 600px;
     min-height: 600px;
+    display: flex;
 }
 
 .sideBar{
@@ -75,21 +76,28 @@ hr {
     filter: grayscale(100%);
 }
 
-.info{
-    width: 100%;
-    height: 310px;
-    background-color: #e9e6e6;
+.infoBar{
+    width: 1000px;
+    height: 100%;
+    background-color: whitesmoke;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items:center;
     position: relative;
-    top: -20px;
+    margin-left: 20px;
 }
+.grid{
+    display: grid;
+    margin-left: 20px;
+    grid-template-columns: auto auto;
+    grid-column-gap: 100px;
+}
+
+
 
 mat-form-field{
     width: 300px;
-    font-size: 20px;
 }
 
 ::ng-deep.mat-form-field-disabled .mat-form-field-underline 
@@ -100,9 +108,90 @@ mat-form-field{
 } 
 
 .buttons{
-    margin-top: 100px;
+    margin-top: 70px;
 }
 
 button + button {
     margin-left: 10px;
 }
+
+.mat-form-field{
+    width: 300px !important;
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.label{
+    position: absolute;
+    left: -162px;
+    top: -33.5px;
+    width: 100px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white;
+    border-radius: 10px;
+}
+
+  
+::ng-deep .label.mat-form-field-appearance-outline .labelPhone.mat-form-field-appearance-outline .smallLabel.mat-form-field-appearance-outline .mat-form-field-outline {
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#80c8f1),color-stop(90%,#eee8e6)) !important;
+    border-radius: 10px; 
+}
+
+.label input{
+    position: relative;
+    top: -4px;
+    left: 6px;
+    font-weight: 1000;
+}
+
+input{
+    font-size: 20px;
+    position: relative;
+    top: -4px;
+    left: 0px;
+}
+
+.labelPhone {
+    position: absolute;
+    left: -162px;
+    top: -33.5px;
+    width: 150px !important;
+}
+.labelPhone input{
+    position: relative;
+    top: -4px;
+    left: 6px;
+    font-weight: 1000;
+}
+
+.phone{
+    left: 105px;
+    width: 170px !important;
+}
+
+.smallLabel {
+    position: absolute;
+    left: -196px;
+    top: -33.5px;
+    width: 134px !important;
+}
+.smallLabel input{
+    position: relative;
+    top: -4px;
+    left: 2px;
+    font-weight: 1000;
+}
+
+.small-form-field{
+    width: 266px !important;
+    position: relative;
+    left: 34px;
+}
+
+.pos{
+    position: relative;
+    left: 30%;
+}
+

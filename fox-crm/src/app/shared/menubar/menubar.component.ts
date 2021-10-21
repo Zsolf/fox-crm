@@ -20,7 +20,6 @@ export class MenubarComponent implements OnInit {
 
   ngOnInit(): void {
     this.email = ""
-    this.emailTwo = ""
     this.user = {firstName: "", lastName: ""} as IUser;
 
     this.authService.currentUserObserable().subscribe(result =>{
@@ -29,7 +28,6 @@ export class MenubarComponent implements OnInit {
       this.userService.getByEmail(this.email).subscribe( result => {
         this.user = result[0]
       })
-      this.emailTwo = this.email
     
       }
     })

@@ -1,4 +1,4 @@
-<div class="cardDiv" >
+<div class="cardDiv" [@fadeAnimation]="'in'">
     <mat-card class="main">  
         
             <h1>Bejelentkezés</h1>
@@ -13,7 +13,6 @@
                     <mat-form-field >
                         <img class="icon" src="assets/password-icon.png">
                         <input matInput formControlName="password" type="password" required>
-                        <mat-hint>Minimum 6 karakter</mat-hint>
                     </mat-form-field>
             </form>
         <div class="buttons">

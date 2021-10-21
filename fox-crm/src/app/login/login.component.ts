@@ -2,11 +2,26 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'fcrm-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class LoginComponent implements OnInit {
 

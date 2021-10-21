@@ -1,24 +1,81 @@
 <div>
-    <div class="cardDiv" >
+    <div class="cardDiv" [@fadeAnimation]="'in'">
         <mat-card class="main">  
             <mat-card class="sideBar">  
                 <img src="assets/avatar-icon.png" class="avatar">
-                <h2>Fehér Zsolt</h2>
+                <h2>{{user.firstName + " " + user.lastName}}</h2>
                 <hr>
-                <h3 class="position">CEO</h3>
+                <h3 class="position">{{user.position}}</h3>
                 <mat-form-field apperiance="fill">
                     <mat-label>E-mail</mat-label>
-                    <input matInput disabled="true" value="zsolf57@gmail.com" >
+                    <input matInput disabled="true" value="{{user.email}}" >
                 </mat-form-field>
                 <mat-form-field apperiance="fill">
                     <mat-label>Telefonszám</mat-label>
-                    <input matInput disabled="true" value="+36203338349" >
+                    <input matInput disabled="true" value="{{user.phone}}" >
                 </mat-form-field>
                 <div class="buttons">
                     <button mat-raised-button color="primary">Módosítás</button>
                     <button mat-raised-button color="accent">Feladatok</button>
                 </div>
             </mat-card>
+
+            <mat-card class="infoBar"> 
+                <form [formGroup]="form">
+                <div class=grid>
+                    <div class="grid-element">
+                        <mat-form-field class="small-form-field" appearance="outline" hideRequiredMarker="true">
+                            <mat-form-field class="smallLabel" appearance="outline" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="Keresztnév" required>
+                            </mat-form-field>
+                            <input matInput formControlName="firstName" type="text" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="grid-element">
+                        <mat-form-field class="small-form-field" appearance="outline" hideRequiredMarker="true">
+                            <mat-form-field class="smallLabel" appearance="outline" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="Vezetéknév" required>
+                            </mat-form-field>
+                            <input matInput formControlName="lastName" type="text" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="grid-element">
+                        <mat-form-field appearance="outline" hideRequiredMarker="true">
+                            <mat-form-field class="label" appearance="outline" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="E-mail" required>
+                            </mat-form-field>
+                            <input matInput formControlName="email" type="email" required>
+                        </mat-form-field>
+                     </div>
+                     <div class="grid-element">
+                        <mat-form-field  appearance="outline" hideRequiredMarker="true">
+                            <mat-form-field class="labelPhone" appearance="outline" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="Telefonszám" required>
+                            </mat-form-field>
+                            <mat-form-field style="width: 70px !important; left: -10px !important; top: -29px !important; font-size: 14px !important;" class="label" appearance="fill" hideRequiredMarker="true">
+                                <input matInput disabled="true" type="text" value="+36" required>
+                            </mat-form-field>
+                            <input matInput formControlName="phone" class="phone" type="tel" required>
+                        </mat-form-field>
+                    </div> 
+                </div>
+                <div class="pos">
+                <mat-form-field appearance="outline" hideRequiredMarker="true">
+                    <mat-form-field class="label" appearance="outline" hideRequiredMarker="true">
+                        <input matInput disabled="true" type="text" value="Pozíció" required>
+                    </mat-form-field>
+                    <input matInput formControlName="position"  type="text" required>
+                </mat-form-field>
+                </div>
+            </form>
+            <br>
+            <br>
+            <div class="buttons">
+                <button mat-raised-button color="primary" (click)="save()" >Mentés</button>
+                <button mat-raised-button (click)="openDialog()" color="accent">Új jelszó</button>
+            </div>
+            </mat-card>
+
         </mat-card>
     </div>
 </div>

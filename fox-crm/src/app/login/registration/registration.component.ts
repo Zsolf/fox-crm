@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,7 +8,21 @@ import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 @Component({
   selector: 'fcrm-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class RegistrationComponent implements OnInit {
 
