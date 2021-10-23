@@ -9,6 +9,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Firebase from 'firebase';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { UserService } from 'src/app/services/firebase-user.services';
+import { IUser } from 'src/app/shared/models/user.model';
+import { StorageService } from 'src/app/services/firebase-file.service';
 
 @Component({
   selector: 'fcrm-company-data-page',
@@ -31,7 +34,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class CompanyDataPageComponent implements OnInit {
 
-  constructor( private fbService: FirebaseBaseService, public dialog: MatDialog) { }
+  constructor( private fbService: FirebaseBaseService, public dialog: MatDialog,
+     private userService: UserService, private storageService: StorageService) { }
 
   comp: ICompany;
   contactPerson: IPerson;
@@ -55,6 +59,8 @@ export class CompanyDataPageComponent implements OnInit {
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
 
+  userComments: {comment: IComment, user: IUser, avatar: string}[];
+
   editRemainingText: number;
   commentRemainingText: number;
 
@@ -73,10 +79,11 @@ export class CompanyDataPageComponent implements OnInit {
     this.contactPerson = {} as IPerson
 
 
-    this.comments = []
+    this.userComments = []
     this.commentIds = []
     this.showEditIcon = []
     this.showEditArea = []
+    this.userComments = []
 
     this.editRemainingText = 0
     this.commentRemainingText = 0
@@ -145,25 +152,33 @@ export class CompanyDataPageComponent implements OnInit {
     getComments(){
       this.commentIds.forEach(element => {
         this.fbService.getById("comments",element).subscribe(async result =>{
-          if(this.comments.find(elem =>{ 
-            return elem.id == element
+          if(this.userComments.find(elem =>{ 
+            return elem.comment.id == element
           }) == undefined && result != undefined){
-            this.comments.push(result)
+            this.userService.getById(result.userId).subscribe(async res =>{
+              this.storageService.getFile(result.userId).subscribe(async r =>{
+                if(this.userComments.find(elem =>{ 
+                  return elem.comment.id == element
+                }) == undefined && result != undefined){
+                  this.userComments.push( {comment: result, user: res[0], avatar: r })
+                  this.userComments.sort((a,b)=> {
+                    if(a.comment.createdAt > b.comment.createdAt){
+                      return -1
+                    }
+                    if(a.comment.createdAt == b.comment.createdAt){
+                      return 0
+                    }
+                    if(a.comment.createdAt < b.comment.createdAt){
+                      return 1
+                    }
+                  }
+                )
+                }
+              })
+            })
             this.showEditIcon.push({id: result.id, show: false})
             this.showEditArea.push({id: result.id, show: false})
-          }
-          this.comments.sort((a,b)=> {
-            if(a.createdAt > b.createdAt){
-              return 1
-            }
-            if(a.createdAt == b.createdAt){
-              return 0
-            }
-            if(a.createdAt < b.createdAt){
-              return -1
-            }
-          }
-        )
+        }
         })
       });
     }
@@ -226,20 +241,20 @@ export class CompanyDataPageComponent implements OnInit {
   }
 
   openConfirmDialog(id: string): void {
-    let com = this.comments.find(value => value.id == id)
+    let com = this.userComments.find(value => value.comment.id == id)
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {comment: this.comments.find(value => value.id == id)}    
+      data: {comment: this.userComments.find(value => value.comment.id == id).comment}    
     });
 
     dialogRef.afterClosed().subscribe(async result => {
       if(result == "delete"){
-        let index = this.comments.indexOf(com)
+        let index = this.userComments.indexOf(com)
         if (index !== -1) {
-          this.comments.splice(index, 1);
+          this.userComments.splice(index, 1);
         }
         let id = ""
-        this.fbService.delete("comments",com.id)
-        await this.fbService.getIdFromLinkedDB("company-comments",com.id,"commentId","id").subscribe( async res => {
+        this.fbService.delete("comments",com.comment.id)
+        await this.fbService.getIdFromLinkedDB("company-comments",com.comment.id,"commentId","id").subscribe( async res => {
           this.toBeDeletedId = await res
           this.isCommentNeedToBeDeleted = true;
         })
@@ -259,17 +274,30 @@ export class CompanyDataPageComponent implements OnInit {
       createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
       isEdited: false,
       updatedAt: Firebase.firestore.Timestamp.fromDate(new Date()),
-      updatedBy: "Én"
+      updatedBy: "Én",
+      userId: this.userService.user.id
     }
     
     this.fbService.add("comments",comment).then(res => {
       this.fbService.add("company-comments",{commentId: res, companyId: this.comp.id})
       comment.id = res
     })
-    this.comments.push(comment)
+    this.userComments.push({comment: comment, user: this.userService.user, avatar: this.storageService.fileUrl})
     this.showEditArea.push({id:  comment.id, show: false})
     this.showEditIcon.push({id:  comment.id, show: false})
     this.resetCommentField()
+
+    this.userComments.sort((a,b)=> {
+      if(a.comment.createdAt > b.comment.createdAt){
+        return -1
+      }
+      if(a.comment.createdAt == b.comment.createdAt){
+        return 0
+      }
+      if(a.comment.createdAt < b.comment.createdAt){
+        return 1
+      }
+    })
   }
 
   resetCommentField(){
@@ -311,16 +339,16 @@ export class CompanyDataPageComponent implements OnInit {
   }
 
   editComment(id: string){
-    let comment = this.comments.find( com =>{
-      if(com.id == id){
-        com.updatedAt = Firebase.firestore.Timestamp.fromDate(new Date());
-        com.isEdited = true;
-        com.text = this.editForm.get("editTextArea").value.trim()
+    let comment = this.userComments.find( com =>{
+      if(com.comment.id == id){
+        com.comment.updatedAt = Firebase.firestore.Timestamp.fromDate(new Date());
+        com.comment.isEdited = true;
+        com.comment.text = this.editForm.get("editTextArea").value.trim()
         return com
       }
     })
     this.fbService.update("comments",id ,comment)
-    this.showArea(comment.id, false)
+    this.showArea(comment.comment.id, false)
     this.editForm.get("editTextArea").setValue('')
   }
 

@@ -1,8 +1,16 @@
 <div>
     <div class="cardDiv" [@fadeAnimation]="'in'">
         <mat-card class="main">  
-            <mat-card class="sideBar">  
-                <img src="assets/avatar-icon.png" class="avatar">
+            <mat-card class="sideBar"> 
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img *ngIf="avatarURL !='assets/avatar-icon.png' " src="{{avatarURL}}" class="avatar" >
+                        <img *ngIf="avatarURL =='assets/avatar-icon.png' " src="{{avatarURL}}" class="avatarPlain" >
+                    <img src="assets/add-icon.png" class="add">
+                    </label>
+                    <input id="file-input" type="file" (change)="upload($event)" accept="image/png, image/jpeg" />
+                  </div>
+                <mat-hint style="color: red">{{fileError}}</mat-hint>
                 <h2>{{user.firstName + " " + user.lastName}}</h2>
                 <hr>
                 <h3 class="position">{{user.position}}</h3>

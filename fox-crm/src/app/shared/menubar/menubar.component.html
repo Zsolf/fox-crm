@@ -11,7 +11,8 @@
             <span>Értékesítési adatlap</span>
         </button>
         <div class="account">
-        <img src="assets/avatar-icon.png" class="icon" >
+        <img *ngIf="avatarURL !='assets/avatar-icon.png' " src="{{avatarURL}}" class="icon" >
+        <img *ngIf="avatarURL =='assets/avatar-icon.png' " src="{{avatarURL}}" class="iconPlain" >
         <span class="name">{{user.firstName + " " + user.lastName}}</span>
         <a [matMenuTriggerFor]="menu" >	<mat-icon class="settings-icon">menu</mat-icon></a>
         <mat-menu #menu="matMenu">

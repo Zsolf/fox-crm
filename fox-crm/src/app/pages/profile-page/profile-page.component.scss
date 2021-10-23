@@ -30,8 +30,21 @@
 }
 
 .avatar{
-    width: 100px;
+    width: 90px;
+    height: 90px;
+    cursor: pointer; 
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #E8591B;
 }
+
+.avatarPlain{
+    width: 90px;
+    height: 90px;
+    cursor: pointer; 
+    border-radius: 50%;
+}
+
 hr {
     border: 0;
     clear:both;
@@ -108,7 +121,7 @@ mat-form-field{
 } 
 
 .buttons{
-    margin-top: 70px;
+    margin-top: 60px;
 }
 
 button + button {
@@ -169,6 +182,7 @@ input{
 .phone{
     left: 105px;
     width: 170px !important;
+    top: -3px;
 }
 
 .smallLabel {
@@ -195,3 +209,14 @@ input{
     left: 30%;
 }
 
+.add{
+    width: 30px;
+    position: absolute;
+    top: 70px;
+    right: 150px;
+    cursor: pointer; 
+}
+
+.image-upload>input {
+    display: none;
+}

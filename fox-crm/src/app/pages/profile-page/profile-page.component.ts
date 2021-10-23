@@ -7,6 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/firebase-user.services';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from 'src/app/services/firebase-file.service';
 
 @Component({
   selector: 'fcrm-profile-page',
@@ -29,11 +30,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ProfilePageComponent implements OnInit {
 
-  constructor( private userService: UserService, public dialog: MatDialog, private authService: AuthService,) { }
+  constructor( private userService: UserService, 
+    public dialog: MatDialog,
+    private authService: AuthService,
+    private storageService: StorageService ) { }
 
   user: IUser;
-
   form: FormGroup;
+  fileError: string = ""
+  filePath: any;
+
+  avatarURL: string;
 
 
   ngOnInit(): void {
@@ -52,6 +59,10 @@ export class ProfilePageComponent implements OnInit {
           phone: result[0].phone,
           position: result[0].position
         })
+        if(this.storageService.fileUrl == "EMPTY" || this.storageService.fileUrl == undefined){
+          this.getAvatarQuery(result[0].id)
+        }
+        this.getAvatar();
       })
     
       }
@@ -84,4 +95,38 @@ export class ProfilePageComponent implements OnInit {
       this.authService.newPassword(result.password)
     });
   }
+
+  upload($event){
+    this.filePath = $event.target.files[0]
+
+    if(this.filePath.type != "image/png" && this.filePath.type != "image/jpg" && this.filePath.type != "image/jpeg" ){
+      this.fileError = "A fájl formátuma nem megfelelő"
+      return
+    }
+
+    this.fileError = " "
+    this.storageService.upload(this.user.id,this.filePath).then( res =>{
+      this.getAvatarQuery(this.user.id)
+    })
+
+  }
+
+  getAvatarQuery(userId: string){
+    this.storageService.getFileForCurrentUser(this.user.id).subscribe( result => {
+      this.avatarURL = result},
+      error =>{
+        this.avatarURL="assets/avatar-icon.png"
+      })
+  }
+
+  getAvatar(){
+    let url = this.storageService.fileUrl
+    if(url == undefined){
+      this.avatarURL = "assets/avatar-icon.png"
+    }else{
+      this.avatarURL = url
+    }
+  }
+
+
 }

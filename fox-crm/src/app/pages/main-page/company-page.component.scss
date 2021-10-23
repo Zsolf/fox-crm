@@ -99,6 +99,15 @@ h2{
     margin-left: 10px;
 }
 
+.avatar{
+    width: 45px;
+    height: 45px;
+    cursor: pointer; 
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #E8591B;
+}
+
 .edit-icon{
     width: 40px;
     height: 40px;
@@ -273,4 +282,11 @@ a { color: inherit; }
 
 .mat-card-fourth + .mat-card-fourth{
     margin-left: 2%;
+}
+
+
+.userName{
+    position: absolute;
+    left: 90px;
+    font-weight: 1000;
 }

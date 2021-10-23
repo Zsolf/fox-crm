@@ -8,6 +8,7 @@ import Firebase from 'firebase';
 import { ConfirmDialogComponent } from '../company-data-page/confirm-dialog/confirm-dialog.component';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { UserService } from 'src/app/services/firebase-user.services';
 
 @Component({
   selector: 'fcrm-contact-page',
@@ -29,7 +30,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class ContactPageComponent implements OnInit {
 
-  constructor( private fbService: FirebaseBaseService, public dialog: MatDialog) { }
+  constructor( private fbService: FirebaseBaseService, public dialog: MatDialog, private userService: UserService) { }
 
   person: IPerson;
 
@@ -197,7 +198,8 @@ export class ContactPageComponent implements OnInit {
       createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
       isEdited: false,
       updatedAt: Firebase.firestore.Timestamp.fromDate(new Date()),
-      updatedBy: "Én"
+      updatedBy: "Én",
+      userId: this.userService.user.id
     }
     
     this.fbService.add("comments",comment).then(res => {
@@ -226,6 +228,7 @@ export class ContactPageComponent implements OnInit {
   }
 
   isShowIconTrue(id: string): boolean{
+    console.log("asd")
     return this.showEditIcon.find( value => (value.id == id)).show
   }
 

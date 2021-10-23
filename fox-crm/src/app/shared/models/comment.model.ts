@@ -10,4 +10,5 @@ export interface IComment{
     isEdited: boolean;
     updatedAt: TimeStamp;
     updatedBy: string;
+    userId: string;
 }
