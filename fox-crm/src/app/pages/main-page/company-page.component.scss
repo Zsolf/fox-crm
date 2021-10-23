@@ -3,7 +3,8 @@
 mat-button-toggle-group {
     border: none !important;
     margin-top: 1%;
-    margin-left: 3%;
+    position:relative;
+    padding-left: 3%;
     border-bottom-right-radius: 0;  
     border-bottom-left-radius: 0;
   }
@@ -35,40 +36,55 @@ mat-button-toggle:hover {
 
 .main-page{
     padding-top: 80px;
+  
+}
+
+.main{
+    width: 1700px;
+    margin: 0 auto;
 }
 
 .mat-card-one{
     height: fit-content;
-    width: 70%;
+    width: 1050px;
     background-color: #FFFFFF;
     border-top-left-radius: 0 !important;
-    display: inline-block;
+    display: block;
     justify-content:space-between; 
-    min-width: 600px;
+    min-width: 1050px;
     z-index: 2;
+}
+
+.leftDiv{
+    height: fit-content;
+    width: 1050px;
+    display: block;
+    justify-content:space-between; 
+    min-width: 1050px;
 }
 
 .mat-card-two{
     height: fit-content;
-    width: 100%;
+    width: 450px;
     background-color: #FFFFFF;
     display: inline-block;
     justify-content:space-between; 
-    min-width: 200px;
+    min-width: 300px;
+    margin-left: 20px;
 }
 
 .card-div{
-    padding-left: 50px;
-    margin-right: 2%;
     width: 30%;
 }
 
 .cards {
-    margin-inline: 3% !important;
-    position: absolute;
+    margin-left: 3% !important;
+    position: relative;
     width: max-content;
     display: flex;
     width: 95%;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .name {
@@ -108,6 +124,13 @@ h2{
     border-color: #E8591B;
 }
 
+.avatarPlain{
+    width: 50px;
+    height: 50px;
+    cursor: pointer; 
+    border-radius: 50%;
+}
+
 .edit-icon{
     width: 40px;
     height: 40px;
@@ -119,14 +142,13 @@ h2{
 }
 
 .second-card-line{
-    margin-inline: 3% !important;
-    position: absolute;
+    position: relative;
     display: flex;
-    width: 70%;
-    margin-top: 280px;
+    width: 1100px;
     z-index: 1;
     flex-wrap:wrap;
     flex-grow: 5;
+    min-width: 1000px;
     
 }
 
@@ -191,8 +213,10 @@ a{
     z-index: 5;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 450px;
     max-height: 400px;
-    min-width: 200px;
+    min-width: 450px;
+    margin-left: 20px;
 }
 
 .commentForm{
@@ -267,7 +291,7 @@ a { color: inherit; }
     margin-top: 20px;
     height: fit-content;
     width: 10%;
-    height: 150px;
+    height: 200px;
     background-color: #FFFFFF;
     border-top-left-radius: 0 !important;
     display: inline-block;
@@ -277,16 +301,16 @@ a { color: inherit; }
 }
 
 .mat-card-third + .mat-card-fourth{
-    margin-left: 2%;
+    margin-left: 2.3%;
 }
 
 .mat-card-fourth + .mat-card-fourth{
-    margin-left: 2%;
+    margin-left: 2.2%;
 }
 
 
 .userName{
     position: absolute;
-    left: 90px;
+    left: 80px;
     font-weight: 1000;
 }

@@ -9,6 +9,9 @@ import { ConfirmDialogComponent } from '../company-data-page/confirm-dialog/conf
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { UserService } from 'src/app/services/firebase-user.services';
+import { StorageService } from 'src/app/services/firebase-file.service';
+import { IUser } from 'src/app/shared/models/user.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'fcrm-contact-page',
@@ -30,13 +33,16 @@ import { UserService } from 'src/app/services/firebase-user.services';
 })
 export class ContactPageComponent implements OnInit {
 
-  constructor( private fbService: FirebaseBaseService, public dialog: MatDialog, private userService: UserService) { }
+  constructor( private fbService: FirebaseBaseService, public dialog: MatDialog,
+     private userService: UserService, private storageService: StorageService, private route: ActivatedRoute) { }
 
   person: IPerson;
 
   comments: IComment[];
   commentIds: string[];
   toBeDeletedId: string[];
+
+  companyId: string;
 
   isCommentSet: boolean;
   fbReadFinished: boolean;
@@ -46,6 +52,8 @@ export class ContactPageComponent implements OnInit {
 
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
+
+  userComments: {comment: IComment, user: IUser, avatar: string}[];
 
   editRemainingText: number;
   commentRemainingText: number;
@@ -63,14 +71,19 @@ export class ContactPageComponent implements OnInit {
 
     this.person = {} as IPerson
 
-    this.comments = []
+    this.userComments = []
     this.commentIds = []
     this.showEditIcon = []
     this.showEditArea = []
+    this.userComments = []
 
     this.editRemainingText = 0
     this.commentRemainingText = 0
     this.toBeDeletedId = []
+
+    this.route.params.subscribe(result =>{
+      this.companyId = result['comp']
+    })
 
     await this.getData();
     this.firstEditIconVisible = false;
@@ -94,38 +107,68 @@ export class ContactPageComponent implements OnInit {
   }
 
   async getData(){
-    await this.fbService.getById("persons","uZVmugS6F4jN1WbfLInz").subscribe(async result =>{
-      this.person = result
-
-    await this.fbService.getIdFromLinkedDB("person-comments",this.person.id,"personId","commentId").subscribe(async result => {   
-      this.commentIds = await result;
-      this.fbReadFinished = true;
-    }) ;  
-  }) 
+    await this.fbService.getById("companies",this.companyId).subscribe(async result =>{
+      await this.fbService.getById("persons",result.contactPersonId).subscribe(async result =>{
+        this.person = result
+        await this.fbService.getIdFromLinkedDB("person-comments",this.person.id,"personId","commentId").subscribe(async result => {   
+          this.commentIds = await result;
+          this.fbReadFinished = true;
+        }) ;  
+      }) 
+    }) 
   }
 
   getComments(){
     this.commentIds.forEach(element => {
       this.fbService.getById("comments",element).subscribe(async result =>{
-        if(this.comments.find(elem =>{ 
-          return elem.id == element
+        if(this.userComments.find(elem =>{ 
+          return elem.comment.id == element
         }) == undefined && result != undefined){
-          this.comments.push(result)
-          this.showEditIcon.push({id: result.id, show: false})
-          this.showEditArea.push({id: result.id, show: false})
-        }
-        this.comments.sort((a,b)=> {
-          if(a.createdAt > b.createdAt){
-            return 1
-          }
-          if(a.createdAt == b.createdAt){
-            return 0
-          }
-          if(a.createdAt < b.createdAt){
-            return -1
-          }
-        }
-      )
+          this.userService.getById(result.userId).subscribe(async res =>{
+            this.storageService.getFile(result.userId).subscribe(async r =>{
+              if(this.userComments.find(elem =>{ 
+                return elem.comment.id == element
+              }) == undefined && result != undefined){
+                this.userComments.push( {comment: result, user: res[0], avatar: r })
+                this.showEditIcon.push({id: result.id, show: false})
+                this.showEditArea.push({id: result.id, show: false})
+                this.userComments.sort((a,b)=> {
+                  if(a.comment.createdAt > b.comment.createdAt){
+                    return -1
+                  }
+                  if(a.comment.createdAt == b.comment.createdAt){
+                    return 0
+                  }
+                  if(a.comment.createdAt < b.comment.createdAt){
+                    return 1
+                  }
+                }
+              )
+              }
+            },
+            error =>{
+              if(this.userComments.find(elem =>{ 
+                return elem.comment.id == element
+              }) == undefined && result != undefined){
+                this.userComments.push( {comment: result, user: res[0], avatar: "assets/avatar-icon.png" })
+                this.showEditIcon.push({id: result.id, show: false})
+                this.showEditArea.push({id: result.id, show: false})
+                this.userComments.sort((a,b)=> {
+                  if(a.comment.createdAt > b.comment.createdAt){
+                    return -1
+                  }
+                  if(a.comment.createdAt == b.comment.createdAt){
+                    return 0
+                  }
+                  if(a.comment.createdAt < b.comment.createdAt){
+                    return 1
+                  }
+                }
+              )
+              }
+            })
+          })
+      }
       })
     });
   }
@@ -149,20 +192,20 @@ export class ContactPageComponent implements OnInit {
   }
 
   openConfirmDialog(id: string): void {
-    let com = this.comments.find(value => value.id == id)
+    let com = this.userComments.find(value => value.comment.id == id)
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {comment: this.comments.find(value => value.id == id)}    
+      data: {comment: this.userComments.find(value => value.comment.id == id)}    
     });
 
     dialogRef.afterClosed().subscribe(async result => {
       if(result == "delete"){
-        let index = this.comments.indexOf(com)
+        let index = this.userComments.indexOf(com)
         if (index !== -1) {
-          this.comments.splice(index, 1);
+          this.userComments.splice(index, 1);
         }
         let id = ""
-        this.fbService.delete("comments",com.id)
-        await this.fbService.getIdFromLinkedDB("person-comments",com.id,"commentId","id").subscribe( async res => {
+        this.fbService.delete("comments",com.comment.id)
+        await this.fbService.getIdFromLinkedDB("person-comments",com.comment.id,"commentId","id").subscribe( async res => {
           this.toBeDeletedId = await res
           this.isCommentNeedToBeDeleted = true;
         })
@@ -206,10 +249,21 @@ export class ContactPageComponent implements OnInit {
       this.fbService.add("person-comments",{commentId: res, personId: this.person.id})
       comment.id = res
     })
-    this.comments.push(comment)
+    this.userComments.push({comment: comment, user: this.userService.user, avatar: this.storageService.fileUrl})
     this.showEditArea.push({id:  comment.id, show: false})
     this.showEditIcon.push({id:  comment.id, show: false})
     this.resetCommentField()
+    this.userComments.sort((a,b)=> {
+      if(a.comment.createdAt > b.comment.createdAt){
+        return -1
+      }
+      if(a.comment.createdAt == b.comment.createdAt){
+        return 0
+      }
+      if(a.comment.createdAt < b.comment.createdAt){
+        return 1
+      }
+    })
   }
 
   resetCommentField(){
@@ -228,7 +282,6 @@ export class ContactPageComponent implements OnInit {
   }
 
   isShowIconTrue(id: string): boolean{
-    console.log("asd")
     return this.showEditIcon.find( value => (value.id == id)).show
   }
 
@@ -252,16 +305,16 @@ export class ContactPageComponent implements OnInit {
   }
 
   editComment(id: string){
-    let comment = this.comments.find( com =>{
-      if(com.id == id){
-        com.updatedAt = Firebase.firestore.Timestamp.fromDate(new Date());
-        com.isEdited = true;
-        com.text = this.editForm.get("editTextArea").value.trim()
+    let comment = this.userComments.find( com =>{
+      if(com.comment.id == id){
+        com.comment.updatedAt = Firebase.firestore.Timestamp.fromDate(new Date());
+        com.comment.isEdited = true;
+        com.comment.text = this.editForm.get("editTextArea").value.trim()
         return com
       }
     })
-    this.fbService.update("comments",id ,comment)
-    this.showArea(comment.id, false)
+    this.fbService.update("comments",id ,comment.comment)
+    this.showArea(comment.comment.id, false)
     this.editForm.get("editTextArea").setValue('')
   }
 

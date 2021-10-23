@@ -10,9 +10,9 @@ import { IComment } from 'src/app/shared/models/comment.model';
 export class ConfirmDialogComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {comment: IComment}) { }
+    @Inject(MAT_DIALOG_DATA) public data: {comment: any}) { }
 
-    comment: IComment;
+    comment: any;
     delete = "delete"
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 <div class="menubar">
     <mat-toolbar class="mat-elevation-z8" >
         <img src="assets/foxcrm-logo.png" class="logo" >
-        <button routerLinkActive='active' routerLink='/company' mat-button>
+        <button routerLinkActive='active' [routerLink]="['/company', {comp: '3t92wuZZJdLVM0zrUaGB'}]" mat-button>
             <span>Cégoldal</span>
         </button>
         <button routerLinkActive='active' routerLink='/products' mat-button>
@@ -20,7 +20,7 @@
                 <mat-icon>person</mat-icon>
                 Profilom
             </button>
-            <button mat-menu-item routerLink="/login">
+            <button mat-menu-item (click)="logout()">
                 <mat-icon>exit_to_app</mat-icon>
                 Kijelentkezés
             </button>

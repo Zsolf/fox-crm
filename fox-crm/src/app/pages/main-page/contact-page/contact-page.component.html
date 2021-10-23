@@ -1,5 +1,6 @@
 <div [@fadeAnimation]="'in'">
     <div class="cards">
+        <div  class="leftDiv">
             <mat-card (mouseenter) ="mouseEnterFirst()"  (mouseleave) ="mouseLeaveFirst()" class="mat-card-one">  
             <div class="first-line">
                 <div class="text-div">
@@ -14,36 +15,64 @@
                     {{person.position}}
                 </h2>
             </mat-card>
+            <div class="second-card-line"> 
+                <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-third">  
+                    <div class="first-line">
+                        <div class="text-div">
+                            <h2 class="title">
+                                Elérhetőségek
+                            </h2>
+                            <img src="assets/contact-icon.png"  class="icon">
+                        </div>
+                        <a [hidden]="!secondEditIconVisible" (click)="openDialog('contactDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <h2>
+                               +36 {{person.phone}}
+                            </h2>
+                       </li>
+                       <li>
+                        <h2>
+                            {{person.email}}
+                        </h2>
+                     </li>
+                   </ul>
+            </mat-card> 
+        </div>
+    </div>
             <div class="card-div">
                 <mat-card class="mat-card-two">  
                     <mat-label>
                         <h2>Megjegyzések</h2>
                     </mat-label>
                     <div class="comments">
-                        <div *ngIf="comments.length == 0" class="void" > 
+                        <div *ngIf="userComments.length == 0" class="void" > 
                             <h2 style="color: gray; opacity: 50%;">Hatalmas üresség...</h2>
                             <img src="assets/Foxcrm-logo2.png" class="saturate">
                         </div>
-                        <mat-card (mouseover)="showIcon(comment.id, true)" (mouseleave)="showIcon(comment.id, false)" class="commentCard" *ngFor=" let comment of comments" [@fadeAnimation]="'in'"> 
-                            <div *ngIf="!isShowAreaTrue(comment.id)" class="text-div">
-                                <img src="assets/avatar-icon.png"  class="icon">
-                                <h4 class="commentText" style="white-space: pre-line" >{{comment.text}}</h4>
+                        <mat-card (mouseover)="showIcon(data.comment.id, true)" (mouseleave)="showIcon(data.comment.id, false)" class="commentCard" *ngFor=" let data of userComments" [@fadeAnimation]="'in'"> 
+                            <div *ngIf="!isShowAreaTrue(data.comment.id)" class="text-div">
+                                <img *ngIf="data.avatar != 'assets/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
+                                <img *ngIf="data.avatar == 'assets/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
+                                <h4 class="userName">{{data.user.firstName + " " + data.user.lastName}}</h4>
+                                <h4 class="commentText" style="white-space: pre-line" >{{data.comment.text}}</h4>
                                 <div class="date">
-                                    <img *ngIf="comment.isEdited" src="assets/black-pen-icon.png" class="editedIcon">
-                                    <h5>{{comment.createdAt | toDate }}</h5>
+                                    <img *ngIf="data.comment.isEdited" src="assets/black-pen-icon.png" class="editedIcon">
+                                    <h5>{{data.comment.createdAt | toDate }}</h5>
                                 </div>
-                                <a (click)="showArea(comment.id, true, comment.text)"><img *ngIf="isShowIconTrue(this.comment.id)" src="assets/pen-icon.png"  class="smallIcon"></a>
-                                <a (click)="openConfirmDialog(comment.id)"><img *ngIf="isShowIconTrue(this.comment.id)" src="assets/delete-icon.png"  class="smallDeleteIcon"></a>
+                                <a *ngIf="this.userService.user.id == data.comment.userId" (click)="showArea(data.comment.id, true, data.comment.text)"><img *ngIf="isShowIconTrue(this.data.comment.id)" src="assets/pen-icon.png"  class="smallIcon"></a>
+                                <a *ngIf="this.userService.user.id == data.comment.userId" (click)="openConfirmDialog(data.comment.id)"><img *ngIf="isShowIconTrue(this.data.comment.id)" src="assets/delete-icon.png"  class="smallDeleteIcon"></a>
                             </div>
-                            <div *ngIf="isShowAreaTrue(comment.id)">
+                            <div *ngIf="isShowAreaTrue(data.comment.id)">
                                 <form [formGroup]="editForm" >
                                 <mat-form-field appearance="fill" class="commentForm">
                                     <textarea matInput class="editTextArea" formControlName="editTextArea" (ngModelChange)="valueChange('E')" required></textarea>
                                     <mat-hint><b>{{editRemainingText}}</b>/500 (max)</mat-hint>
                                   </mat-form-field>
                                 </form>
-                                <button mat-button color="accent" (click)="showArea(comment.id, false)" >Mégsem</button>
-                                <button mat-button color="primary" [disabled]="editForm.invalid" (click)="editComment(comment.id)">Módosítás</button>
+                                <button mat-button color="accent" (click)="showArea(data.comment.id, false)" >Mégsem</button>
+                                <button mat-button color="primary" [disabled]="editForm.invalid" (click)="editComment(data.comment.id)">Módosítás</button>
                             </div>
                         </mat-card>
                     </div>
@@ -60,23 +89,4 @@
                 </mat-card>
             </div>
         </div>
-        <div class="second-card-line"> 
-            <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-third">  
-                <div class="first-line">
-                    <div class="text-div">
-                        <h2 class="title">
-                            Elérhetőségek
-                        </h2>
-                        <img src="assets/contact-icon.png"  class="icon">
-                    </div>
-                    <a [hidden]="!secondEditIconVisible" (click)="openDialog('contactDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
-                </div>
-                    <h2>
-                        {{person.phone}}
-                    </h2>
-                    <h2>
-                        {{person.email}}
-                    </h2>
-        </mat-card> 
-    </div>
 </div>

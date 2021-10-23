@@ -1,5 +1,6 @@
 <div [@fadeAnimation]="'in'">
     <div class="cards" >
+        <div class="leftDiv">
         <mat-card (mouseenter) ="mouseEnterFirst()"  (mouseleave) ="mouseLeaveFirst()" class="mat-card-one">  
         <div class="first-line">
             <div class="text-div">
@@ -17,9 +18,69 @@
                 <img src="assets/ceo-icon.png"  class="icon"> {{comp.ceoName}}
             </h2>
             <h2>
-                <img src="assets/cp-icon.png" class="icon"> {{contactPerson.firstName + contactPerson.lastName}}
+                <img src="assets/cp-icon.png" class="icon"> {{contactPerson.firstName + " " + contactPerson.lastName}}
             </h2>
         </mat-card>
+        <div class="second-card-line"> 
+            <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-third">  
+                <div class="first-line">
+                    <div class="text-div">
+                        <h2 class="title">
+                            Elérhetőségek
+                        </h2>
+                        <img src="assets/contact-icon.png"  class="icon">
+                    </div>
+                    <a [hidden]="!secondEditIconVisible"  (click)="openDialog('contactDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+                </div>
+                <ul>
+                    <li>
+                        <h2>
+                           +36 {{comp.phone}}
+                        </h2>
+                   </li>
+                   <li>
+                    <h2>
+                        {{comp.email}}
+                    </h2>
+                 </li>
+               </ul>
+        </mat-card>
+        <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-fourth">  
+            <div class="first-line">
+                <div class="text-div">
+                    <h2 class="title">
+                        Weboldal
+                    </h2>
+                    <img src="assets/web-icon.png"  class="icon">
+                </div>
+                <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+            </div>
+            <ul style="margin-top: 20px;">
+                <li>
+                   <h2>
+                       <a href="https://{{comp.webpage}}/">{{comp.webpage}}</a>
+                   </h2>
+               </li>
+           </ul>
+            </mat-card> 
+            <mat-card (mouseenter) ="mouseEnterFourth()"  (mouseleave) ="mouseLeaveFourth()" class="mat-card-fourth">  
+                <div class="first-line">
+                    <div class="text-div">
+                        <h2 class="title">
+                            Adószám
+                        </h2>
+                        <img src="assets/money-icon.png"  class="icon">
+                    </div>
+                    <a [hidden]="!fourthEditIconVisible"  (click)="openDialog('taxDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
+                </div>
+                <ul style="margin-top: 20px;">
+                    <li>
+                        <h2>{{comp.taxNumber}}</h2>
+                    </li>
+                </ul>
+        </mat-card> 
+    </div>
+</div> 
         <div class="card-div">
             <mat-card class="mat-card-two">  
                 <mat-label>
@@ -32,7 +93,8 @@
                     </div>
                     <mat-card (mouseover)="showIcon(data.comment.id, true)" (mouseleave)="showIcon(data.comment.id, false)" class="commentCard" *ngFor=" let data of userComments" [@fadeAnimation]="'in'"> 
                         <div *ngIf="!isShowAreaTrue(data.comment.id)" class="text-div">
-                            <img src="{{data.avatar}}"  class="avatar">
+                            <img *ngIf="data.avatar != 'assets/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
+                            <img *ngIf="data.avatar == 'assets/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
                             <h4 class="userName">{{data.user.firstName + " " + data.user.lastName}}</h4>
                             <h4 class="commentText" style="white-space: pre-line" >{{data.comment.text}}</h4>
                             <div class="date">
@@ -66,66 +128,7 @@
                     <button mat-button color="primary" [disabled]="form.invalid" (click)="createComment()">Elküldés</button>
             </mat-card>
         </div>
-    </div>
-    <div class="second-card-line"> 
-            <mat-card (mouseenter) ="mouseEnterSecond()"  (mouseleave) ="mouseLeaveSecond()" class="mat-card-third">  
-                <div class="first-line">
-                    <div class="text-div">
-                        <h2 class="title">
-                            Elérhetőségek
-                        </h2>
-                        <img src="assets/contact-icon.png"  class="icon">
-                    </div>
-                    <a [hidden]="!secondEditIconVisible"  (click)="openDialog('contactDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
-                </div>
-                <ul>
-                    <li>
-                        <h2>
-                            {{comp.phone}}
-                        </h2>
-                   </li>
-                   <li>
-                    <h2>
-                        {{comp.email}}
-                    </h2>
-                 </li>
-               </ul>
-        </mat-card>
-        <mat-card (mouseenter) ="mouseEnterThird()"  (mouseleave) ="mouseLeaveThird()" class="mat-card-fourth">  
-            <div class="first-line">
-                <div class="text-div">
-                    <h2 class="title">
-                        Weboldal
-                    </h2>
-                    <img src="assets/web-icon.png"  class="icon">
-                </div>
-                <a [hidden]="!thirdEditIconVisible"  (click)="openDialog('webpageDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
-            </div>
-            <ul>
-                <li>
-                   <h2>
-                       <a href="https://{{comp.webpage}}/">{{comp.webpage}}</a>
-                   </h2>
-               </li>
-           </ul>
-    </mat-card> 
-    <mat-card (mouseenter) ="mouseEnterFourth()"  (mouseleave) ="mouseLeaveFourth()" class="mat-card-fourth">  
-        <div class="first-line">
-            <div class="text-div">
-                <h2 class="title">
-                    Adószám
-                </h2>
-                <img src="assets/money-icon.png"  class="icon">
-            </div>
-            <a [hidden]="!fourthEditIconVisible"  (click)="openDialog('taxDialog')" ><img src="assets/pen-icon.png" class="edit-icon"></a>
-        </div>
-        <ul>
-             <li>
-                <h2>{{comp.taxNumber}}</h2>
-            </li>
-        </ul>
-</mat-card> 
-    </div>
-    <div class="third-card-line"> 
-
-    </div>
+    </div> 
+</div>
+<div class="third-card-line"> 
+</div>

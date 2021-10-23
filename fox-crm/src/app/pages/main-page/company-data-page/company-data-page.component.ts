@@ -12,6 +12,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { UserService } from 'src/app/services/firebase-user.services';
 import { IUser } from 'src/app/shared/models/user.model';
 import { StorageService } from 'src/app/services/firebase-file.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'fcrm-company-data-page',
@@ -35,11 +36,12 @@ import { StorageService } from 'src/app/services/firebase-file.service';
 export class CompanyDataPageComponent implements OnInit {
 
   constructor( private fbService: FirebaseBaseService, public dialog: MatDialog,
-     private userService: UserService, private storageService: StorageService) { }
+     private userService: UserService, private storageService: StorageService, private route: ActivatedRoute) { }
 
   comp: ICompany;
   contactPerson: IPerson;
   oldComp: ICompany;
+  companyId: string;
 
   comments: IComment[];
   commentIds: string[];
@@ -77,17 +79,20 @@ export class CompanyDataPageComponent implements OnInit {
     this.comp = {} as ICompany
     this.comp = {} as ICompany
     this.contactPerson = {} as IPerson
-
+    this.companyId = ""
 
     this.userComments = []
     this.commentIds = []
     this.showEditIcon = []
     this.showEditArea = []
-    this.userComments = []
 
     this.editRemainingText = 0
     this.commentRemainingText = 0
     this.toBeDeletedId = []
+
+    this.route.params.subscribe(result =>{
+      this.companyId = result['comp']
+    })
 
     await this.getData();
     this.firstEditIconVisible = false;
@@ -129,7 +134,7 @@ export class CompanyDataPageComponent implements OnInit {
 
 
     async getData(){
-      await this.fbService.getById("companies","3t92wuZZJdLVM0zrUaGB").subscribe(async result =>{
+      await this.fbService.getById("companies",this.companyId).subscribe(async result =>{
       this.comp.id = result.id;
       this.comp.name = result.name;
       this.comp.ceoName = result.ceoName;
@@ -161,6 +166,29 @@ export class CompanyDataPageComponent implements OnInit {
                   return elem.comment.id == element
                 }) == undefined && result != undefined){
                   this.userComments.push( {comment: result, user: res[0], avatar: r })
+                  this.showEditIcon.push({id: result.id, show: false})
+                  this.showEditArea.push({id: result.id, show: false})
+                  this.userComments.sort((a,b)=> {
+                    if(a.comment.createdAt > b.comment.createdAt){
+                      return -1
+                    }
+                    if(a.comment.createdAt == b.comment.createdAt){
+                      return 0
+                    }
+                    if(a.comment.createdAt < b.comment.createdAt){
+                      return 1
+                    }
+                  }
+                )
+                }
+              },
+              error =>{
+                if(this.userComments.find(elem =>{ 
+                  return elem.comment.id == element
+                }) == undefined && result != undefined){
+                  this.userComments.push( {comment: result, user: res[0], avatar: "assets/avatar-icon.png" })
+                  this.showEditIcon.push({id: result.id, show: false})
+                  this.showEditArea.push({id: result.id, show: false})
                   this.userComments.sort((a,b)=> {
                     if(a.comment.createdAt > b.comment.createdAt){
                       return -1
@@ -176,8 +204,6 @@ export class CompanyDataPageComponent implements OnInit {
                 }
               })
             })
-            this.showEditIcon.push({id: result.id, show: false})
-            this.showEditArea.push({id: result.id, show: false})
         }
         })
       });
@@ -243,7 +269,7 @@ export class CompanyDataPageComponent implements OnInit {
   openConfirmDialog(id: string): void {
     let com = this.userComments.find(value => value.comment.id == id)
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {comment: this.userComments.find(value => value.comment.id == id).comment}    
+      data: {comment: this.userComments.find(value => value.comment.id == id)}    
     });
 
     dialogRef.afterClosed().subscribe(async result => {
@@ -282,7 +308,9 @@ export class CompanyDataPageComponent implements OnInit {
       this.fbService.add("company-comments",{commentId: res, companyId: this.comp.id})
       comment.id = res
     })
-    this.userComments.push({comment: comment, user: this.userService.user, avatar: this.storageService.fileUrl})
+
+    this.userComments.push({comment: comment, user: this.userService.user, 
+      avatar: this.storageService.fileUrl == undefined ? "assets/avatar-icon.png" : this.storageService.fileUrl })
     this.showEditArea.push({id:  comment.id, show: false})
     this.showEditIcon.push({id:  comment.id, show: false})
     this.resetCommentField()
@@ -347,7 +375,7 @@ export class CompanyDataPageComponent implements OnInit {
         return com
       }
     })
-    this.fbService.update("comments",id ,comment)
+    this.fbService.update("comments",id ,comment.comment)
     this.showArea(comment.comment.id, false)
     this.editForm.get("editTextArea").setValue('')
   }

@@ -47,3 +47,25 @@ h2{
     font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 
 }
+
+.avatar{
+    width: 45px;
+    height: 45px;
+    cursor: pointer; 
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #E8591B;
+}
+
+.avatarPlain{
+    width: 50px;
+    height: 50px;
+    cursor: pointer; 
+    border-radius: 50%;
+}
+
+.userName{
+    position: absolute;
+    left: 80px;
+    font-weight: 1000;
+}

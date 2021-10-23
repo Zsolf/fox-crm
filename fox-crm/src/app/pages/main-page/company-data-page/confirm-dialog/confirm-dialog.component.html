@@ -1,11 +1,13 @@
 <h2>Biztos törölni szeretnéd ez a hozzáaszólást?</h2>
 <mat-card class="commentCard"> 
     <div class="text-div">
-        <img src="assets/avatar-icon.png"  class="icon">
-        <h4 class="commentText" style="white-space: pre-line" >{{comment.text}}</h4>
+        <img *ngIf="comment.avatar != 'assets/avatar-icon.png'" src="{{comment.avatar}}"  class="avatar">
+        <img *ngIf="comment.avatar == 'assets/avatar-icon.png'" src="{{comment.avatar}}"  class="avatarPlain">
+        <h4 class="userName">{{comment.user.firstName + " " + comment.user.lastName}}</h4>
+        <h4 class="commentText" style="white-space: pre-line" >{{comment.comment.text}}</h4>
         <div class="date">
-            <img src="assets/black-pen-icon.png" class="editedIcon">
-            <h5>{{comment.createdAt | toDate }}</h5>
+            <img *ngIf="comment.comment.isEdited" src="assets/black-pen-icon.png" class="editedIcon">
+            <h5>{{comment.comment.createdAt | toDate }}</h5>
         </div>
     </div>
 </mat-card>
