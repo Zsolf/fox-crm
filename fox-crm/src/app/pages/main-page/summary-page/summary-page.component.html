@@ -1,8 +1,31 @@
 <div class="cards">
-    <mat-card class="mat-card-one">  
-    </mat-card>
-    <div class="card-div">
-        <mat-card class="mat-card-two">  
+    <div  class="leftDiv">
+        <mat-card class="mat-card-one">
+            <div class="timeline">
+                <p-timeline [value]="events1" align="bottom" layout="horizontal"styleClass="customized-timeline" >
+                    <ng-template pTemplate="marker" let-event>
+                        <span class="custom-marker p-shadow-2" [style.backgroundColor]="event.color">
+                            <i [ngClass]="event.icon"></i>
+                        </span>
+                    </ng-template>
+                    <ng-template pTemplate="content" let-event>
+                        {{event.status}}
+                    </ng-template>
+                </p-timeline>
+            </div>     
         </mat-card>
+        <p-fieldset class="tasks" legend="Teendők" [toggleable]="true">
+            Content
+        </p-fieldset>
+        <div class="second-card-line"> 
+                <p-fieldset class="mat-card-third" legend="Előzmények" toggleable=true >
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p-fieldset>
+        </div>
+    </div>
+    <div class="card-div"> 
+            <p-fieldset class="mat-card-two" legend="Értékesítés" toggleable=true >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p-fieldset>
     </div>
 </div>

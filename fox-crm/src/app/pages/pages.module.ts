@@ -15,6 +15,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { BrowserModule } from '@angular/platform-browser';
 import { SalePageModule } from './sale-page/sale-page.module';
 import { ProfilePageModule } from './profile-page/profile-page.module';
+import { FieldsetModule } from 'primeng/fieldset'
+import {TimelineModule} from 'primeng/timeline';
+
 
 @NgModule({
   declarations: [CompanyPageComponent, 
@@ -33,7 +36,9 @@ import { ProfilePageModule } from './profile-page/profile-page.module';
     MatSortModule,
     BrowserModule,
     SalePageModule,
-    ProfilePageModule
+    ProfilePageModule,
+    FieldsetModule,
+    TimelineModule
   ],
   exports: []
 })
