@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StorageService } from '../services/firebase-file.service';
+import { UserService } from '../services/firebase-user.services';
 
 @Component({
   selector: 'fcrm-login',
@@ -26,7 +27,7 @@ import { StorageService } from '../services/firebase-file.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private userService: UserService) { }
 
   form: FormGroup = new FormGroup ({
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -54,7 +55,11 @@ export class LoginComponent implements OnInit {
     }
     this.authService.login(this.form.value.email, this.form.value.password).then(
       result => { 
-        this.router.navigateByUrl('/company') 
+        this.userService.getByEmail(this.form.value.email).subscribe( result =>{
+          if (result != undefined){
+            this.router.navigateByUrl('/products') 
+          }
+        })
       },
       (error) => {
         this.alertMessage = (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password')

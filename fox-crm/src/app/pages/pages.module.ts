@@ -17,6 +17,16 @@ import { SalePageModule } from './sale-page/sale-page.module';
 import { ProfilePageModule } from './profile-page/profile-page.module';
 import { FieldsetModule } from 'primeng/fieldset'
 import {TimelineModule} from 'primeng/timeline';
+import {DropdownModule} from 'primeng/dropdown';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {FileUploadModule} from 'primeng/fileupload';
+import {HttpClientModule} from '@angular/common/http';
+import {ListboxModule} from 'primeng/listbox';
+import {CalendarModule} from 'primeng/calendar';
+import {DialogModule} from 'primeng/dialog';
+
+
 
 
 @NgModule({
@@ -38,7 +48,15 @@ import {TimelineModule} from 'primeng/timeline';
     SalePageModule,
     ProfilePageModule,
     FieldsetModule,
-    TimelineModule
+    TimelineModule,
+    DropdownModule,
+    SelectButtonModule,
+    InputTextareaModule,
+    FileUploadModule,
+    HttpClientModule,
+    ListboxModule,
+    CalendarModule,
+    DialogModule
   ],
   exports: []
 })

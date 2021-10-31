@@ -26,10 +26,102 @@
     z-index: 1;
 }
 
+.mat-card-two{
+    width: 500px !important;
+}
+
 .timeline{
-    width: 800px;
+    width: 820px;
 }
 
 .tasks{
     width: 100%;
+}
+
+::ng-deep .inProgress .p-fieldset-legend {
+    background-color: rgb(146, 123, 187)    
+}
+
+::ng-deep .survey .p-fieldset-legend {
+    background-color: #e77645  ;
+}
+
+::ng-deep .closedOk .p-fieldset-legend {
+    background-color: rgb(104, 180, 104)
+}
+
+::ng-deep .closedNo .p-fieldset-legend {
+    background-color: rgb(221, 70, 70)
+}
+
+::ng-deep .survey, ::ng-deep .inProgress{
+    margin-bottom: 20px;
+}
+
+::ng-deep .disabled .p-listbox {
+    margin-bottom: 20px;
+    width: 430px !important;
+    pointer-events:fill !important;
+}
+
+::ng-deep .disabled .p-listbox .p-listbox-list{
+    pointer-events:none !important;
+}
+
+::ng-deep .disabled .p-listbox .p-checkbox-box {
+    pointer-events:none !important;
+}
+
+::ng-deep .disabled .ng-valid {
+    pointer-events:none !important;
+}
+
+::ng-deep .p-fileupload-content{
+    width: auto !important;
+    overflow-x: scroll;
+    overflow-x: overlay;
+}
+
+a{
+    color: blue;
+    pointer-events: all !important;
+}
+
+
+.p-inputgroup{
+    height: 40px;
+    width: 50px !important;
+}
+
+.p-inputgroup input{
+    width: 140px !important;
+}
+
+.expectedIncome{
+    margin-left: 15px;
+}
+
+button + button{
+    margin-top: 20px;
+    margin-left: 14px;
+}
+
+.inProgressNext{
+    background-color: rgb(146, 123, 187);
+    color: white;   
+}
+
+.closing{
+    background-image: linear-gradient(to right, #79c57f 0%, #da6565 100%);
+    color: white;  
+}
+
+::ng-deep .disabled{
+    margin-bottom: 20px;
+    pointer-events:none;
+   background-color: rgba(0,0,0,0.1);
+}
+
+::ng-deep .disabled .p-fieldset-legend{
+    pointer-events:all !important;
 }

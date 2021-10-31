@@ -45,7 +45,7 @@ export class MenubarComponent implements OnInit {
   }
 
   getAvatarQuery(userId: string){
-    this.storageService.getFileForCurrentUser(userId).pipe(take(1)).subscribe( result => {
+    this.storageService.getAvatarFileForCurrentUser(userId).pipe(take(1)).subscribe( result => {
       this.avatarURL = result},
       error =>{
       })

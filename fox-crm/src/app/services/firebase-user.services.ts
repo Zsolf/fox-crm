@@ -26,4 +26,8 @@ export class UserService {
     getById(userId: string): Observable<any>{
         return this.afs.collection("users",ref => ref.where("id", '==', userId)).valueChanges()
     }
+
+    getAll(): Observable<any>{
+        return this.afs.collection("users").valueChanges();
+    }
 }

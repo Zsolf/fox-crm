@@ -19,7 +19,7 @@ export class StorageService {
         this.fireStorage.ref("/avatars/" + userId).delete()
     }
 
-    getFileForCurrentUser(userId: string): Observable<any>{
+    getAvatarFileForCurrentUser(userId: string): Observable<any>{
        this.fireStorage.ref("/avatars/"+userId).getDownloadURL().subscribe(res =>{
         this.fileUrl = res
        },
@@ -29,7 +29,15 @@ export class StorageService {
        return this.fireStorage.ref("/avatars/"+userId).getDownloadURL()
     }
 
-    getFile(userId: string): Observable<any>{
+    getAvatarFile(userId: string): Observable<any>{
         return this.fireStorage.ref("/avatars/"+userId).getDownloadURL()
     }
+
+    getSaleFile(companyId: string, saleId: string){
+        return this.fireStorage.ref("/sales/"+companyId+"/"+saleId).getDownloadURL()
+    }
+    
+    async uploadSaleFile(companyId: string, saleId: string, data: any){
+        await this.fireStorage.upload("/sales/"+companyId+"/"+saleId, data)
+     }
 }

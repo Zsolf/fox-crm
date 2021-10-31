@@ -55,5 +55,10 @@ export class FirebaseBaseService {
     getAll(collectionName: string): Observable<any[]>{
       return this.afs.collection(collectionName).valueChanges();
     }
+
+    getByTwoElements(collectionName: string, firstName: string, firstValue: string,  secondName: string, secondValue: string): Observable<any>{
+      return this.afs.collection(collectionName, ref => ref.where(firstName, '==', firstValue).where(secondName, '==', secondValue)).valueChanges()
+       
+    }
   
 }

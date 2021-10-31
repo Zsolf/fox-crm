@@ -4,6 +4,7 @@ import { LoginComponent } from './login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
+import { PasswordModule } from 'primeng/password'
 
 
 
@@ -12,7 +13,8 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     MatCardModule,
-    SharedModule
+    SharedModule,
+    PasswordModule
   ]
 })
 export class LoginModule { }

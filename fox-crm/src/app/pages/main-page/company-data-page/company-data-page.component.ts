@@ -161,7 +161,7 @@ export class CompanyDataPageComponent implements OnInit {
             return elem.comment.id == element
           }) == undefined && result != undefined){
             this.userService.getById(result.userId).subscribe(async res =>{
-              this.storageService.getFile(result.userId).subscribe(async r =>{
+              this.storageService.getAvatarFile(result.userId).subscribe(async r =>{
                 if(this.userComments.find(elem =>{ 
                   return elem.comment.id == element
                 }) == undefined && result != undefined){
@@ -296,11 +296,11 @@ export class CompanyDataPageComponent implements OnInit {
     let comment = {
       id: "",
       text: this.form.get("textArea").value.trim(),
-      createdBy: "Én",
+      createdBy: this.userService.user.id,
       createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
       isEdited: false,
       updatedAt: Firebase.firestore.Timestamp.fromDate(new Date()),
-      updatedBy: "Én",
+      updatedBy: this.userService.user.id,
       userId: this.userService.user.id
     }
     
@@ -370,6 +370,7 @@ export class CompanyDataPageComponent implements OnInit {
     let comment = this.userComments.find( com =>{
       if(com.comment.id == id){
         com.comment.updatedAt = Firebase.firestore.Timestamp.fromDate(new Date());
+        com.comment.updatedBy = this.userService.user.id
         com.comment.isEdited = true;
         com.comment.text = this.editForm.get("editTextArea").value.trim()
         return com

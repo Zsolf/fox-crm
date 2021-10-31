@@ -125,7 +125,7 @@ export class ContactPageComponent implements OnInit {
           return elem.comment.id == element
         }) == undefined && result != undefined){
           this.userService.getById(result.userId).subscribe(async res =>{
-            this.storageService.getFile(result.userId).subscribe(async r =>{
+            this.storageService.getAvatarFile(result.userId).subscribe(async r =>{
               if(this.userComments.find(elem =>{ 
                 return elem.comment.id == element
               }) == undefined && result != undefined){

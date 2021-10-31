@@ -112,7 +112,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   getAvatarQuery(userId: string){
-    this.storageService.getFileForCurrentUser(this.user.id).subscribe( result => {
+    this.storageService.getAvatarFileForCurrentUser(this.user.id).subscribe( result => {
       this.avatarURL = result},
       error =>{
         this.avatarURL="assets/avatar-icon.png"
