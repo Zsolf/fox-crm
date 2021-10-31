@@ -25,6 +25,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ListboxModule} from 'primeng/listbox';
 import {CalendarModule} from 'primeng/calendar';
 import {DialogModule} from 'primeng/dialog';
+import {DividerModule} from 'primeng/divider';
 
 
 
@@ -56,7 +57,8 @@ import {DialogModule} from 'primeng/dialog';
     HttpClientModule,
     ListboxModule,
     CalendarModule,
-    DialogModule
+    DialogModule,
+    DividerModule
   ],
   exports: []
 })

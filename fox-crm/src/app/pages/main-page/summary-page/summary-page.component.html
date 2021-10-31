@@ -19,7 +19,23 @@
         </p-fieldset>
         <div class="second-card-line"> 
                 <p-fieldset class="mat-card-third" legend="Előzmények" toggleable=true >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <div *ngFor="let data of histories">
+                        <div class="historyElem">
+                            <div style="display: flex;">
+                                <img src='assets/avatar-icon.png'  class="avatarPlain">
+                                <h2 class="historyTitle" >Módosítás</h2>
+                            </div>
+                            <div class="historyDescription">
+                                <span>Name: Demeter -> <strong>Keresztes</strong> <br>
+                                    Bevétel: 0 HUF -> <strong>10000 HUF</strong>
+                                </span>
+                            </div>
+                            <div class="date">
+                                <h3>2021-02-13</h3>
+                            </div>
+                        </div>
+                        <p-divider></p-divider>
+                    </div>
                 </p-fieldset>
         </div>
     </div>
@@ -28,15 +44,15 @@
                 <p-fieldset legend="Felmérés" [toggleable]="true" [styleClass]="form.value.status != 'Survey' ? 'disabled' : 'survey'" [collapsed]="form.value.status != 'Survey' ? true : false">
                     <div style="display: flex;">
                         <h3 style="margin-top: 7px;"><li><strong>Felelős kolléga</strong></li></h3>
-                        <p-dropdown style="margin-left: auto;" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" ></p-dropdown>
+                        <p-dropdown class="dropdownFirst" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" ></p-dropdown>
                     </div>
                     <div style="display: flex;">
                         <h3 style=" margin-top: 25px;"><li><strong> Honnan jött az ügyfél?</strong></li></h3>
-                        <p-dropdown  style="margin-left: auto; margin-top: 20px;" [options]="options" [(ngModel)]="form.value.comeFrom" ></p-dropdown>
+                        <p-dropdown  class="dropdown" [options]="options" [(ngModel)]="form.value.comeFrom" ></p-dropdown>
                     </div>
                     <div style="display: flex;">
                         <h3 style=" margin-top: 25px; margin-bottom: 7px;"><li><strong>Ügyfél típusa</strong></li></h3>
-                    <p-selectButton style="margin-left: auto; margin-top: 20px;" [options]="['Egyszeri', 'Állandó', 'Időszakos']" [(ngModel)]="form.value.customerType"></p-selectButton>
+                    <p-selectButton class="dropdown" [options]="['Egyszeri', 'Állandó', 'Időszakos']" [(ngModel)]="form.value.customerType"></p-selectButton>
                     </div>
                     <span style=" margin-top: 30px; margin-bottom: 7px;" class="p-float-label">
                         <textarea [(ngModel)]="form.value.concerns" style="min-height: 100px !important; max-height: 300px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>

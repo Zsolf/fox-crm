@@ -125,3 +125,42 @@ button + button{
 ::ng-deep .disabled .p-fieldset-legend{
     pointer-events:all !important;
 }
+
+.avatarPlain{
+    width: 90px;
+    height: 90px;
+    cursor: pointer; 
+    border-radius: 50%;
+    margin-top: 30px;
+    position: absolute;
+}
+
+.historyTitle{
+    font-weight: 900;
+    margin-top: 30px;
+    font-size: 25px;
+    margin-left: 100px;
+}
+
+.historyDescription{
+    margin-left: 100px;
+}
+
+.historyElem{
+    margin-left: 20px;
+    margin-top: -20px;
+}
+
+.date{
+    bottom: 15px;
+    right: 20px;
+}
+
+.dropdown{
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+.dropdownFirst{
+    margin-left: auto;
+}

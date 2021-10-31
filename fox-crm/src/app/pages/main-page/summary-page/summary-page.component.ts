@@ -6,6 +6,9 @@ import { UserService } from 'src/app/services/firebase-user.services';
 import Firebase from 'firebase';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { ISale } from 'src/app/shared/models/sale.model';
+import { IHistory } from 'src/app/shared/models/sales-history.model';
+
+type TimeStamp = Firebase.firestore.Timestamp;
 
 
 @Component({
@@ -15,7 +18,8 @@ import { ISale } from 'src/app/shared/models/sale.model';
 })
 export class SummaryPageComponent implements OnInit {
 
-  constructor(private userService: UserService, private fileService: StorageService, private route:ActivatedRoute, private fbService: FirebaseBaseService) { }
+  constructor(private userService: UserService, private fileService: StorageService, private route:ActivatedRoute,
+     private fbService: FirebaseBaseService, private storageService: StorageService) { }
 
   statuses: any[]
 
@@ -30,6 +34,14 @@ export class SummaryPageComponent implements OnInit {
   productGroups: string[];
 
   displayClosing: boolean;
+
+  oldSale: ISale;
+  newSale: ISale;
+
+  oldStatus: string;
+  newStatus: string;
+
+  histories: {history: IHistory[], avatar: string}[]
 
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
@@ -54,11 +66,15 @@ export class SummaryPageComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.histories = []
+    this.oldSale = {} as ISale;
+    this.newSale = {} as ISale;
+    this.oldStatus = ""
+    this.newStatus = ""
     this.displayClosing = false;
     this.selectedUser = []
     this.productGroups = []
     this.route.params.subscribe(result =>{
-      console.log(result)
       this.form.value.companyId = result['comp']
       if(result['sale'] != undefined){
       this.form.value.saleId = result['sale']
@@ -73,7 +89,6 @@ export class SummaryPageComponent implements OnInit {
   }
 
   getData(){
-    console.log(this.userService.user)
     this.form.value.createdBy = this.userService.user.id
     this.userService.getAll().subscribe(result =>{
       if(result != undefined && result != null){
@@ -112,6 +127,9 @@ export class SummaryPageComponent implements OnInit {
       }
     })
     this.fbService.getByTwoElements("sales","companyId", this.form.value.companyId, "saleId", this.form.value.saleId).subscribe(result =>{
+      this.oldSale = result[0];
+      this.newSale = result[0];
+      this.newStatus = result[0].status;
       this.form.value.id = result[0].id;
       this.form.value.responsibleId = result[0].responsibleId; 
       this.selectedUser = this.users.find(res => res.id == result[0].responsibleId)
@@ -129,9 +147,21 @@ export class SummaryPageComponent implements OnInit {
       this.form.value.closingIncome = result[0].closingIncome;
       this.form.value.closingReason = result[0].closingReason;
       this.form.value.progressInfo = result[0].progressInfo;
+      this.fbService.getFilteredByIdList("sales-history", result[0].id, "salesId").subscribe( res =>{
+        res.forEach(element => {
+          this.storageService.getAvatarFile(element.createdBy).subscribe(r => {
+            this.histories.push({history: element, avatar: r})
+            
+          },error =>{
+            this.histories.push({history: element,  avatar: "assets/avatar-icon.png" })
+          })
+        });
+
+      })
       
       this.changeTimeLine()
     })
+
 
   }
 
@@ -178,6 +208,10 @@ export class SummaryPageComponent implements OnInit {
       comeFrom: this.form.value.comeFrom 
     } as ISale
 
+    this.newSale = sale;
+    if((this.oldStatus != "closedOk" && this.oldStatus != "closedNo") || this.newStatus != "In Progress" ){
+      this.raiseHistoryEvent("Módosítás", this.newSale, this.oldSale);
+    }
     
     this.fbService.update("sales",sale.id,sale)
     
@@ -205,10 +239,142 @@ export class SummaryPageComponent implements OnInit {
     this.form.value.closingDate = null;
     this.form.value.closingReason = ""
     this.form.value.closingIncome = ""
+    this.oldStatus = this.form.value.status
     this.form.value.status = status;
+    this.newStatus = status
     this.saveSale();
     this.displayClosing=false
     this.changeTimeLine()
+    this.raiseStatusEvent(this.oldStatus, this.newStatus)
+  }
+
+
+
+  raiseHistoryEvent(title: string, newSale: ISale, oldSale: ISale){
+    if(newSale == oldSale){
+      return
+    }
+    let saleHistory ={
+      id: "",
+      createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
+      createdBy: this.userService.user.id,
+      name: title,
+      salesId: oldSale.id,
+      dataName: [],
+      oldData: [],
+      newData: []
+    } as IHistory
+
+    for(let itemOld of Object.entries(oldSale)){
+      for(let itemNew of Object.entries(newSale)){
+        if(itemOld[0] == itemNew[0] && itemOld[1] !== itemNew[1] && itemOld[0] != 'status'){
+          if(typeof itemOld[1] == 'object'){ 
+            if(itemOld[0] == 'products'){
+              let productsOld = ""
+              let productsNew = ""
+              itemOld[1].forEach(element => {
+                productsOld += element + ", "
+              });
+              productsOld = productsOld.slice(0,-2)
+
+              itemNew[1].forEach(element => {
+                productsNew += element + ", "
+              });
+              productsNew = productsNew.slice(0,-2)
+              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
+              saleHistory.oldData.push(productsOld)
+              saleHistory.newData.push(productsNew)
+            }else if(itemOld[1] == null || itemNew[1] == null){
+              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
+              
+              saleHistory.oldData.push(itemOld[1] == null ? " " : 
+              new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth()+ 1)  + "-" + new Date(itemOld[1].seconds *1000).getDate()  )
+              
+              saleHistory.newData.push(itemNew[1] == null ? " " :             
+               new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth()+ 1)  + "-" + new Date(itemNew[1].seconds *1000).getDate()  )
+            
+              }else if(itemOld[1].seconds *1000 != itemNew[1].seconds * 1000){
+
+              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
+              saleHistory.oldData.push(new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemOld[1].seconds *1000).getDate())
+              saleHistory.newData.push(new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemNew[1].seconds *1000).getDate())
+            }
+          }else{
+            if(itemOld[0] == 'responsibleId'){
+              saleHistory.dataName.push("Felelős kolléga")
+              saleHistory.oldData.push(this.users.find(res => res.id == itemOld[1]).name.charAt(0) == '(' ? this.users.find(res => res.id == itemOld[1]).name.slice(5) : this.users.find(res => res.id == itemOld[1]).name )
+              saleHistory.newData.push(this.selectedUser.name.charAt(0) == '(' ? this.selectedUser.name.slice(5) : this.selectedUser.name)
+            }else{
+              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
+              saleHistory.oldData.push(itemOld[1])
+              saleHistory.newData.push(itemNew[1])
+            }
+          }
+        }
+      }
+    }
+
+    if(saleHistory.dataName != [] && saleHistory.newData.length != 0){
+      this.fbService.add("sales-history",saleHistory)
+    }
+
+  }
+
+  raiseStatusEvent(oldStatus: string, newStatus: string){
+    let saleHistory ={
+      id: "",
+      createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
+      createdBy: this.userService.user.id,
+      name: "Státuszváltozás",
+      salesId: this.form.value.id,
+      dataName: [],
+      oldData: [],
+      newData: []
+    } as IHistory
+
+    if(oldStatus != newStatus && oldStatus != null && newStatus != null){
+      saleHistory.dataName.push("Státusz")
+      saleHistory.oldData.push(this.getOriginalName(oldStatus))
+      saleHistory.newData.push(this.getOriginalName(newStatus))
+      this.fbService.add("sales-history",saleHistory)
+    }
+  }
+
+  getOriginalName(name: string): string{
+    switch(name){
+      case 'status':
+        return 'Státusz'
+      case 'expectedDate':
+        return 'Várható befejezés dátuma'
+      case 'products':
+        return 'Termékcsoportok'
+      case 'closingDate':
+        return 'Befejezés dátuma'
+      case 'expectedIncome':
+        return 'Várható bevétel'
+      case 'closingIncome' :
+        return 'Bevétel'
+      case 'concerns':
+        return 'Aggályok'
+      case 'closingReason':
+        return 'Lezárás oka'
+      case 'customerType':
+        return 'Ügyfél típusa'
+      case 'surveyInfo':
+        return 'Felmérési infó'
+      case 'progressInfo':
+        return 'Értékesítési infók'
+      case 'comeFrom':
+        return 'Honnan jött'
+      case 'In Progress':
+        return 'Folyamatban van'
+      case 'closedOk':
+        return 'Lezárt (Sikeres)'
+      case 'closedNo':
+        return 'Lezárt (Sikertelen)'
+      case 'Survey':
+        return 'Felmérés'
+    }
   }
 
   deleteSale(){
