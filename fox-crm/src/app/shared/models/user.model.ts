@@ -4,5 +4,6 @@ export interface IUser{
     lastName: string,
     position: string,
     phone: string,
-    email: string
+    email: string,
+    avatarPath: string
 }

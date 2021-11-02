@@ -1,0 +1,54 @@
+<div class="third">
+    <div (mouseover)="showIcon(data.task.id, true)" (mouseleave)="showIcon(data.task.id, false)" *ngFor="let data of tasks" [@fadeAnimation]="'in'" >
+        <a (click)="openEdit(data.task.id)" ><img *ngIf="isShowIconTrue(this.data.task.id)" src="assets/pen-icon.png"  class="smallIcon"></a>
+        <a (click)="confirmDelete(data.task.id)" ><img *ngIf="isShowIconTrue(this.data.task.id)" src="assets/delete-icon.png"  class="smallDeleteIcon"></a>
+        <div style="display: flex;">
+            <div class="leftSide">
+                <img  *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
+                <img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
+                <h5 class="historyUserName">{{data.user.lastName + " " + data.user.firstName}}</h5>
+            </div>
+            <h2 class="historyTitle" >{{data.task.title}} ({{data.task.dueTo |toDateFull}}-ig)</h2>
+            
+        </div>
+        <div class="historyDescription">       
+                <span>{{data.task.description}}</span>
+        </div>
+
+        
+
+        <div class="date">
+        <h4>{{data.task.createdAt | toDateFull }}</h4>
+        </div>
+    <p-divider></p-divider>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-dialog header="Új Teendő" [(visible)]="dialog.show" [modal]="true" [style]="{width: '460px' , height: 'auto'}"
+    [draggable]="true" [resizable]="false" [closable]="false">
+    <div style="display: flex;">
+        <h3 style="margin-top: 7px;"><li><strong>Felelős kolléga</strong></li></h3>
+        <p-dropdown class="dropdownFirst" [options]="dialog.users" [(ngModel)]="selectedUser" optionLabel="name" ></p-dropdown>
+    </div>
+    <div style="display: flex;">
+        <h3 style="margin-top: 7px;"><li><strong>Cím</strong></li></h3>
+        <input type="text" class="dropdownFirst" style="height: 40px;" pInputText [(ngModel)]="this.form.value.title"> 
+    </div>
+    <div style="display: flex;">
+        <h3 style=" margin-top: 7px;"><li><strong> Határidő</strong></li></h3>
+        <div class="dateDiv">
+            <p-calendar dateFormat="yy-mm-dd" [showTime]="true" [showIcon]="true" [(ngModel)]="form.value.dueTo" appendTo="body"></p-calendar>
+            <mat-hint>YYYY-mm-dd</mat-hint>
+        </div>
+    </div>
+    <span style=" margin-top: 20px; margin-bottom: 7px;" class="p-float-label">
+        <textarea [(ngModel)]="form.value.description" style="resize: none; min-height: 100px !important; max-height: 100px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+        <label for="float-input"><strong>Leírás</strong></label>
+    </span>
+        <ng-template pTemplate="footer">
+            <button mat-raised-button color="primary" (click)="saveTask()" >Mentés</button>
+            <button mat-raised-button color="accent" (click)="close()" >Mégsem</button>
+        </ng-template>
+</p-dialog>

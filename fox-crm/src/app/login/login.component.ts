@@ -55,11 +55,7 @@ export class LoginComponent implements OnInit {
     }
     this.authService.login(this.form.value.email, this.form.value.password).then(
       result => { 
-        this.userService.getByEmail(this.form.value.email).subscribe( result =>{
-          if (result != undefined){
             this.router.navigateByUrl('/products') 
-          }
-        })
       },
       (error) => {
         this.alertMessage = (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password')

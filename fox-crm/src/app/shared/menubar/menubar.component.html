@@ -8,11 +8,11 @@
             Termékek
         </button>
         <button mat-button routerLinkActive='active' routerLink='/sale' >
-            <span>Értékesítési adatlap</span>
+            <span>Értékesítésiek</span>
         </button>
         <div class="account">
-        <img *ngIf="avatarURL !='assets/avatar-icon.png' " src="{{avatarURL}}" class="icon" >
-        <img *ngIf="avatarURL =='assets/avatar-icon.png' " src="{{avatarURL}}" class="iconPlain" >
+        <img *ngIf="avatarURL !='assets/avatar-icon.png' && user.avatarPath != '/avatars/avatar-icon.png' " src="{{avatarURL}}" class="icon" [@fadeAnimation]="'in'">
+        <img *ngIf="avatarURL =='assets/avatar-icon.png' ||  user.avatarPath == '/avatars/avatar-icon.png'" src="{{avatarURL}}" class="iconPlain" >
         <span class="name">{{user.firstName + " " + user.lastName}}</span>
         <a [matMenuTriggerFor]="menu" >	<mat-icon class="settings-icon">menu</mat-icon></a>
         <mat-menu #menu="matMenu">

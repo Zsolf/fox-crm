@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -9,7 +10,21 @@ import { IUser } from '../models/user.model';
 @Component({
   selector: 'app-menubar',
   templateUrl: './menubar.component.html',
-  styleUrls: ['./menubar.component.scss']
+  styleUrls: ['./menubar.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class MenubarComponent implements OnInit {
 
@@ -22,6 +37,17 @@ export class MenubarComponent implements OnInit {
   user: IUser;
 
   ngOnInit(): void {
+    this.storageService.usersAvatar = []
+    console.log("asd")
+    this.userService.getAll().subscribe(result =>{
+        result.forEach(element => {
+        this.storageService.getAvatarByPath(element.avatarPath).subscribe(res =>{
+            if(this.storageService.usersAvatar.find(elem => elem.id == element.id) == undefined){
+                this.storageService.usersAvatar.push({id: element.id, avatar: res})
+            }
+        })
+        });
+    })
     this.email = ""
     this.user = {firstName: "", lastName: ""} as IUser;
 
@@ -30,7 +56,7 @@ export class MenubarComponent implements OnInit {
       this.email = result.email;
       this.userService.getByEmail(this.email).pipe(take(1)).subscribe( result => {
         if(this.storageService.fileUrl == undefined){
-          this.getAvatarQuery(result[0].id)
+          this.getAvatarQuery(result[0].avatarPath)
         } 
       })
       this.userService.getByEmail(this.email).subscribe( result => {
@@ -44,8 +70,8 @@ export class MenubarComponent implements OnInit {
 
   }
 
-  getAvatarQuery(userId: string){
-    this.storageService.getAvatarFileForCurrentUser(userId).pipe(take(1)).subscribe( result => {
+  getAvatarQuery(userAvatarPath: string){
+    this.storageService.getCurrentUserAvatarByPath(userAvatarPath).pipe(take(1)).subscribe( result => {
       this.avatarURL = result},
       error =>{
       })

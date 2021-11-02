@@ -125,11 +125,11 @@ export class ContactPageComponent implements OnInit {
           return elem.comment.id == element
         }) == undefined && result != undefined){
           this.userService.getById(result.userId).subscribe(async res =>{
-            this.storageService.getAvatarFile(result.userId).subscribe(async r =>{
+            let av = this.storageService.usersAvatar.find(elem => elem.id == res[0].id).avatar
               if(this.userComments.find(elem =>{ 
                 return elem.comment.id == element
               }) == undefined && result != undefined){
-                this.userComments.push( {comment: result, user: res[0], avatar: r })
+                this.userComments.push( {comment: result, user: res[0], avatar: av })
                 this.showEditIcon.push({id: result.id, show: false})
                 this.showEditArea.push({id: result.id, show: false})
                 this.userComments.sort((a,b)=> {
@@ -145,28 +145,7 @@ export class ContactPageComponent implements OnInit {
                 }
               )
               }
-            },
-            error =>{
-              if(this.userComments.find(elem =>{ 
-                return elem.comment.id == element
-              }) == undefined && result != undefined){
-                this.userComments.push( {comment: result, user: res[0], avatar: "assets/avatar-icon.png" })
-                this.showEditIcon.push({id: result.id, show: false})
-                this.showEditArea.push({id: result.id, show: false})
-                this.userComments.sort((a,b)=> {
-                  if(a.comment.createdAt > b.comment.createdAt){
-                    return -1
-                  }
-                  if(a.comment.createdAt == b.comment.createdAt){
-                    return 0
-                  }
-                  if(a.comment.createdAt < b.comment.createdAt){
-                    return 1
-                  }
-                }
-              )
-              }
-            })
+            
           })
       }
       })

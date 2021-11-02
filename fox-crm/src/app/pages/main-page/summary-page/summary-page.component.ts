@@ -7,6 +7,8 @@ import Firebase from 'firebase';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { ISale } from 'src/app/shared/models/sale.model';
 import { IHistory } from 'src/app/shared/models/sales-history.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { IUser } from 'src/app/shared/models/user.model';
 
 type TimeStamp = Firebase.firestore.Timestamp;
 
@@ -14,7 +16,21 @@ type TimeStamp = Firebase.firestore.Timestamp;
 @Component({
   selector: 'fcrm-summary-page',
   templateUrl: './summary-page.component.html',
-  styleUrls: ['../company-page.component.scss', './summary-page.component.scss']
+  styleUrls: ['../company-page.component.scss', './summary-page.component.scss'],
+  animations: [
+    trigger('fadeAnimation', [
+
+      state('in', style({opacity: 1})),
+
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ]
 })
 export class SummaryPageComponent implements OnInit {
 
@@ -24,16 +40,15 @@ export class SummaryPageComponent implements OnInit {
   statuses: any[]
 
   options: string[];
-
   users: any[];
 
   selectedUser: any;
-
   uploadedFiles: any[] = [];
 
   productGroups: string[];
 
   displayClosing: boolean;
+  displayTaskDialog: boolean;
 
   oldSale: ISale;
   newSale: ISale;
@@ -41,7 +56,7 @@ export class SummaryPageComponent implements OnInit {
   oldStatus: string;
   newStatus: string;
 
-  histories: {history: IHistory[], avatar: string}[]
+  histories: {history: IHistory, user: IUser, avatar: string}[]
 
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
@@ -51,8 +66,8 @@ export class SummaryPageComponent implements OnInit {
     responsibleId: new FormControl(''), 
     expectedDate: new FormControl(''), 
     products: new FormControl([]), 
-    createdAt: new FormControl(''),
-    createdBy: new FormControl(Firebase.firestore.Timestamp.fromDate(new Date())),
+    createdAt: new FormControl(Firebase.firestore.Timestamp.fromDate(new Date())),
+    createdBy: new FormControl(''),
     closingDate: new FormControl(''),
     expectedIncome: new FormControl(''),
     closingIncome: new FormControl(''),
@@ -66,6 +81,7 @@ export class SummaryPageComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.displayTaskDialog = false;
     this.histories = []
     this.oldSale = {} as ISale;
     this.newSale = {} as ISale;
@@ -149,14 +165,28 @@ export class SummaryPageComponent implements OnInit {
       this.form.value.progressInfo = result[0].progressInfo;
       this.fbService.getFilteredByIdList("sales-history", result[0].id, "salesId").subscribe( res =>{
         res.forEach(element => {
-          this.storageService.getAvatarFile(element.createdBy).subscribe(r => {
-            this.histories.push({history: element, avatar: r})
-            
-          },error =>{
-            this.histories.push({history: element,  avatar: "assets/avatar-icon.png" })
-          })
+            this.userService.getById(element.createdBy).subscribe(userResult =>{
+                let av = this.storageService.usersAvatar.find(elem => elem.id == userResult[0].id).avatar
+                if(this.histories.find(elem => {
+                  return elem.history.id == element.id
+                }) == undefined){
+                this.histories.push({history: element, user: userResult[0], avatar: av})
+                this.histories.sort((a,b)=> {
+                  if(a.history.createdAt > b.history.createdAt){
+                    return -1
+                  }
+                  if(a.history.createdAt == b.history.createdAt){
+                    return 0
+                  }
+                  if(a.history.createdAt < b.history.createdAt){
+                    return 1
+                  }
+                }
+              )
+                }
+            })
         });
-
+      
       })
       
       this.changeTimeLine()
@@ -260,9 +290,7 @@ export class SummaryPageComponent implements OnInit {
       createdBy: this.userService.user.id,
       name: title,
       salesId: oldSale.id,
-      dataName: [],
-      oldData: [],
-      newData: []
+      description: []
     } as IHistory
 
     for(let itemOld of Object.entries(oldSale)){
@@ -270,8 +298,8 @@ export class SummaryPageComponent implements OnInit {
         if(itemOld[0] == itemNew[0] && itemOld[1] !== itemNew[1] && itemOld[0] != 'status'){
           if(typeof itemOld[1] == 'object'){ 
             if(itemOld[0] == 'products'){
-              let productsOld = ""
-              let productsNew = ""
+              let productsOld = ''
+              let productsNew = ''
               itemOld[1].forEach(element => {
                 productsOld += element + ", "
               });
@@ -281,41 +309,48 @@ export class SummaryPageComponent implements OnInit {
                 productsNew += element + ", "
               });
               productsNew = productsNew.slice(0,-2)
-              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
-              saleHistory.oldData.push(productsOld)
-              saleHistory.newData.push(productsNew)
+              saleHistory.description.push({dataName: this.getOriginalName(itemOld[0]), oldData: productsOld, newData: productsNew})
             }else if(itemOld[1] == null || itemNew[1] == null){
-              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
-              
-              saleHistory.oldData.push(itemOld[1] == null ? " " : 
-              new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth()+ 1)  + "-" + new Date(itemOld[1].seconds *1000).getDate()  )
-              
-              saleHistory.newData.push(itemNew[1] == null ? " " :             
-               new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth()+ 1)  + "-" + new Date(itemNew[1].seconds *1000).getDate()  )
-            
+              saleHistory.description.push({dataName: this.getOriginalName(itemOld[0]),
+                  oldData: (itemOld[1] == null ? '" "' : 
+                     new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth()+ 1)  + "-" + new Date(itemOld[1].seconds *1000).getDate()), 
+                  newData: (itemNew[1] == null ? '" "' :             
+                     new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth()+ 1)  + "-" + new Date(itemNew[1].seconds *1000).getDate())})
               }else if(itemOld[1].seconds *1000 != itemNew[1].seconds * 1000){
-
-              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
-              saleHistory.oldData.push(new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemOld[1].seconds *1000).getDate())
-              saleHistory.newData.push(new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemNew[1].seconds *1000).getDate())
+                saleHistory.description.push({dataName: this.getOriginalName(itemOld[0]),
+                  oldData: new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemOld[1].seconds *1000).getDate(),
+                   newData: new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemNew[1].seconds *1000).getDate()})
+              
             }
           }else{
             if(itemOld[0] == 'responsibleId'){
-              saleHistory.dataName.push("Felelős kolléga")
-              saleHistory.oldData.push(this.users.find(res => res.id == itemOld[1]).name.charAt(0) == '(' ? this.users.find(res => res.id == itemOld[1]).name.slice(5) : this.users.find(res => res.id == itemOld[1]).name )
-              saleHistory.newData.push(this.selectedUser.name.charAt(0) == '(' ? this.selectedUser.name.slice(5) : this.selectedUser.name)
+              saleHistory.description.push({dataName: "Felelős kolléga",
+               oldData: (this.users.find(res => res.id == itemOld[1]).name.charAt(0) == '(' ? this.users.find(res => res.id == itemOld[1]).name.slice(5) : this.users.find(res => res.id == itemOld[1]).name ),
+                newData: (this.selectedUser.name.charAt(0) == '(' ? this.selectedUser.name.slice(5) : this.selectedUser.name)})
+             
             }else{
-              saleHistory.dataName.push(this.getOriginalName(itemOld[0]))
-              saleHistory.oldData.push(itemOld[1])
-              saleHistory.newData.push(itemNew[1])
+              saleHistory.description.push({dataName: this.getOriginalName(itemOld[0]), oldData: itemOld[1], newData: itemNew[1]})
             }
           }
         }
       }
     }
 
-    if(saleHistory.dataName != [] && saleHistory.newData.length != 0){
+    if(saleHistory.description != [] && saleHistory.description.length != 0){
       this.fbService.add("sales-history",saleHistory)
+      this.histories.push({history: saleHistory, user: this.userService.user, avatar: this.fileService.fileUrl})
+      this.histories.sort((a,b)=> {
+        if(a.history.createdAt > b.history.createdAt){
+          return -1
+        }
+        if(a.history.createdAt == b.history.createdAt){
+          return 0
+        }
+        if(a.history.createdAt < b.history.createdAt){
+          return 1
+        }
+      }
+    )
     }
 
   }
@@ -327,16 +362,26 @@ export class SummaryPageComponent implements OnInit {
       createdBy: this.userService.user.id,
       name: "Státuszváltozás",
       salesId: this.form.value.id,
-      dataName: [],
-      oldData: [],
-      newData: []
+      description: [],
     } as IHistory
 
     if(oldStatus != newStatus && oldStatus != null && newStatus != null){
-      saleHistory.dataName.push("Státusz")
-      saleHistory.oldData.push(this.getOriginalName(oldStatus))
-      saleHistory.newData.push(this.getOriginalName(newStatus))
+      saleHistory.description.push({dataName: "Státusz", oldData: this.getOriginalName(oldStatus), newData: this.getOriginalName(newStatus)})
       this.fbService.add("sales-history",saleHistory)
+      
+        this.histories.push({history: saleHistory, user: this.userService.user, avatar: this.fileService.fileUrl})
+        this.histories.sort((a,b)=> {
+          if(a.history.createdAt > b.history.createdAt){
+            return -1
+          }
+          if(a.history.createdAt == b.history.createdAt){
+            return 0
+          }
+          if(a.history.createdAt < b.history.createdAt){
+            return 1
+          }
+        }
+      )
     }
   }
 
@@ -377,8 +422,8 @@ export class SummaryPageComponent implements OnInit {
     }
   }
 
-  deleteSale(){
-
+  showTaskDialog(){
+    this.displayTaskDialog == true ?  this.displayTaskDialog = false :  this.displayTaskDialog = true ;
   }
 
 

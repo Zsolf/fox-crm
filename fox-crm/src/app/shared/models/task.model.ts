@@ -8,6 +8,8 @@ export interface ITask{
     title: string;
     createdAt: TimeStamp;
     createdBy: string;
+    updatedAt: TimeStamp;
+    updatedBy: string;
     dueTo: TimeStamp;
     companyId: string;
     saleStatus: string;

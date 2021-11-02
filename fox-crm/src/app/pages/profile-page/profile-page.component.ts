@@ -106,13 +106,14 @@ export class ProfilePageComponent implements OnInit {
 
     this.fileError = " "
     this.storageService.upload(this.user.id,this.filePath).then( res =>{
+      this.user.avatarPath = '/avatars/'+this.user.id
       this.getAvatarQuery(this.user.id)
     })
 
   }
 
   getAvatarQuery(userId: string){
-    this.storageService.getAvatarFileForCurrentUser(this.user.id).subscribe( result => {
+    this.storageService.getAvatarByPath(this.user.avatarPath).subscribe( result => {
       this.avatarURL = result},
       error =>{
         this.avatarURL="assets/avatar-icon.png"

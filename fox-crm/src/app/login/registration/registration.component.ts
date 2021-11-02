@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
+import { IUser } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'fcrm-registration',
@@ -70,8 +71,9 @@ export class RegistrationComponent implements OnInit {
           lastName: this.form.value.lastName,
           position: this.form.value.position,
           phone: this.form.value.phone,
-          email: this.form.value.email
-        }).then(res => {
+          email: this.form.value.email,
+          avatarPath: '/avatars/avatar-icon.png'
+        } as IUser).then(res => {
           this.router.navigateByUrl("/login")
         }
         )

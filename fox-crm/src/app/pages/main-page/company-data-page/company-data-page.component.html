@@ -93,8 +93,8 @@
                     </div>
                     <mat-card (mouseover)="showIcon(data.comment.id, true)" (mouseleave)="showIcon(data.comment.id, false)" class="commentCard" *ngFor=" let data of userComments" [@fadeAnimation]="'in'"> 
                         <div *ngIf="!isShowAreaTrue(data.comment.id)" class="text-div">
-                            <img *ngIf="data.avatar != 'assets/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
-                            <img *ngIf="data.avatar == 'assets/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
+                            <img *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
+                            <img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
                             <h4 class="userName">{{data.user.firstName + " " + data.user.lastName}}</h4>
                             <h4 class="commentText" style="white-space: pre-line" >{{data.comment.text}}</h4>
                             <div class="date">

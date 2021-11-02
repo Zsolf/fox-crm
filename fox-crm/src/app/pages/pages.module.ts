@@ -26,6 +26,9 @@ import {ListboxModule} from 'primeng/listbox';
 import {CalendarModule} from 'primeng/calendar';
 import {DialogModule} from 'primeng/dialog';
 import {DividerModule} from 'primeng/divider';
+import { TaskComponent } from './main-page/task/task.component';
+import {InputTextModule} from 'primeng/inputtext';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 
 
@@ -39,7 +42,8 @@ import {DividerModule} from 'primeng/divider';
     ConfirmDialogComponent,
     ContactDialogComponent,
     ProductPageComponent,
-    ProductDialogComponent,],
+    ProductDialogComponent,
+    TaskComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -58,7 +62,9 @@ import {DividerModule} from 'primeng/divider';
     ListboxModule,
     CalendarModule,
     DialogModule,
-    DividerModule
+    DividerModule,
+    InputTextModule,
+    ConfirmDialogModule,
   ],
   exports: []
 })

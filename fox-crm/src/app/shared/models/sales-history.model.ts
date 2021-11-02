@@ -8,7 +8,5 @@ export interface IHistory{
     createdBy: string;
     name: string;
     salesId: string;
-    dataName: string[];
-    oldData: string[];
-    newData: string[];
+    description: {dataName: string, oldData: string, newData: string}[];
 }
