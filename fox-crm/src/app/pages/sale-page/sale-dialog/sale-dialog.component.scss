@@ -1,0 +1,18 @@
+.dialog{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h3 + p-dropdown{
+    margin-left: 10px;
+}
+
+::ng-deep .p-dropdown{
+    bottom: 5px;
+}
+
+.rightDiv{
+    margin-left: auto;
+    display: flex;
+}

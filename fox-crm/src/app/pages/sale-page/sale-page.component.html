@@ -1,0 +1,33 @@
+<div class="main">
+    <div class="main-page" [@fadeAnimation]="'in'"> 
+        <p-panel styleClass="mainPanel" >
+            <ng-template pTemplate="header">
+                Vállalatok és <strong>aktív/lezárt</strong> értékesítéseik
+                <p-inputSwitch class="mode" [(ngModel)]="modeSelect"></p-inputSwitch>
+                <div class="newButtons">
+                    <button (click)="showDialog()" class="new" mat-stroked-button >
+                        <span class="pi pi-plus"></span>
+                        Új Értékesítés/Vállalat
+                    </button>
+                </div>
+                </ng-template>
+            <div class="charts">
+                <p-organizationChart [preserveSpace]="false" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
+            </div>
+            <ng-template pTemplate="footer">
+                <button class="surveyText" mat-raised-button >
+                </button>
+                <span> - Felmérés</span>
+                <button class="inProgressText" mat-raised-button >
+                </button>
+                <span> - Folyamatban van</span>
+                <button class="closedOkText" mat-raised-button >
+                </button>
+                <span> - Lezárt (Sikeres)</span>
+                <button class="closedNoText" mat-raised-button >
+                </button>
+                <span> - Lezárt (Sikertelen)</span>
+            </ng-template>
+        </p-panel>
+    </div>
+</div>

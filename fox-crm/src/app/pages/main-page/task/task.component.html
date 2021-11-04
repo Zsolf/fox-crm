@@ -4,8 +4,7 @@
         <a (click)="confirmDelete(data.task.id)" ><img *ngIf="isShowIconTrue(this.data.task.id)" src="assets/delete-icon.png"  class="smallDeleteIcon"></a>
         <div style="display: flex;">
             <div class="leftSide">
-                <img  *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
-                <img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
+                <i class="pi pi-bell bell"></i>
                 <h5 class="historyUserName">{{data.user.lastName + " " + data.user.firstName}}</h5>
             </div>
             <h2 class="historyTitle" >{{data.task.title}} ({{data.task.dueTo |toDateFull}}-ig)</h2>

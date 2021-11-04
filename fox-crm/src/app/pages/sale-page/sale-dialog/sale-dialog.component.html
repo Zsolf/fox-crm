@@ -1,0 +1,15 @@
+<div>
+    <div class="dialog">
+        <div>Form 1</div>
+        <p-divider layout="vertical"></p-divider>
+        <div>Form 2</div>
+    </div>
+    <div style="display: flex;">
+        <h3>Felelős kolléga: </h3>
+        <p-dropdown [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name" appendTo="body"></p-dropdown>
+        <div class="rightDiv">
+            <h3>Kezdeti értékelési állapot: </h3>
+            <p-dropdown [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name" appendTo="body"></p-dropdown>
+        </div>
+    </div>
+</div>
