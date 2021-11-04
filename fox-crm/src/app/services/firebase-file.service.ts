@@ -14,6 +14,8 @@ export class StorageService{
 
     usersAvatar: {id: string, avatar: string}[]
 
+    currenUserAvatar: string;
+
     async upload(userId: string, data: any){
        await this.fireStorage.upload("/avatars/" + userId, data)
     }

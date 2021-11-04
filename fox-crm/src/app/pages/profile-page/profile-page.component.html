@@ -4,8 +4,8 @@
             <mat-card class="sideBar"> 
                 <div class="image-upload">
                     <label for="file-input">
-                        <img *ngIf="avatarURL !='assets/avatar-icon.png' " src="{{avatarURL}}" class="avatar" >
-                        <img *ngIf="avatarURL =='assets/avatar-icon.png' " src="{{avatarURL}}" class="avatarPlain" >
+                        <img *ngIf="getFileServiceAvatar() != 'assets/avatar-icon.png' && user.avatarPath != '/avatars/avatar-icon.png'"  src="{{getFileServiceAvatar()}}" class="avatar" >
+                        <img *ngIf="getFileServiceAvatar() == 'assets/avatar-icon.png' || user.avatarPath== '/avatars/avatar-icon.png'"  src="{{getFileServiceAvatar()}}" class="avatarPlain" >
                     <img src="assets/add-icon.png" class="add">
                     </label>
                     <input id="file-input" type="file" (change)="upload($event)" accept="image/png, image/jpeg" />

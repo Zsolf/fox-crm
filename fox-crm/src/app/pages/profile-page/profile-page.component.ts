@@ -64,6 +64,7 @@ export class ProfilePageComponent implements OnInit {
         }
         this.getAvatar();
       })
+      console.log(this.storageService.currenUserAvatar)
     
       }
     })
@@ -104,20 +105,34 @@ export class ProfilePageComponent implements OnInit {
       return
     }
 
+    
+    
+
     this.fileError = " "
-    this.storageService.upload(this.user.id,this.filePath).then( res =>{
+    this.storageService.upload(this.user.id,this.filePath).then( () =>{
       this.user.avatarPath = '/avatars/'+this.user.id
+      this.userService.update(this.user.id, this.user)
       this.getAvatarQuery(this.user.id)
     })
+      
 
   }
 
   getAvatarQuery(userId: string){
     this.storageService.getAvatarByPath(this.user.avatarPath).subscribe( result => {
-      this.avatarURL = result},
+      this.avatarURL = result
+      this.storageService.currenUserAvatar =this.avatarURL
+      console.log( this.storageService.currenUserAvatar)
+      this.storageService.usersAvatar.forEach(element =>{
+        if(element.id == this.user.id){
+          element.avatar =this.avatarURL
+        }
+      })
+    },
       error =>{
         this.avatarURL="assets/avatar-icon.png"
       })
+
   }
 
   getAvatar(){
@@ -127,6 +142,10 @@ export class ProfilePageComponent implements OnInit {
     }else{
       this.avatarURL = url
     }
+  }
+
+  getFileServiceAvatar(): string{
+    return this.storageService.currenUserAvatar;
   }
 
 

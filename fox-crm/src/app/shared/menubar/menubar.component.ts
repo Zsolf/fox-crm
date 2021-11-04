@@ -1,4 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -33,12 +34,10 @@ export class MenubarComponent implements OnInit {
 
   email: string;
   emailTwo: string;
-  avatarURL: string;
   user: IUser;
 
   ngOnInit(): void {
     this.storageService.usersAvatar = []
-    console.log("asd")
     this.userService.getAll().subscribe(result =>{
         result.forEach(element => {
         this.storageService.getAvatarByPath(element.avatarPath).subscribe(res =>{
@@ -72,19 +71,24 @@ export class MenubarComponent implements OnInit {
 
   getAvatarQuery(userAvatarPath: string){
     this.storageService.getCurrentUserAvatarByPath(userAvatarPath).pipe(take(1)).subscribe( result => {
-      this.avatarURL = result},
+      this.storageService.currenUserAvatar = result},
       error =>{
       })
   }
 
   ngDoCheck(): void {
-    this.storageService.fileUrl == undefined ? this.avatarURL= "assets/avatar-icon.png" : this.avatarURL = this.storageService.fileUrl
+    
   }
 
   logout(){
     this.storageService.fileUrl = undefined
     this.authService.logout()
     this.router.navigateByUrl("/login")
+    this.storageService.currenUserAvatar = "assets/avatar-icon.png"
+  }
+
+  getFileServiceAvatar(): string{
+    return this.storageService.currenUserAvatar;
   }
 
 
