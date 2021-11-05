@@ -39,19 +39,23 @@
 }
 
 ::ng-deep .inProgress .p-fieldset-legend {
-    background-color: rgb(146, 123, 187)    
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff;    
 }
 
 ::ng-deep .survey .p-fieldset-legend {
-    background-color: #e77645  ;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: white;
 }
 
 ::ng-deep .closedOk .p-fieldset-legend {
-    background-color: rgb(104, 180, 104)
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+    color: #ffffff;
 }
 
 ::ng-deep .closedNo .p-fieldset-legend {
-    background-color: rgb(221, 70, 70)
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+    color: #ffffff;
 }
 
 ::ng-deep .survey, ::ng-deep .inProgress{
@@ -107,8 +111,8 @@ button + button{
 }
 
 .inProgressNext{
-    background-color: rgb(146, 123, 187);
-    color: white;   
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff;  
 }
 
 .closing{
@@ -177,23 +181,23 @@ button + button{
 }
 
 .surveyText{
-    background-color: #e77645;
-    color: #ffffff
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: white;
 }
 
 .inProgressText{
-    background-color: rgb(146, 123, 187);
-    color: #ffffff
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff; 
 }
 
 .closedNoText{
-    background-color: rgb(221, 70, 70);
-    color: #ffffff
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+    color: #ffffff;
 }
 
 .closedOkText{
-    background-color: rgb(104, 180, 104);
-    color: #ffffff
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+    color: #ffffff;
 }
 
 .leftSide{

@@ -30,17 +30,22 @@ height: 60px;
 ::ng-deep .mainPanel{
     
     max-width: inherit;
-    min-width: 1200px
+    min-width: 1320px
 }
 .charts{
     margin-bottom: 50px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .surveyText{
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
     color: #ffffff;
     opacity: 90%;
+    
+    margin-left: 120px;
 }
 
 .inProgressText{
@@ -117,4 +122,9 @@ button + span{
 strong{
     margin-right: 5px;
     margin-left: 5px;
+}
+
+::ng-deep .p-panel .p-panel-header{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#faa079), color-stop(100%,#009CFF));
+    color: white;
 }

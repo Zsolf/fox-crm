@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" *ngIf="tree.length > 2">
     <div class="main-page" [@fadeAnimation]="'in'"> 
         <p-panel styleClass="mainPanel" >
             <ng-template pTemplate="header">
@@ -11,8 +11,15 @@
                     </button>
                 </div>
                 </ng-template>
-            <div class="charts">
-                <p-organizationChart [preserveSpace]="false" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
+            <div class="charts" *ngIf="modeSelect == false">
+                <div *ngFor="let data of tree">
+                    <p-organizationChart [preserveSpace]="false" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
+                </div>
+            </div>
+            <div class="charts" *ngIf="modeSelect == true">
+                <div *ngFor="let data of closedTree">
+                    <p-organizationChart [preserveSpace]="false" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
+                </div>
             </div>
             <ng-template pTemplate="footer">
                 <button class="surveyText" mat-raised-button >

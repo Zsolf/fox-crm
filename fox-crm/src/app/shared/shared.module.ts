@@ -14,7 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { toDate, toDateFull } from './pipes/to-date.pipe';
 import { AppRoutingModule } from '../app-routing.module';
-import { MatMenuModule } from '@angular/material/menu'
+import { MatMenuModule } from '@angular/material/menu';
+
 
 
 

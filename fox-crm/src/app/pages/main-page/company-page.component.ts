@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/firebase-user.services';
 
 @Component({
   selector: 'fcrm-company-page',
@@ -21,9 +22,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompanyPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.userService.companyPageStart = "sale"
   }
 
 }

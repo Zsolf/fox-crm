@@ -9,6 +9,10 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import { SaleDialogComponent } from './sale-dialog/sale-dialog.component';
 import {DividerModule} from 'primeng/divider';
 import {DropdownModule} from 'primeng/dropdown';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 
 
@@ -23,7 +27,11 @@ import {DropdownModule} from 'primeng/dropdown';
     SharedModule,
     DynamicDialogModule,
     DividerModule,
-    DropdownModule
+    DropdownModule,
+    AutoCompleteModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    InputNumberModule
   ]
 })
 export class SalePageModule { }

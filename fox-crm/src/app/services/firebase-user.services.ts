@@ -12,6 +12,8 @@ export class UserService {
 
     user: any;
 
+    companyPageStart: string;
+
     getByEmail(email: string): Observable<any>{
         this.afs.collection("users",ref => ref.where("email", '==', email)).valueChanges().subscribe(result =>{
             this.user = result[0]

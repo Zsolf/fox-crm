@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { StorageService } from 'src/app/services/firebase-file.service';
 import { UserService } from 'src/app/services/firebase-user.services';
 import { IUser } from '../models/user.model';
@@ -30,7 +31,7 @@ import { IUser } from '../models/user.model';
 export class MenubarComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthService, private userService: UserService,
-     private storageService: StorageService) { }
+     private storageService: StorageService, private fbService: FirebaseBaseService) { }
 
   email: string;
   emailTwo: string;
@@ -64,6 +65,8 @@ export class MenubarComponent implements OnInit {
       }
     })
 
+
+   
 
 
 

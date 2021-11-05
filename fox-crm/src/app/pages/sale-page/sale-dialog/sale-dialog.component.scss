@@ -1,7 +1,6 @@
 .dialog{
     display: flex;
     flex-direction: row;
-    justify-content: center;
 }
 
 h3 + p-dropdown{
@@ -12,7 +11,71 @@ h3 + p-dropdown{
     bottom: 5px;
 }
 
-.rightDiv{
+.rightFootDiv{
     margin-left: auto;
     display: flex;
+}
+
+.nameText{
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+.nameDiv{
+    display: flex;
+    left: 10px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.saleDiv{
+    display: flex;
+    left: 10px;
+    position: relative;
+    margin-bottom: 1px;
+}
+
+.saleSection{
+    margin-top: 40px;
+}
+
+.leftDiv{
+    width: 430px;
+}
+
+.rightDiv{
+    width: 430px;
+}
+
+.newSaleS{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: #ffffff
+}
+.newSaleP{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff
+}
+
+::ng-deep input{
+    height: 37px !important;
+}
+
+::ng-deep .p-dialog .p-dialog-header{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#faa079), color-stop(100%,#009CFF));
+    color: white;
+}
+::ng-deep p-autoComplete{
+    margin-left: 62px;
+}
+
+::ng-deep p-inputnumber input{
+    width: 190px !important;
+}
+
+.phoneInput{
+    margin-left: 65px;
+}
+
+.companyPhone{
+    margin-left: 38px;
 }

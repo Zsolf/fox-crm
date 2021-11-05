@@ -56,6 +56,8 @@ export class SummaryPageComponent implements OnInit {
   oldStatus: string;
   newStatus: string;
 
+  isUserInit: boolean;
+
   histories: {history: IHistory, user: IUser, avatar: string}[]
 
   form: FormGroup = new FormGroup({
@@ -81,6 +83,7 @@ export class SummaryPageComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.isUserInit = false
     this.displayTaskDialog = false;
     this.histories = []
     this.oldSale = {} as ISale;
@@ -100,12 +103,10 @@ export class SummaryPageComponent implements OnInit {
     this.changeTimeLine()
 
     this.options = [ "Ajánlás", "Hirdetés", "Megkeresés", "Már ügyfelünk"]
-    this.getData();
     this.getFile();
   }
 
   getData(){
-    this.form.value.createdBy = this.userService.user.id
     this.userService.getAll().subscribe(result =>{
       if(result != undefined && result != null){
         this.users = []
@@ -151,18 +152,18 @@ export class SummaryPageComponent implements OnInit {
       this.selectedUser = this.users.find(res => res.id == result[0].responsibleId)
       this.form.value.createdAt = result[0].createdAt;
       this.form.value.createdBy = result[0].createdBy;
-      this.form.value.concerns = result[0].concerns;
-      this.form.value.surveyInfo = result[0].surveyInfo;
-      this.form.value.comeFrom = result[0].comeFrom;
-      this.form.value.customerType = result[0].customerType;
+      this.form.value.concerns = result[0].concerns == undefined ? null : result[0].concerns;
+      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? null : result[0].surveyInfo;
+      this.form.value.comeFrom = result[0].comeFrom == undefined ? null : result[0].comeFrom;
+      this.form.value.customerType = result[0].customerType == undefined ? null : result[0].customerType;
       this.form.value.status = result[0].status;
       this.form.value.expectedDate =  result[0].expectedDate == null ? null:  new Date(result[0].expectedDate.seconds * 1000);
-      this.form.value.expectedIncome = result[0].expectedIncome;
-      this.form.value.products = result[0].products;
+      this.form.value.expectedIncome = result[0].expectedIncome == undefined ? null : result[0].expectedIncome;
+      this.form.value.products = result[0].products == undefined ? null : result[0].products;
       this.form.value.closingDate =  result[0].closingDate == null ? null : new Date(result[0].closingDate.seconds * 1000);
       this.form.value.closingIncome = result[0].closingIncome;
       this.form.value.closingReason = result[0].closingReason;
-      this.form.value.progressInfo = result[0].progressInfo;
+      this.form.value.progressInfo = result[0].progressInfo == undefined ? null : result[0].progressInfo;
       this.fbService.getFilteredByIdList("sales-history", result[0].id, "salesId").subscribe( res =>{
         res.forEach(element => {
             this.userService.getById(element.createdBy).subscribe(userResult =>{
@@ -196,6 +197,10 @@ export class SummaryPageComponent implements OnInit {
   }
 
   ngDoCheck(): void {
+    if(this.userService.user != undefined && this.fileService.usersAvatar != undefined && this.isUserInit == false){
+      this.isUserInit = true;
+      this.getData()
+    }
   }
 
   changeTimeLine(){
@@ -237,6 +242,8 @@ export class SummaryPageComponent implements OnInit {
       progressInfo: this.form.value.progressInfo,   
       comeFrom: this.form.value.comeFrom 
     } as ISale
+
+    console.log(sale)
 
     this.newSale = sale;
     if((this.oldStatus != "closedOk" && this.oldStatus != "closedNo") || this.newStatus != "In Progress" ){
