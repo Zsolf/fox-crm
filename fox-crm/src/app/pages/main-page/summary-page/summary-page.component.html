@@ -116,10 +116,10 @@
                     </p-listbox>
 
                     <h4 style=" margin-top: 25px;"><li><strong>Dokumentum feltöltése</strong></li></h4>
-                    <p-fileUpload customUpload="true" (uploadHandler)="onUpload($event)" accept="application/pdf" maxFileSize="10000000">
+                    <p-fileUpload #upload customUpload="true" (uploadHandler)="onUpload($event, upload)" accept="application/pdf" maxFileSize="10000000">
                         <ng-template styleClass="fileInput" pTemplate="content">
                             <ul *ngIf="uploadedFiles.length">
-                                <li *ngFor="let file of uploadedFiles"><a href="{{file}}" target="_blank">{{file != 'Sikeres feltöltés' ? "Feltött file megnyitása" : file}}</a></li>
+                                <li *ngFor="let file of uploadedFiles"><a class="file" href="{{file.file}}" target="_blank">{{file.text != 'Sikeres feltöltés' ? "Feltött file megnyitása" : ""}}</a></li>
                             </ul>
                         </ng-template>
                     </p-fileUpload>

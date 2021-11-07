@@ -1,4 +1,4 @@
-<div class="main" *ngIf="tree.length > 2">
+<div class="main" *ngIf="saleMax <= saleCounter && compMax <= compCounter">
     <div class="main-page" [@fadeAnimation]="'in'"> 
         <p-panel styleClass="mainPanel" >
             <ng-template pTemplate="header">

@@ -145,6 +145,7 @@ export class SummaryPageComponent implements OnInit {
     })
     this.fbService.getByTwoElements("sales","companyId", this.form.value.companyId, "saleId", this.form.value.saleId).subscribe(result =>{
       this.oldSale = result[0];
+      this.oldSale.products == null ? this.oldSale.products = [] : 
       this.newSale = result[0];
       this.newStatus = result[0].status;
       this.form.value.id = result[0].id;
@@ -152,17 +153,17 @@ export class SummaryPageComponent implements OnInit {
       this.selectedUser = this.users.find(res => res.id == result[0].responsibleId)
       this.form.value.createdAt = result[0].createdAt;
       this.form.value.createdBy = result[0].createdBy;
-      this.form.value.concerns = result[0].concerns == undefined ? null : result[0].concerns;
-      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? null : result[0].surveyInfo;
-      this.form.value.comeFrom = result[0].comeFrom == undefined ? null : result[0].comeFrom;
-      this.form.value.customerType = result[0].customerType == undefined ? null : result[0].customerType;
+      this.form.value.concerns = result[0].concerns == undefined ? "" : result[0].concerns;
+      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? "" : result[0].surveyInfo;
+      this.form.value.comeFrom = result[0].comeFrom == undefined ? this.options[0] : result[0].comeFrom;
+      this.form.value.customerType = result[0].customerType == undefined ? 'Egyszeri' : result[0].customerType;
       this.form.value.status = result[0].status;
-      this.form.value.expectedDate =  result[0].expectedDate == null ? null:  new Date(result[0].expectedDate.seconds * 1000);
+      this.form.value.expectedDate =  result[0].expectedDate == null ? null : new Date(result[0].expectedDate.seconds * 1000);
       this.form.value.expectedIncome = result[0].expectedIncome == undefined ? null : result[0].expectedIncome;
-      this.form.value.products = result[0].products == undefined ? null : result[0].products;
+      this.form.value.products = result[0].products == undefined || result[0].products == null ? [''] : result[0].products;
       this.form.value.closingDate =  result[0].closingDate == null ? null : new Date(result[0].closingDate.seconds * 1000);
-      this.form.value.closingIncome = result[0].closingIncome;
-      this.form.value.closingReason = result[0].closingReason;
+      this.form.value.closingIncome = result[0].closingIncome == undefined ? "" : result[0].closingIncome;
+      this.form.value.closingReason = result[0].closingReason == undefined ? "" : result[0].closingReason;
       this.form.value.progressInfo = result[0].progressInfo == undefined ? null : result[0].progressInfo;
       this.fbService.getFilteredByIdList("sales-history", result[0].id, "salesId").subscribe( res =>{
         res.forEach(element => {
@@ -243,7 +244,6 @@ export class SummaryPageComponent implements OnInit {
       comeFrom: this.form.value.comeFrom 
     } as ISale
 
-    console.log(sale)
 
     this.newSale = sale;
     if((this.oldStatus != "closedOk" && this.oldStatus != "closedNo") || this.newStatus != "In Progress" ){
@@ -255,17 +255,21 @@ export class SummaryPageComponent implements OnInit {
   }
 
   getFile(){
-    this.fileService.getSaleFile(this.form.value.companyId, "1").subscribe(result => {
-      this.uploadedFiles = [result]
+    this.fileService.getSaleFile(this.form.value.saleId, "1").subscribe(result => {
+      this.uploadedFiles = [{text: 'Feltöltött file', file: result}]
     })
   }
 
-  onUpload(event) {
+  onUpload(event, upload) {
     for(let file of event.files) {
         this.uploadedFiles = []
-        this.uploadedFiles =["Sikeres feltöltés"];
-        this.fileService.uploadSaleFile(this.form.value.companyId, "1",file)
+        this.uploadedFiles =[{text: "Sikeres feltöltés", file: file}];
+        this.fileService.uploadSaleFile(this.form.value.saleId, "1",file).then( () =>
+          this.getFile()
+        )
     }
+
+    upload.clear();
   }
 
   showDialog(){
@@ -307,6 +311,7 @@ export class SummaryPageComponent implements OnInit {
             if(itemOld[0] == 'products'){
               let productsOld = ''
               let productsNew = ''
+              console.log(itemOld)
               itemOld[1].forEach(element => {
                 productsOld += element + ", "
               });

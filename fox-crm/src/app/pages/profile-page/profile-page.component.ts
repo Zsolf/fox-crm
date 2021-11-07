@@ -64,7 +64,6 @@ export class ProfilePageComponent implements OnInit {
         }
         this.getAvatar();
       })
-      console.log(this.storageService.currenUserAvatar)
     
       }
     })
@@ -122,7 +121,6 @@ export class ProfilePageComponent implements OnInit {
     this.storageService.getAvatarByPath(this.user.avatarPath).subscribe( result => {
       this.avatarURL = result
       this.storageService.currenUserAvatar =this.avatarURL
-      console.log( this.storageService.currenUserAvatar)
       this.storageService.usersAvatar.forEach(element =>{
         if(element.id == this.user.id){
           element.avatar =this.avatarURL

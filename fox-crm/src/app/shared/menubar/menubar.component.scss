@@ -53,6 +53,10 @@ a :hover{
     cursor: pointer;
 }
 
-button + button{
+.menuButton + .menuButton{
     margin-left: 10px;
+}
+
+::ng-deep .mat-menu-panel{
+    overflow: none;
 }

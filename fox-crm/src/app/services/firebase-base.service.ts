@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { element } from 'protractor';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -49,6 +48,11 @@ export class FirebaseBaseService {
 
     getFilteredByIdList(collectionName: string, givenId: string, givenIdName: string): Observable<any>{
       let coll = this.afs.collection(collectionName,ref => ref.where(givenIdName, '==', givenId))
+      return coll.valueChanges()
+    }
+
+    getLimitedList(collectionName: string, givenId: string, givenIdName: string): Observable<any>{
+      let coll = this.afs.collection(collectionName,ref => ref.where(givenIdName, '==', givenId).limit(20))
       return coll.valueChanges()
     }
 

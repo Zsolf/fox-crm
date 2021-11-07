@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     }
     this.authService.login(this.form.value.email, this.form.value.password).then(
       result => { 
-            this.router.navigateByUrl('/products') 
+            this.router.navigateByUrl('/home') 
       },
       (error) => {
         this.alertMessage = (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password')

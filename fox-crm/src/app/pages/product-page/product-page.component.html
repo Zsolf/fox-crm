@@ -1,3 +1,4 @@
+<div class="main">
 <div class="tableDiv" [@fadeAnimation]="'in'">
     <table mat-table [dataSource]="dataSource" class="rows" matSort matSortActive="name" matSortDirection="asc" (matSortChange)="sortData($event)">
     <ng-container matColumnDef="code">
@@ -111,3 +112,4 @@
         <button mat-raised-button color="primary" [disabled]="formInvalid" (click)="addProduct()">Hozzáadás</button>
     </div>
   </div>
+</div>

@@ -7,6 +7,7 @@ import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { StorageService } from 'src/app/services/firebase-file.service';
 import { UserService } from 'src/app/services/firebase-user.services';
+import { ICompany } from 'src/app/shared/models/company.model';
 import { ISale } from 'src/app/shared/models/sale.model';
 import { ITask } from 'src/app/shared/models/task.model';
 import { IUser } from 'src/app/shared/models/user.model';
@@ -34,14 +35,17 @@ import { IUser } from 'src/app/shared/models/user.model';
 export class TaskComponent implements OnInit {
   @Input() dialog = {show: false, saleForm: {} as ISale , users: []}
 
+  @Input() showTask = {currentUser: {} as IUser}
+
   @Output() closeEvent = new EventEmitter<boolean>();
 
   constructor( private route: ActivatedRoute, private fbService: FirebaseBaseService, private userService: UserService,
      private storageService: StorageService, private confirmationService: ConfirmationService) { }
 
   selectedUser: any;
-  tasks: {task: ITask, user: IUser, avatar: string}[]
+  tasks: {task: ITask, user: IUser, avatar?: string}[]
   tasksAll: {task: ITask, user: IUser, avatar: string}[]
+  groupedTasks: {company: ICompany, tasks: {task: ITask, user: IUser, sale: ISale}[]}[]
   hasData : boolean;
   showEditIcon: {id: string, show: boolean} []
 
@@ -65,6 +69,7 @@ export class TaskComponent implements OnInit {
     this.tasksAll = []
     this.hasData = false
     this.onGoingEdit = false;
+    this.groupedTasks = []
   }
 
   getTasks(){
@@ -112,15 +117,60 @@ export class TaskComponent implements OnInit {
     })
   }
 
+  getUserTasks(){
+    this.fbService.getFilteredByIdList("tasks",this.showTask.currentUser.id, "responsibleId").subscribe(result =>{
+      result.forEach(element => {
+        this.fbService.getById("sales",element.salesId).subscribe(resu => {
+          if(element.dueTo > Firebase.firestore.Timestamp.fromDate(new Date)){ 
+            this.fbService.getById("companies",element.companyId).subscribe(res =>{
+              let hasGroup = false;
+              this.groupedTasks.forEach(eleme => {
+                if(eleme.company.id == res.id){
+                  if(this.groupedTasks.find(elem => {
+                    return elem.tasks.find(e => e.task.id == element.id) != undefined
+                  })== undefined && element != undefined){
+                  eleme.tasks.push({task: element, user: this.showTask.currentUser,sale: resu})
+                  }
+                  eleme.tasks.sort((a,b)=> {
+                    if(a.task.dueTo > b.task.dueTo){
+                      return 1
+                    }
+                    if(a.task.dueTo == b.task.dueTo){
+                      return 0
+                    }
+                    if(a.task.dueTo < b.task.dueTo){
+                      return -1
+                    }
+                  }
+                )
+                  hasGroup = true
+                }
+              });
+  
+              if(hasGroup == false){
+                this.groupedTasks.push({company: res, tasks: [{task: element, user: this.showTask.currentUser, sale: resu}]})
+              }
+            })
+          }
+        
+        })
+        
+      });
+    })
+    
+  }
+
   ngDoCheck(): void {
-    if(this.dialog.saleForm.id != "" && this.hasData== false && this.dialog.users != undefined){
+    if(this.dialog.saleForm.id != ""  && this.dialog.saleForm.id != undefined && this.hasData== false && this.dialog.users != undefined){
       this.selectedUser = this.dialog.users[0]
-      
       this.getTasks()
       this.hasData = true
     }else if(this.editId != "" && this.onGoingEdit == false && this.dialog.show == true){
         this.onGoingEdit = true;
         this.getTask()
+    }else if( this.showTask.currentUser != undefined && this.showTask.currentUser.id != undefined && this.hasData == false ){
+      this.hasData = true;
+      this.getUserTasks();
     }
   }
 
@@ -161,8 +211,6 @@ export class TaskComponent implements OnInit {
           element.user = res[0]
           element.avatar = this.storageService.usersAvatar.find(elem => elem.id == element.user.id).avatar
           })
-          
-          console.log(element)
         }
       });
       this.tasksAll.forEach(element => {
@@ -233,6 +281,5 @@ export class TaskComponent implements OnInit {
         }
     });
 }
-
 
 }

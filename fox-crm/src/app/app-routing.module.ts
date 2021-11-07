@@ -6,9 +6,11 @@ import { CompanyPageComponent } from './pages/main-page/company-page.component';
 import { ProductPageComponent } from './pages/product-page/product-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SalePageComponent } from './pages/sale-page/sale-page.component';
+import { StartPageComponent } from './pages/start-page/start-page.component';
 import { AuthGuard } from './shared/guards/auth.guards';
 
 const routes: Routes = [ 
+  { path: 'home', component: StartPageComponent, canActivate: [AuthGuard]},
   { path: 'products', component: ProductPageComponent, canActivate: [AuthGuard]},
   { path: 'company/:comp/:sale', component: CompanyPageComponent, canActivate: [AuthGuard]},
   { path: 'sale', component: SalePageComponent, canActivate: [AuthGuard]},

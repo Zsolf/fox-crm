@@ -1,4 +1,4 @@
-<div class="third">
+<div class="third" *ngIf="showTask.currentUser != undefined && showTask.currentUser.id == undefined">
     <div (mouseover)="showIcon(data.task.id, true)" (mouseleave)="showIcon(data.task.id, false)" *ngFor="let data of tasks" [@fadeAnimation]="'in'" >
         <a (click)="openEdit(data.task.id)" ><img *ngIf="isShowIconTrue(this.data.task.id)" src="assets/pen-icon.png"  class="smallIcon"></a>
         <a (click)="confirmDelete(data.task.id)" ><img *ngIf="isShowIconTrue(this.data.task.id)" src="assets/delete-icon.png"  class="smallDeleteIcon"></a>
@@ -14,13 +14,47 @@
                 <span>{{data.task.description}}</span>
         </div>
 
-        
-
         <div class="date">
         <h4>{{data.task.createdAt | toDateFull }}</h4>
         </div>
     <p-divider></p-divider>
     </div>
+</div>
+
+<div  *ngIf="showTask.currentUser != undefined && showTask.currentUser.id != undefined">
+    <div style="margin-bottom: 10px;" *ngFor="let company of groupedTasks" [@fadeAnimation]="'in'" >
+        <p-panel styleClass="groupPanel">
+            <ng-template pTemplate="header">
+                {{company.company.name}}
+            </ng-template>
+            <div *ngFor="let data of company.tasks">
+                <a  [routerLink]="'/company/'+data.task.companyId+'/'+data.sale.saleId">
+                <div style="display: flex;">
+                    <div class="leftSide">
+                        <i class="pi pi-bell bell"></i>
+                        <h5 class="historyUserName">{{data.user.lastName + " " + data.user.firstName}}</h5>
+                    </div>
+                    <h2 class="historyTitle home" >{{data.task.title}} ({{data.task.dueTo |toDateFull}}-ig)</h2>
+                    <h2 class ="historyTitle saleId">#{{data.sale.saleId}}</h2>
+                </div>
+                <div class="historyDescription">       
+                        <span>{{data.task.description}}</span>
+                </div>
+        
+                <div class="date">
+                <h4>{{data.task.createdAt | toDateFull }}</h4>
+                </div>
+           
+            <p-divider></p-divider>
+        </a>
+        </div>
+     </p-panel>
+    </div>
+</div>
+
+<div *ngIf="groupedTasks.length == 0 && tasks.length == 0" class="void" > 
+    <h2 style="color: gray; opacity: 50%;">Hatalmas üresség...</h2>
+    <img src="assets/Foxcrm-logo2.png" class="saturate">
 </div>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>

@@ -1,19 +1,19 @@
 <div class="menubar">
     <mat-toolbar class="mat-elevation-z8" >
         <img src="assets/foxcrm-logo.png" class="logo" >
-        <button style="color: #ffff; margin-left: 20px;" mat-stroked-button routerLinkActive='active' routerLink='/sale' >
+        <button class="menuButton" style="color: #ffff; margin-left: 20px;" mat-stroked-button routerLinkActive='active' routerLink='/home' >
             <span>Kezdőlap</span>
         </button>
-        <button style="color: #ffff;"  routerLinkActive='active' routerLink='/products' mat-stroked-button>
+        <button class="menuButton" style="color: #ffff;"  routerLinkActive='active' routerLink='/products' mat-stroked-button>
             <span>Termékek</span>
         </button>
-        <button style="color: #ffff;" mat-stroked-button routerLinkActive='active' routerLink='/sale' >
+        <button class="menuButton" style="color: #ffff;" mat-stroked-button routerLinkActive='active' routerLink='/sale' >
             <span>Értékesítések</span>
         </button>
         <div class="account">
         <img *ngIf="getFileServiceAvatar() !='assets/avatar-icon.png' && user.avatarPath != '/avatars/avatar-icon.png' " src="{{getFileServiceAvatar()}}" class="icon" [@fadeAnimation]="'in'">
         <img *ngIf="getFileServiceAvatar() =='assets/avatar-icon.png' ||  user.avatarPath == '/avatars/avatar-icon.png'" src="{{getFileServiceAvatar()}}" class="iconPlain" >
-        <span class="name">{{user.firstName + " " + user.lastName}}</span>
+        <span class="name">{{user.lastName + " " + user.firstName}}</span>
         <a [matMenuTriggerFor]="menu" >	<mat-icon class="settings-icon">menu</mat-icon></a>
         <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink="/my-profile">

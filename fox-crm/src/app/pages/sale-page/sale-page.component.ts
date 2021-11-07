@@ -45,7 +45,24 @@ export class SalePageComponent implements OnInit {
 
     tmp: any []
 
+    saleCounter: number
+    saleMax: number
+
+    compCounter: number
+    compMax: number
+
     ngOnInit(): void {
+      
+      this.fbService.getAll("sales").subscribe(result =>{
+        this.saleMax = result.length
+      })
+
+      this.fbService.getAll("companies").subscribe(result =>{
+        this.compMax = result.length
+      })
+
+      this.saleCounter = 0
+      this.compCounter = 0
       this.modeSelect = false
       this.tree = [[]]
       this.closedTree = [[]]
@@ -78,13 +95,14 @@ export class SalePageComponent implements OnInit {
             let children = []
             let closedChildren = []
           res.forEach(el => {
-            let isFind = false;
                   if(el.status == "closedOk" || el.status == "closedNo"){
+                  this.saleCounter = this.saleCounter + 1;
                     closedChildren.push({label: "#"+el.saleId, styleClass: this.getStyleClass(el.status), companyId: element.id })
                   }else{
+                    
+                  this.saleCounter = this.saleCounter + 1;
                   children.push({label: "#"+el.saleId, styleClass: this.getStyleClass(el.status), companyId: element.id })
                   }
-          
           });
           children.sort((a: any, b: any): any =>{
             if(Number(a.label[1]) < Number(b.label[1])){
@@ -104,6 +122,7 @@ export class SalePageComponent implements OnInit {
             ) == undefined){
           this.tree.push(new Array ({label: element.name, styleClass: "company", expanded: true , children: children} as TreeNode))
           this.closedTree.push(new Array ({label: element.name, styleClass: "company", expanded: true , children: closedChildren} as TreeNode))
+            this.compCounter++
           } 
           }
         })

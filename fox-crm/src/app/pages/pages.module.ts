@@ -29,6 +29,8 @@ import {DividerModule} from 'primeng/divider';
 import { TaskComponent } from './main-page/task/task.component';
 import {InputTextModule} from 'primeng/inputtext';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { StartPageComponent } from './start-page/start-page.component';
+import {PanelModule} from 'primeng/panel';
 
 
 
@@ -43,7 +45,8 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     ContactDialogComponent,
     ProductPageComponent,
     ProductDialogComponent,
-    TaskComponent],
+    TaskComponent,
+    StartPageComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -65,6 +68,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     DividerModule,
     InputTextModule,
     ConfirmDialogModule,
+    PanelModule
   ],
   exports: []
 })

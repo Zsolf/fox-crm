@@ -11,7 +11,7 @@
                     <input id="file-input" type="file" (change)="upload($event)" accept="image/png, image/jpeg" />
                   </div>
                 <mat-hint style="color: red">{{fileError}}</mat-hint>
-                <h2>{{user.firstName + " " + user.lastName}}</h2>
+                <h2>{{user.lastName + " " + user.firstName}}</h2>
                 <hr>
                 <h3 class="position">{{user.position}}</h3>
                 <mat-form-field apperiance="fill">
