@@ -26,6 +26,7 @@
     overflow-y: auto;
 }
 
+
 ::ng-deep .secondPanel{
     
     max-width: inherit;
@@ -38,11 +39,13 @@
     min-width: 800px;
     max-height: 960px;
     overflow-y: auto;
+    margin-bottom: 20px;
 }
 
 .sideDiv{
     max-width: 50%;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 p-panel + .sideDiv{

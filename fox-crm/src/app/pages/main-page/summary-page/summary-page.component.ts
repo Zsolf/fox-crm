@@ -153,10 +153,10 @@ export class SummaryPageComponent implements OnInit {
       this.selectedUser = this.users.find(res => res.id == result[0].responsibleId)
       this.form.value.createdAt = result[0].createdAt;
       this.form.value.createdBy = result[0].createdBy;
-      this.form.value.concerns = result[0].concerns == undefined ? "" : result[0].concerns;
-      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? "" : result[0].surveyInfo;
-      this.form.value.comeFrom = result[0].comeFrom == undefined ? this.options[0] : result[0].comeFrom;
-      this.form.value.customerType = result[0].customerType == undefined ? 'Egyszeri' : result[0].customerType;
+      this.form.value.concerns = result[0].concerns == undefined ? null : result[0].concerns;
+      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? null : result[0].surveyInfo;
+      this.form.value.comeFrom = result[0].comeFrom == undefined ? null : result[0].comeFrom;
+      this.form.value.customerType = result[0].customerType == undefined ? null : result[0].customerType;
       this.form.value.status = result[0].status;
       this.form.value.expectedDate =  result[0].expectedDate == null ? null : new Date(result[0].expectedDate.seconds * 1000);
       this.form.value.expectedIncome = result[0].expectedIncome == undefined ? null : result[0].expectedIncome;
@@ -311,7 +311,6 @@ export class SummaryPageComponent implements OnInit {
             if(itemOld[0] == 'products'){
               let productsOld = ''
               let productsNew = ''
-              console.log(itemOld)
               itemOld[1].forEach(element => {
                 productsOld += element + ", "
               });

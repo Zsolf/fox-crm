@@ -31,6 +31,8 @@ import {InputTextModule} from 'primeng/inputtext';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { StartPageComponent } from './start-page/start-page.component';
 import {PanelModule} from 'primeng/panel';
+import { StatisticPageComponent } from './statistic-page/statistic-page.component';
+import {ChartModule} from 'primeng/chart';
 
 
 
@@ -46,7 +48,8 @@ import {PanelModule} from 'primeng/panel';
     ProductPageComponent,
     ProductDialogComponent,
     TaskComponent,
-    StartPageComponent],
+    StartPageComponent,
+    StatisticPageComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -68,7 +71,8 @@ import {PanelModule} from 'primeng/panel';
     DividerModule,
     InputTextModule,
     ConfirmDialogModule,
-    PanelModule
+    PanelModule,
+    ChartModule
   ],
   exports: []
 })

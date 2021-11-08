@@ -1,0 +1,59 @@
+.main-panel{
+    padding-top: 110px;
+    width: 49.5%;
+    min-width: 700px;
+}
+
+
+.main{
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.mainDiv{
+    display: flex;
+}
+
+
+.mainDivTwo{
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+}
+
+::ng-deep .right-panel{
+    padding-top: 110px;
+    width: 49.5%;
+    min-width: 700px;
+    margin-left: 20px;
+}
+
+::ng-deep .down-panel{
+    margin-top: 20px;
+    width: 49.5%;
+    min-width: 700px;
+    margin-bottom: 20px;
+    align-self: center;
+}
+
+.newButtons{
+    margin-left: auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+::ng-deep .p-panel .p-panel-header{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#faa079), color-stop(100%,#009CFF));
+    color: white;
+    height: 60px;
+}
+
+h2{
+    margin-top: 13px;
+    margin-right: 5px;
+
+    margin-left: 15px;
+}
+
+

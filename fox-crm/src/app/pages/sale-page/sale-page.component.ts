@@ -37,9 +37,11 @@ export class SalePageComponent implements OnInit {
     selectedNode: TreeNode;
 
     modeSelect: boolean;
+    oldMode: boolean;
 
     tree: TreeNode[][]
     closedTree: TreeNode[][]
+    allTree: TreeNode[][]
 
     companies: ICompany[]
 
@@ -64,8 +66,10 @@ export class SalePageComponent implements OnInit {
       this.saleCounter = 0
       this.compCounter = 0
       this.modeSelect = false
+      this.oldMode = false
       this.tree = [[]]
       this.closedTree = [[]]
+      this.allTree = [[]]
         this.getData()
   }
 
@@ -78,7 +82,12 @@ export class SalePageComponent implements OnInit {
       })[0]
       let company = this.companies.find(elem => elem.name == event.node.label)
       this.userService.companyPageStart = "company"
-      this.router.navigateByUrl("/company/"+company.id+"/"+companyTree.children[companyTree.children.length-1].label[1])
+      let allTreeItem = this.allTree.find(elem=>{
+        if(elem[0] != undefined){
+        return elem[0].label == event.node.label
+       }
+     })[0]
+      this.router.navigateByUrl("/company/"+company.id+"/"+allTreeItem.children[allTreeItem.children.length-1].label[1])
     }else{  
       this.router.navigateByUrl("/company/"+event.node.companyId+"/"+event.node.label[1])
     }
@@ -104,6 +113,8 @@ export class SalePageComponent implements OnInit {
                   children.push({label: "#"+el.saleId, styleClass: this.getStyleClass(el.status), companyId: element.id })
                   }
           });
+          let allChildren = closedChildren.concat(children)
+          
           children.sort((a: any, b: any): any =>{
             if(Number(a.label[1]) < Number(b.label[1])){
               return -1
@@ -114,6 +125,29 @@ export class SalePageComponent implements OnInit {
             }
   
           })
+
+          closedChildren.sort((a: any, b: any): any =>{
+            if(Number(a.label[1]) < Number(b.label[1])){
+              return -1
+            }
+  
+            if(Number(a.label[1]) > Number(b.label[1])){
+              return 1
+            }
+  
+          })
+
+          allChildren.sort((a: any, b: any): any =>{
+            if(Number(a.label[1]) < Number(b.label[1])){
+              return -1
+            }
+  
+            if(Number(a.label[1]) > Number(b.label[1])){
+              return 1
+            }
+  
+          })
+
           if (this.tree.find(eleme => {
               if(eleme[0] != undefined){
                 return eleme[0].label == element.name
@@ -122,6 +156,7 @@ export class SalePageComponent implements OnInit {
             ) == undefined){
           this.tree.push(new Array ({label: element.name, styleClass: "company", expanded: true , children: children} as TreeNode))
           this.closedTree.push(new Array ({label: element.name, styleClass: "company", expanded: true , children: closedChildren} as TreeNode))
+          this.allTree.push(new Array ({label: element.name, styleClass: "company", expanded: true , children: allChildren} as TreeNode))
             this.compCounter++
           } 
           }
@@ -162,6 +197,12 @@ export class SalePageComponent implements OnInit {
   }
 
   ngDoCheck(): void {
+    if(this.oldMode != this.modeSelect){
+      this.oldMode = this.modeSelect
+      this.tree = [[]]
+      this.closedTree = [[]]
+      this.getData()
+    }
   }
 
 }

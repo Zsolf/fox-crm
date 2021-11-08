@@ -75,6 +75,7 @@ button + span{
 
 
 :host ::ng-deep .p-organizationchart {
+    height: 100px !important;
     .surveyText{
         background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
         color: #ffffff

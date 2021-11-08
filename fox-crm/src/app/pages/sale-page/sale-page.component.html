@@ -12,13 +12,13 @@
                 </div>
                 </ng-template>
             <div class="charts" *ngIf="modeSelect == false">
-                <div *ngFor="let data of tree">
-                    <p-organizationChart [preserveSpace]="false" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
+                <div *ngFor="let data of tree" [@fadeAnimation]="'in'">
+                    <p-organizationChart [preserveSpace]="true" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
                 </div>
             </div>
             <div class="charts" *ngIf="modeSelect == true">
-                <div *ngFor="let data of closedTree">
-                    <p-organizationChart [preserveSpace]="false" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
+                <div *ngFor="let data of closedTree" [@fadeAnimation]="'in'">
+                    <p-organizationChart [preserveSpace]="true" [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"></p-organizationChart>
                 </div>
             </div>
             <ng-template pTemplate="footer">

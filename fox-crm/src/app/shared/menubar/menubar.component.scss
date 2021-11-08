@@ -60,3 +60,7 @@ a :hover{
 ::ng-deep .mat-menu-panel{
     overflow: none;
 }
+
+mat-icon + span{
+    margin-left: 10px;
+}

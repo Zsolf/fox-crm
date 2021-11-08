@@ -52,7 +52,7 @@ export class StartPageComponent implements OnInit {
                 this.userService.getById(history.createdBy).subscribe(resu =>{
                 if(this.groupedHistories.find(elem =>{
                   return elem.history.id == history.id
-                })== undefined){
+                })== undefined && sale.status != "closedOk" && sale.status != "closedNo"){
                     let av = this.storageService.usersAvatar.find(elem => elem.id == resu[0].id).avatar
                     this.groupedHistories.push({company: res, sale: sale, history: history, user: resu[0], avatar: av})
                     this.groupedHistories.sort((a,b)=> {
@@ -77,7 +77,7 @@ export class StartPageComponent implements OnInit {
   }
 
   ngDoCheck(): void {
-    if(this.userService.user != undefined && this.isDataSet == false){
+    if(this.userService.user != undefined && this.storageService.usersAvatar.length > 0 && this.isDataSet == false){
     this.getHistories()
     this.isDataSet = true
     }
