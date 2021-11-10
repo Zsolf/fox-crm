@@ -27,6 +27,6 @@ export class toDateFull implements PipeTransform {
     if(sysDate.getFullYear() == year && (sysDate.getMonth() + 1) == month && sysDate.getDate() == day){
       return "Ma " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : "") + date.getMinutes()
     }
-   return year + "-" + month + "-" + (day < 10 ? '0' : "") + day + " " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : "") + date.getMinutes()
+   return year + "-" + (month < 10 ? '0' : "") + month + "-" + (day < 10 ? '0' : "") + day + " " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : "") + date.getMinutes()
   }
 }

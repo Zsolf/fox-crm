@@ -1,4 +1,6 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { UserService } from 'src/app/services/firebase-user.services';
 import { ISale } from 'src/app/shared/models/sale.model';
@@ -7,24 +9,36 @@ import { IUser } from 'src/app/shared/models/user.model';
 @Component({
   selector: 'fcrm-statistic-page',
   templateUrl: './statistic-page.component.html',
-  styleUrls: ['./statistic-page.component.scss']
+  styleUrls: ['./statistic-page.component.scss'],
+  animations: [  trigger('fadeAnimation', [
+
+    state('in', style({opacity: 1})),
+
+    transition(':enter', [
+      style({opacity: 0}),
+      animate(600 )
+    ]),
+
+    transition(':leave',
+      animate(600, style({opacity: 0})))
+  ])]
 })
 export class StatisticPageComponent implements OnInit {
 
-  constructor(private fbService: FirebaseBaseService, private userService: UserService, private cd: ChangeDetectorRef) { }
+  constructor(private fbService: FirebaseBaseService, private userService: UserService, private route: ActivatedRoute) { }
 
   sales: ISale[]
 
   
   data: any;
-
   productData: {labels: string[], datasets: any[]};
-
   userData: any;
+  financeData: any;
 
   statusesByMonth: {closedOk: number, closedNo: number, survey: number, inProgress: number }[]
   productsByMonth: {name: string, occurence: number }[][]
   usersStatusesByMonth: {name: string, statuses: {closedOk: number, closedNo: number}}[][]
+  financialByMonth: {expectedIncome: number, closingIncome: number}[]
 
   months = [{name:'Január', id: 0}, {name:'Február', id: 1}, {name:'Március', id: 2}, {name:'Április', id: 3}, {name:'Május', id: 4},
   {name:'Június', id: 5}, {name:'Július', id: 6}, {name:'Augusztus', id: 7}, {name:'Szeptember', id: 8}, {name:'Október', id: 9}, {name:'November', id: 10}, {name:'December', id: 11},]
@@ -38,43 +52,118 @@ export class StatisticPageComponent implements OnInit {
   selectedMonthUsers: {name: string, id: number}
   chartOptions: any;
 
+  isFinancial: boolean;
+  isSale: boolean;
+
+  currentExpectedIncome: number;
+  currentClosingIncome: number;
+
   ngOnInit(): void {
 
     this.selectedMonthFirst = this.months[new Date().getMonth()]
     this.selectedMonthSecond = this.months[(new Date().getMonth() == 0 ? 12 : new Date().getMonth() - 1)]
     this.selectedMonthStatus = this.months[new Date().getMonth()]
     this.selectedMonthUsers = this.months[new Date().getMonth()]
-    this.products = []
-    this.productsByMonth = []
-    this.users = []
 
-        this.statusesByMonth = []
-        this.usersStatusesByMonth = []
-        this.data = {}
+        this.route.params.subscribe(result =>{
+            this.products = []
+                this.productsByMonth = []
+                this.users = []
+                this.statusesByMonth = []
+                this.usersStatusesByMonth = []
+                this.data = {}
+                this.productData = {} as {labels: string[], datasets: any[]};
+                this.userData = {};
+                this.financialByMonth = []
+                this.financeData = {};
+                this.currentClosingIncome = 0;
+                this.currentExpectedIncome = 0;
 
-        this.productData = {} as {labels: string[], datasets: any[]};
-
-        this.userData = {};
-
-        this.chartOptions = this.getDarkTheme()
-
-        this.fbService.getAll("sales").subscribe(result =>{
-            this.sales = result
-            this.getFirstData()
-            this.fbService.getAll("groups").subscribe(res =>{
-                this.products = res
-                this.getSecondData()
-            })
-            this.fbService.getAll("users").subscribe(res =>{
-                this.users = res
-                this.getUserData()
-            })
+                this.isSale = false
+                this.isFinancial = true;
+                this.fbService.getAll("sales").subscribe(result =>{
+                    this.sales = result
+                    this.getFirstData()
+                    this.getFinancialData()
+                    this.fbService.getAll("groups").subscribe(res =>{
+                        this.products = res
+                        this.getSecondData()
+                    })
+                    this.fbService.getAll("users").subscribe(res =>{
+                        this.users = res
+                        this.getUserData()
+                    })
+                })
+            if(result['type'] == 'financial'){
+                this.isSale = false
+                this.isFinancial = true;
+            }else{
+                this.isSale = true;
+                this.isFinancial = false
+            }
         })
 
         
   }
 
     ngDoCheck(): void {
+    }
+
+    getFinancialData(){
+        for (let i = 1; i <= 12; i++) {
+            let finance = {expectedIncome: 0, closingIncome: 0}
+            this.sales.forEach(element =>{
+                if(element.expectedDate != null){
+                    let expectedDate = new Date(element.expectedDate.seconds *1000)
+                    if(expectedDate.getMonth() + 1 == i && expectedDate.getFullYear() == (new Date().getFullYear())){
+                        finance.expectedIncome += element.expectedIncome
+                    }
+                }
+                if(element.closingDate != null){
+                    let closingDate = new Date(element.closingDate.seconds *1000)
+                    if(closingDate.getMonth() + 1 == i && closingDate.getFullYear() == (new Date().getFullYear())){
+                        finance.closingIncome += element.closingIncome
+                    }
+                }
+                
+            })
+            this.financialByMonth.push(finance)
+        }
+
+        let labels = []
+        let eData = []
+        let cData = []
+
+        for (let i = 0; i <= this.months.length - ( 12 - new Date().getMonth()); i++) {
+            eData.push(this.financialByMonth[i].expectedIncome)
+            cData.push(this.financialByMonth[i].closingIncome)
+            labels.push(this.months[i].name)
+        }
+
+        this.financeData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Várható bevétel',
+                    data: eData,
+                    fill: false,
+                    borderColor: '#42A5F5',
+                    tension: .4
+                },
+                {
+                    label: 'Valódi bevétel',
+                    data: cData,
+                    fill: true,
+                    borderColor: '#E8591B',
+                    tension: .4,
+                    backgroundColor: 'rgba(232,89,27,0.2)'
+                }
+            ]
+        };
+
+        this.currentExpectedIncome = this.financialByMonth[new Date().getMonth()].expectedIncome
+        this.currentClosingIncome = this.financialByMonth[new Date().getMonth()].closingIncome
+        
     }
 
     getUserData(){
@@ -85,7 +174,7 @@ export class StatisticPageComponent implements OnInit {
             })
             this.sales.forEach(element => {
                 let createdAt = new Date(element.createdAt.seconds *1000)
-                if(createdAt.getMonth()+1 == i){
+                if(createdAt.getMonth()+1 == i && createdAt.getFullYear() == (new Date().getFullYear())){
                     this.users.forEach(elem =>{
                         if(elem.id == element.responsibleId){
                             usersName.forEach(e =>{
@@ -137,7 +226,7 @@ export class StatisticPageComponent implements OnInit {
             let statuses = [0,0,0,0]
             this.sales.forEach(element => {
                 let createdAt = new Date(element.createdAt.seconds *1000)
-            if(createdAt.getMonth()+1 == i){
+            if(createdAt.getMonth()+1 == i && createdAt.getFullYear() == (new Date().getFullYear())){
                 element.status == 'Survey' ? statuses[2]++ : element.status == 'In Progress' ? statuses[3]++ : element.status == 'closedNo' ? statuses[1]++ : statuses[0]++
             } 
             });
@@ -175,7 +264,7 @@ export class StatisticPageComponent implements OnInit {
             });
             this.sales.forEach(element => {
                 let createdAt = new Date(element.createdAt.seconds *1000)
-                if(createdAt.getMonth()+1 == i && element.products != null){
+                if(createdAt.getMonth()+1 == i && element.products != null && createdAt.getFullYear() == (new Date().getFullYear())){
                     element.products.forEach(elem =>{
                         productsName.forEach(e => {
                             if(elem == e.name){

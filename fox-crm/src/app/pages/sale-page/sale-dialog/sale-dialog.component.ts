@@ -162,6 +162,8 @@ export class SaleDialogComponent implements OnInit {
       responsibleId: this.selectedUser.id,
       createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
       createdBy: this.userService.user.id,
+      expectedIncome: 0,
+      closingIncome: 0
     } as ISale
 
     let historyEvent = {

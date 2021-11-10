@@ -159,10 +159,10 @@ export class SummaryPageComponent implements OnInit {
       this.form.value.customerType = result[0].customerType == undefined ? null : result[0].customerType;
       this.form.value.status = result[0].status;
       this.form.value.expectedDate =  result[0].expectedDate == null ? null : new Date(result[0].expectedDate.seconds * 1000);
-      this.form.value.expectedIncome = result[0].expectedIncome == undefined ? null : result[0].expectedIncome;
+      this.form.value.expectedIncome = result[0].expectedIncome == undefined ? 0 : result[0].expectedIncome;
       this.form.value.products = result[0].products == undefined || result[0].products == null ? [''] : result[0].products;
       this.form.value.closingDate =  result[0].closingDate == null ? null : new Date(result[0].closingDate.seconds * 1000);
-      this.form.value.closingIncome = result[0].closingIncome == undefined ? "" : result[0].closingIncome;
+      this.form.value.closingIncome = result[0].closingIncome == undefined ? 0 : result[0].closingIncome;
       this.form.value.closingReason = result[0].closingReason == undefined ? "" : result[0].closingReason;
       this.form.value.progressInfo = result[0].progressInfo == undefined ? null : result[0].progressInfo;
       this.fbService.getFilteredByIdList("sales-history", result[0].id, "salesId").subscribe( res =>{
@@ -279,7 +279,7 @@ export class SummaryPageComponent implements OnInit {
   changeStatus(status: string){
     this.form.value.closingDate = null;
     this.form.value.closingReason = ""
-    this.form.value.closingIncome = ""
+    this.form.value.closingIncome = 0
     this.oldStatus = this.form.value.status
     this.form.value.status = status;
     this.newStatus = status

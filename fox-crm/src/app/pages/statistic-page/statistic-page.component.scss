@@ -10,6 +10,16 @@
     margin: 0 auto;
 }
 
+.upper-panel{
+    padding-top: 110px;
+   width: 100%;
+    min-width: 700px;
+}
+
+.bottom-panel{
+    margin-top: 20px;
+}
+
 .mainDiv{
     display: flex;
 }
@@ -49,11 +59,37 @@
     height: 60px;
 }
 
+::ng-deep .upperPanel .p-panel .p-panel-header{
+    height: 0px !important;
+}
+
+::ng-deep .upperPanel{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+
 h2{
     margin-top: 13px;
     margin-right: 5px;
 
     margin-left: 15px;
+}
+
+.expected{
+    font-size: 70px;
+    font-family: 'Trebuchet MS', sans-serif;
+    text-shadow: 2px 2px #1c1b1b;
+    color: #42A5F5
+}
+
+.closed{
+    font-size: 70px;
+    font-family: 'Trebuchet MS', sans-serif;
+    text-shadow: 2px 2px #1c1b1b;
+    color: #E8591B
 }
 
 

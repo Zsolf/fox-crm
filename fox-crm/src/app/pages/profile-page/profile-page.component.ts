@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/firebase-user.services';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/services/firebase-file.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'fcrm-profile-page',
@@ -33,7 +34,9 @@ export class ProfilePageComponent implements OnInit {
   constructor( private userService: UserService, 
     public dialog: MatDialog,
     private authService: AuthService,
-    private storageService: StorageService ) { }
+    private storageService: StorageService, 
+    private route: ActivatedRoute,
+    private router: Router ) { }
 
   user: IUser;
   form: FormGroup;
@@ -42,12 +45,32 @@ export class ProfilePageComponent implements OnInit {
 
   avatarURL: string;
 
+  isMyProfile: boolean
+  userId: string;
+
 
   ngOnInit(): void {
     this.user = {firstName: "", lastName: ""} as IUser;
 
-    let queryRunning = true;
+    this.route.params.subscribe(result =>{
+      if(result['uid'] == undefined){
+        this.isMyProfile = true
+        console.log(this.isMyProfile)
+      }else{
+        this.isMyProfile = false
+        this.userId = result['uid']
+      }
+    })
 
+  this.authService.currentUserObserable().subscribe(result =>{
+    if(result != null){
+     
+      console.log(result)
+    }
+  })
+  
+
+    if(this.isMyProfile){
     this.authService.currentUserObserable().subscribe(result =>{
       if(result != null){
       this.userService.getByEmail(result.email).subscribe( result => {
@@ -59,14 +82,50 @@ export class ProfilePageComponent implements OnInit {
           phone: result[0].phone,
           position: result[0].position
         })
-        if(this.storageService.fileUrl == "EMPTY" || this.storageService.fileUrl == undefined){
-          this.getAvatarQuery(result[0].id)
-        }
         this.getAvatar();
       })
     
       }
     })
+  }else{
+    this.authService.currentUserObserable().subscribe(result =>{
+      if(result != null){
+      this.userService.getByEmail(result.email).subscribe( result => {
+          if(this.userId == result[0].id){
+            this.router.navigateByUrl('/my-profile')
+          }
+      })
+    }
+    })
+
+    this.userService.getById(this.userId).subscribe(result =>{
+      if(result[0] == undefined){
+      this.router.navigateByUrl('/my-profile')
+      }
+      this.user = result[0]
+      this.form.setValue({
+        email: result[0].email,
+        firstName: result[0].firstName,
+        lastName: result[0].lastName,
+        phone: result[0].phone,
+        position: result[0].position
+      })
+      let user = this.storageService.usersAvatar.find(elem => elem.id == this.userId)
+      if(user == undefined){
+        this.storageService.getAvatarByPath(this.user.avatarPath).subscribe(res =>{
+          this.avatarURL = res
+        })
+      }else{
+        this.avatarURL = user.avatar
+      }
+
+    },
+    error =>{
+      this.router.navigateByUrl('/my-profile')
+    })
+  }
+
+
 
 
     this.form = new FormGroup ({
@@ -135,11 +194,7 @@ export class ProfilePageComponent implements OnInit {
 
   getAvatar(){
     let url = this.storageService.fileUrl
-    if(url == undefined){
-      this.avatarURL = "assets/avatar-icon.png"
-    }else{
-      this.avatarURL = url
-    }
+    this.avatarURL = url
   }
 
   getFileServiceAvatar(): string{

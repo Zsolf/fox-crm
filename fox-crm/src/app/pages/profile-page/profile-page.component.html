@@ -1,12 +1,16 @@
 <div>
     <div class="cardDiv" [@fadeAnimation]="'in'">
-        <mat-card class="main">  
+        <mat-card [ngClass]="isMyProfile == true ? 'main' : 'mainSmall'">  
             <mat-card class="sideBar"> 
                 <div class="image-upload">
-                    <label for="file-input">
+                    <label *ngIf="isMyProfile" for="file-input">
                         <img *ngIf="getFileServiceAvatar() != 'assets/avatar-icon.png' && user.avatarPath != '/avatars/avatar-icon.png'"  src="{{getFileServiceAvatar()}}" class="avatar" >
                         <img *ngIf="getFileServiceAvatar() == 'assets/avatar-icon.png' || user.avatarPath== '/avatars/avatar-icon.png'"  src="{{getFileServiceAvatar()}}" class="avatarPlain" >
                     <img src="assets/add-icon.png" class="add">
+                    </label>
+                    <label *ngIf="!isMyProfile">
+                        <img *ngIf="avatarURL != 'assets/avatar-icon.png' && user.avatarPath != '/avatars/avatar-icon.png'"  src="{{avatarURL}}" class="avatar" >
+                        <img *ngIf="avatarURL == 'assets/avatar-icon.png' || user.avatarPath== '/avatars/avatar-icon.png'"  src="{{avatarURL}}" class="avatarPlain" >
                     </label>
                     <input id="file-input" type="file" (change)="upload($event)" accept="image/png, image/jpeg" />
                   </div>
@@ -23,12 +27,10 @@
                     <input matInput disabled="true" value="{{user.phone}}" >
                 </mat-form-field>
                 <div class="buttons">
-                    <button mat-raised-button color="primary">Módosítás</button>
-                    <button mat-raised-button color="accent">Feladatok</button>
                 </div>
             </mat-card>
 
-            <mat-card class="infoBar"> 
+            <mat-card *ngIf="isMyProfile" class="infoBar"> 
                 <form [formGroup]="form">
                 <div class=grid>
                     <div class="grid-element">

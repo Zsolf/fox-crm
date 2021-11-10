@@ -5,13 +5,13 @@
     <div *ngIf="!isEdit" mat-dialog-content>
         <div class="listDiv">
             <ul>
-                <li>Kód: {{product.code}}</li>
-                <li>Méret: {{product.size}}</li>
-                <li>Szín: {{product.color}}</li>
+                <li><i>Kód: </i>{{product.code}}</li>
+                <li><i>Méret:</i> {{product.size}}</li>
+                <li><i>Szín:</i> {{product.color}}</li>
             </ul>
             <ul>
-                <li>Anyag: {{product.madeOf}}</li>
-                <li>Ár: {{product.price}} HUF </li>
+                <li><i>Anyag:</i> {{product.madeOf}}</li>
+                <li><i>Ár:</i> {{product.price}} HUF </li>
             </ul>
         </div>
         <h2 *ngIf="product.description != null">Leírás</h2>

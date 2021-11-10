@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'company/:comp/:sale', component: CompanyPageComponent, canActivate: [AuthGuard]},
   { path: 'sale', component: SalePageComponent, canActivate: [AuthGuard]},
   { path: 'my-profile', component: ProfilePageComponent, canActivate: [AuthGuard]},
+  { path: 'profile/:uid', component: ProfilePageComponent, canActivate: [AuthGuard]},
   { path: 'registration', component: RegistrationComponent},
   { path: 'login', component: LoginComponent},
   { path: '**', redirectTo: 'login', pathMatch: 'full' }]
