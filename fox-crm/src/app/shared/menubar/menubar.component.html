@@ -1,0 +1,48 @@
+<div class="menubar">
+    <mat-toolbar class="mat-elevation-z8" >
+        <img src="assets/foxcrm-logo.png" class="logo" >
+        <button class="menuButton" style="color: #ffff; margin-left: 20px;" mat-stroked-button routerLinkActive='active' routerLink='/home' >
+            <mat-icon>home</mat-icon>
+            <span>Kezdőlap</span>
+        </button>
+        <button class="menuButton" style="color: #ffff;"  routerLinkActive='active' routerLink='/products' mat-stroked-button>
+            <mat-icon> local_offer</mat-icon>
+            <span >Termékek</span>
+        </button>
+        <button class="menuButton" style="color: #ffff;" mat-stroked-button routerLinkActive='active' routerLink='/sale' >
+            <mat-icon>work</mat-icon>
+            <span >Értékesítések</span>
+        </button>
+        <button [matMenuTriggerFor]="statistics"  class="menuButton" style="color: #ffff;" mat-stroked-button >
+            <mat-icon> bar_chart</mat-icon>
+            <span >Statisztikák</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #statistics="matMenu">
+            <button mat-menu-item routerLink="/statistic/financial">
+                <mat-icon> attach_money</mat-icon>
+                Pénzügyi
+            </button>
+            <button mat-menu-item routerLink="/statistic/sale">
+                <mat-icon>library_books</mat-icon>
+                Értékesítési
+            </button>
+        </mat-menu> 
+        <div class="account">
+        <img *ngIf="getFileServiceAvatar() !='assets/avatar-icon.png' && user.avatarPath != '/avatars/avatar-icon.png' " src="{{getFileServiceAvatar()}}" class="icon" [@fadeAnimation]="'in'">
+        <img *ngIf="getFileServiceAvatar() =='assets/avatar-icon.png' ||  user.avatarPath == '/avatars/avatar-icon.png'" src="{{getFileServiceAvatar()}}" class="iconPlain" >
+        <span class="name">{{user.lastName + " " + user.firstName}}</span>
+        <a [matMenuTriggerFor]="menu" >	<mat-icon class="settings-icon">menu</mat-icon></a>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/my-profile">
+                <mat-icon>person</mat-icon>
+                Profilom
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Kijelentkezés
+            </button>
+        </mat-menu> 
+        </div>
+  </mat-toolbar>
+</div>

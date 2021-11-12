@@ -1,0 +1,131 @@
+
+
+.main-page{
+    padding-top: 110px;
+  
+}
+
+.main{
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+
+::ng-deep .p-panel-content{
+    overflow-x: auto;
+    max-width: inherit;
+    background-color: whitesmoke;
+}
+
+::ng-deep .p-panel-header{
+height: 60px;
+    
+}
+
+::ng-deep .p-panel-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+::ng-deep .mainPanel{
+    
+    max-width: inherit;
+    min-width: 1320px
+}
+.charts{
+    margin-bottom: 50px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.surveyText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: #ffffff;
+    opacity: 90%;
+    
+    margin-left: 120px;
+}
+
+.inProgressText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff;
+    opacity: 90%;
+}
+
+.closedNoText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+    color: #ffffff;
+    opacity: 90%;
+}
+
+.closedOkText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+    color: #ffffff;
+    opacity: 90%;
+
+}
+
+button + span{
+    margin-right: 100px;
+    margin-left: 10px;
+}
+
+
+
+:host ::ng-deep .p-organizationchart {
+    height: 100px !important;
+    .surveyText{
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+        color: #ffffff
+    }
+    
+    .inProgressText{
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+        color: #ffffff
+    }
+    
+    .closedNoText{
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+        color: #ffffff
+    }
+    
+    .closedOkText{
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+        color: #ffffff
+    }
+
+    .company{
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0479c2), color-stop(100%,#009CFF));
+        color: #ffffff;
+    }
+
+    .compRoot{
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,#083e5f), color-stop(100%,#3f89b8));
+        color: #ffffff;
+    }
+
+}
+
+.newButtons{
+    margin-left: auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mode{
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+strong{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+::ng-deep .p-panel .p-panel-header{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#faa079), color-stop(100%,#009CFF));
+    color: white;
+}

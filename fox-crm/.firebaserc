@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "fox-crm-511f9": {
+      "hosting": {
+        "fox-crm": [
+          "fox-crm-511f9"
+        ]
+      }
+    }
+  }
+}

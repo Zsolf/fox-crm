@@ -1,0 +1,28 @@
+
+<form [formGroup]="form">
+    <h3>Kapcsolattartó személy adatainak módosítása</h3>
+    <mat-form-field [hidden]=!isMainDialog>
+        <mat-label >Keresztnév</mat-label>
+        <input matInput focus formControlName="firstName" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isMainDialog>
+        <mat-label >Vezetéknév</mat-label>
+        <input matInput focus formControlName="lastName" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isMainDialog>
+        <mat-label >Beosztás</mat-label>
+        <input matInput focus formControlName="position" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isContactDialog>
+        <mat-label>Telefonszám</mat-label>
+        <input matInput focus formControlName="phone" required>
+    </mat-form-field>
+    <mat-form-field [hidden]=!isContactDialog>
+        <mat-label>Email</mat-label>
+        <input matInput focus formControlName="email" required>
+    </mat-form-field>
+</form>
+<div>
+    <button mat-button color="accent" (click)="dialogRef.close()">Mégsem</button>
+    <button mat-button color="primary" [mat-dialog-close]="form.value" [disabled]="form.invalid">Módosítás</button>
+</div>

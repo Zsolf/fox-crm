@@ -1,0 +1,69 @@
+<div class="main">
+<div class="mainDiv">
+    <div class="main-panel" [@fadeAnimation]="'in'"> 
+        <p-panel styleClass="thirdPanel" >
+            <ng-template pTemplate="header">
+                Aktív értékesítéseid előzményei
+            </ng-template>
+            <div *ngIf="groupedHistories.length == 0"  class="void" > 
+                <h2 style="color: gray; opacity: 50%;">Hatalmas üresség...</h2>
+                <img src="assets/Foxcrm-logo2.png" class="saturate">
+            </div>
+
+                <div *ngFor="let data of groupedHistories" [@fadeAnimation]="'in'">
+                    <a  [routerLink]="'/company/'+data.sale.companyId+'/'+data.sale.saleId">
+                    <div class="historyElem" [@fadeAnimation]="'in'">
+                        <div style="display: flex;">
+                            <div class="leftSide">
+                                <img *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
+                                <img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
+                                <h5 class="historyUserName">{{data.user.lastName + " " + data.user.firstName}}</h5>
+                            </div>
+                            <h2 class="historyTitle" >{{data.history.name}}</h2>
+                            <h3 class="historyCompany">({{data.company.name + " #" + data.sale.saleId}})</h3>
+                        </div>
+                        <div class="historyDescription">
+                            <div *ngFor="let description of data.history.description">
+                                
+                                <span *ngIf="data.history.name != 'Státuszváltozás'"><b>{{description.dataName}}</b>
+                                    <br>
+                                    <del>{{description.oldData}}</del> --> <i>{{description.newData}}</i></span>
+
+                                    <div *ngIf="data.history.name == 'Státuszváltozás'" style="display: flex;">  
+                                        <button [ngClass]="description.oldData == 'Felmérés' ? 'surveyText' : description.oldData == 'Folyamatban van' ? 'inProgressText' : description.oldData == 'Lezárt (Sikertelen)' ? 'closedNoText' : 'closedOkText' " mat-flat-button>
+                                            {{description.oldData}}
+                                        </button>  
+                                        <span style=" margin-left: 5px;"> ___</span> 
+                                        <span style="margin-top: 6px; margin-right: 5px;">></span>  
+                                        <button [ngClass]="description.newData == 'Felmérés' ? 'surveyText' : description.newData == 'Folyamatban van' ? 'inProgressText' : description.newData == 'Lezárt (Sikertelen)' ? 'closedNoText' : 'closedOkText' " mat-flat-button>
+                                            {{description.newData}}
+                                        </button> 
+                                    </div>
+                                <br *ngIf="data.history.description[data.history.description.length-1].dataName != description.dataName">
+                                <br *ngIf=" data.history.description[data.history.description.length-1].dataName != description.dataName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="historyDate">
+                        <h3>{{data.history.createdAt | toDateFull }}</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    </a>
+                </div>
+        </p-panel>
+
+        <div class="sideDiv">
+
+            <img class="logoText" src="assets/foxcrm-logo.png">
+
+            <p-panel styleClass="firstPanel">
+                <ng-template pTemplate="header">
+                    Teendőid
+                    </ng-template>
+                <fcrm-task [@fadeAnimation]="'in'" [showTask]="{currentUser: getUser()}"></fcrm-task>
+            </p-panel>
+           
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,71 @@
+.commentCard{
+    margin-bottom: 5px;
+    height: fit-content;
+    width: inherit;
+    z-index: 6px;
+    
+}
+
+.commentText{
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    width: 75%;
+    overflow-wrap: break-word;
+    z-index: 3;
+}
+
+.date{
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+    z-index: 4;
+    display: flex;
+}
+
+.editedIcon{
+    width: 20px;
+    height: 20px;
+}
+
+.text-div{
+    display: flex;
+    width: 100%
+}
+
+.icon{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+
+h2{
+    padding:0px 0px 0px 15px;
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+
+}
+
+.avatar{
+    width: 45px;
+    height: 45px;
+    cursor: pointer; 
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #E8591B;
+}
+
+.avatarPlain{
+    width: 50px;
+    height: 50px;
+    cursor: pointer; 
+    border-radius: 50%;
+}
+
+.userName{
+    position: absolute;
+    left: 80px;
+    font-weight: 1000;
+}

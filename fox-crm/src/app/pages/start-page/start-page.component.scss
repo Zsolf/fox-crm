@@ -1,0 +1,138 @@
+
+.main-panel{
+    padding-top: 110px;
+    display: flex;
+  
+}
+
+.main{
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+
+::ng-deep .p-panel-content{
+    overflow-x: auto;
+    max-width: inherit;
+    background-color: whitesmoke;
+}
+
+::ng-deep .firstPanel{
+    
+    max-width: inherit;
+    min-width: 700px;
+    margin-top: 10px;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+
+::ng-deep .secondPanel{
+    
+    max-width: inherit;
+    min-width: 600px
+}
+
+::ng-deep .thirdPanel{
+    
+    max-width: inherit;
+    min-width: 800px;
+    max-height: 960px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.sideDiv{
+    max-width: 50%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+p-panel + .sideDiv{
+    margin-left: 50px;
+}
+
+::ng-deep .firstPanel .p-panel-header{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#faa079), color-stop(100%,#009CFF));
+    color: white;
+    position: sticky;
+    top:0;
+    z-index: 100;
+}
+
+::ng-deep .thirdPanel .p-panel-header{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#faa079), color-stop(100%,#009CFF));
+    color: white;
+    position: sticky;
+    top:0;
+    z-index: 50;
+}
+
+.saturate { 
+    filter: grayscale(100%); 
+    width: 50px;
+    height: 50px;
+    opacity: 50%;
+}
+
+.void{
+    text-align: center;
+    position: relative;
+    vertical-align:middle;
+    width: 100%;
+}
+
+h2{
+    padding:0px 0px 0px 15px;
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+
+}
+
+.historyDate{
+    float: right;
+    margin-right: 5px;
+}
+
+.surveyText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: #ffffff
+}
+
+.inProgressText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff
+}
+
+.closedNoText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+    color: #ffffff
+}
+
+.closedOkText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+    color: #ffffff
+}
+
+.company{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0479c2), color-stop(100%,#009CFF));
+    color: #ffffff;
+}
+
+.compRoot{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#083e5f), color-stop(100%,#3f89b8));
+    color: #ffffff;
+}
+
+.historyCompany{
+    margin-top: 34px;
+    margin-left: 10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.logoText{
+    width: 700px;
+    height: 250px;
+}

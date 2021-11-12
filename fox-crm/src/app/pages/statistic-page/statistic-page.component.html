@@ -1,0 +1,74 @@
+<div *ngIf="isSale" class="main" >
+    <div class="mainDiv">
+        <div class="main-panel"> 
+            <p-panel >
+                 <ng-template pTemplate="header">
+                Értékesítések státusza havi bontásban
+                <div class="newButtons">
+                    <p-dropdown [options]="months" (onChange)="changeMonthStatus($event)" [(ngModel)]="selectedMonthStatus" optionLabel="name" appendTo="body"></p-dropdown>
+                </div>
+                </ng-template>
+                <p-chart class="doughnut" type="doughnut" [data]="data" ></p-chart>
+            </p-panel>
+        </div>
+        <div class="right-panel"> 
+            <p-panel [@fadeAnimation]="'in'" >
+                <ng-template pTemplate="header">
+                    Termékcsoportok népszerűsége havi bontásban
+                    <div style="display:flex; margin-left: auto;">
+                        <h2>1:</h2>
+                        <div class="newButtons">
+                            <p-dropdown [options]="months" (onChange)="changeMonthFirst($event)" [(ngModel)]="selectedMonthFirst" optionLabel="name" appendTo="body"></p-dropdown>
+                        </div>
+                        <h2>2:</h2>
+                        <div class="newButtons">
+                            <p-dropdown [options]="months" (onChange)="changeMonthSecond($event)" [(ngModel)]="selectedMonthSecond" optionLabel="name" appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                    </ng-template>
+                <p-chart type="radar" [data]="productData"  ></p-chart>
+            </p-panel>
+        </div>
+    </div>
+    <div class="mainDivTwo">
+    <div class="down-panel"> 
+        <p-panel>
+            <ng-template pTemplate="header">
+            Értékesítők sikerességi statisztikája
+                <div class="newButtons">
+                    <p-dropdown class="userChart" [options]="months" (onChange)="changeMonthUsers($event)" [(ngModel)]="selectedMonthUsers" optionLabel="name" appendTo="body"></p-dropdown>
+                </div>
+            </ng-template>
+            <p-chart class="bar" type="bar" [data]="userData" ></p-chart>
+        </p-panel>
+    </div>
+    </div>
+</div>
+
+<div *ngIf="isFinancial" class="main" >
+    <div class="mainDiv">
+        <div class="upper-panel"> 
+            <p-panel  class="upperPanel" >
+                <div style="display: flex;">
+                    <div style="margin-inline: 20px; display: flex; flex-direction: column; align-items: center;">
+                        <h2>Várható bevétel</h2>
+                        <span class="expected">{{currentExpectedIncome + ' HUF'}}</span>
+                    </div>
+                    <p-divider layout="vertical" ></p-divider>
+                    <div style=" margin-inline: 20px; display: flex; flex-direction: column; align-items: center;">
+                        <h2>Valódi bevétel</h2>
+                        <span class="closed">{{currentClosingIncome + ' HUF'}}</span>
+                    </div>
+                </div>
+            </p-panel>
+        </div>
+    </div>
+    <div class="bottom-panel"> 
+        <p-panel>
+            <ng-template pTemplate="header">
+                    Havi bevételi statisztika
+            </ng-template>
+            <p-chart type="line" [data]="financeData"></p-chart>
+        </p-panel>
+    </div>
+</div>

@@ -1,0 +1,167 @@
+::ng-deep body{
+    background-image: url('/assets/background-theme.png') !important;
+}
+
+.cardDiv{
+    display: flex;
+    justify-content: center; 
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.main{
+    width: 700px;
+    min-width: 700px;
+    height: 1000px;
+    min-height: 1000px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items:center;
+}
+
+h1{
+    padding-top: 20px;
+    font-size: 35px;
+    display: block;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items:center;
+    size: 100px;
+    margin-top: 30px;
+}
+
+h2 {
+    position: relative;
+    bottom: -50px;
+    left: -120px;
+    font-size: 25px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.mat-form-field{
+    width: 300px !important;
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.icon{
+    width: 25px;
+    height: 25px;
+    position: relative;
+    bottom: -30px;
+    opacity: 50%;
+}
+
+input{
+    font-size: 20px;
+    position: relative;
+    top: -4px;
+    left: 0px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items:center;
+    margin-top: 30px;
+}
+
+
+button{
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.login{
+    font-size: 25px !important;
+    width: 300px;
+    height: 50px;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#c26604), color-stop(40%,#f1a553), color-stop(100%,#ff6f00)) !important;
+}
+
+.label {
+    position: absolute;
+    left: -162px;
+    top: -33.5px;
+    width: 100px !important;
+}
+.label input{
+    position: relative;
+    top: -4px;
+    left: 6px;
+    font-weight: 1000;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: whitesmoke;
+    border-radius: 5px;
+  }
+
+  
+::ng-deep .label.mat-form-field-appearance-outline .labelPhone.mat-form-field-appearance-outline .smallLabel.mat-form-field-appearance-outline .mat-form-field-outline {
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#80c8f1),color-stop(90%,#eee8e6)) !important;
+    border-radius: 5px;
+  }
+
+.neighbour{
+    display: flex;
+    flex-direction: row;
+    margin-left: 80px
+}
+
+.smallLabel {
+    position: absolute;
+    left: -192px;
+    top: -33.5px;
+    width: 130px !important;
+}
+.smallLabel input{
+    position: relative;
+    top: -4px;
+    left: 2px;
+    font-weight: 1000;
+}
+
+.small-form-field{
+    width: 150px !important;
+    margin-top: 20px;
+}
+
+.small-form-field + .small-form-field {
+    margin-left: 170px;
+}
+
+.labelPhone {
+    position: absolute;
+    left: -162px;
+    top: -33.5px;
+    width: 140px !important;
+}
+.labelPhone input{
+    position: relative;
+    top: -4px;
+    left: 6px;
+    font-weight: 1000;
+}
+
+.phone{
+    left: 105px;
+    width: 170px !important;
+}
+
+
+.pass{
+    left: 40px;
+    width: 235px !important;
+}
+
+span{
+    color: red;
+}

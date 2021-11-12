@@ -1,0 +1,316 @@
+
+
+mat-button-toggle-group {
+    border: none !important;
+    margin-top: 1%;
+    position:relative;
+    padding-left: 3%;
+    border-bottom-right-radius: 0;  
+    border-bottom-left-radius: 0;
+  }
+  
+mat-button-toggle {
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-weight: bold;
+    border: 1px rgba(0,0,0,0) solid !important;
+    margin-top: 5px !important;
+    z-index: 3 !important;
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#daeaf3),color-stop(90%,#addbf8));
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;  
+}
+  
+mat-button-toggle:hover {
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#9ed2f0),color-stop(90%,#81caf7)) !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; 
+    border:none;
+}
+  
+.mat-button-toggle-checked {
+    box-shadow: 0 0 5px #000 !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; 
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#80c8f1),color-stop(90%,#4cafec)) !important;
+}
+
+.main-page{
+    padding-top: 80px;
+  
+}
+
+.main{
+    width: 1700px;
+    margin: 0 auto;
+}
+
+.mat-card-one{
+    height: fit-content;
+    width: 1050px;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0 !important;
+    display: block;
+    justify-content:space-between; 
+    min-width: 1050px;
+    z-index: 2;
+}
+
+.leftDiv{
+    height: fit-content;
+    width: 1050px;
+    display: block;
+    justify-content:space-between; 
+    min-width: 1050px;
+}
+
+.mat-card-two{
+    height: fit-content;
+    width: 450px;
+    background-color: #FFFFFF;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 300px;
+    margin-left: 20px;
+}
+
+.card-div{
+    width: 30%;
+}
+
+.cards {
+    margin-left: 3% !important;
+    position: relative;
+    width: max-content;
+    display: flex;
+    width: 95%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.name {
+    
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size:40px;
+    font-variant:small-caps;
+    text-align: left;
+    font-weight:bold;
+    padding:15px 15px 0px 15px;
+}
+
+h2{
+    padding:0px 0px 0px 15px;
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+
+}
+
+.text-div{
+    display: flex;
+    width: 100%
+}
+
+.icon{
+    width: 45px;
+    height: 45px;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.avatar{
+    width: 45px;
+    height: 45px;
+    cursor: pointer; 
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #E8591B;
+}
+
+.avatarPlain{
+    width: 50px;
+    height: 50px;
+    cursor: pointer; 
+    border-radius: 50%;
+}
+
+.edit-icon{
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;   
+}
+
+.first-line{
+    display: flex;
+}
+
+.second-card-line{
+    position: relative;
+    display: flex;
+    width: 1100px;
+    z-index: 1;
+    flex-wrap:wrap;
+    flex-grow: 5;
+    min-width: 1000px;
+    
+}
+
+a{
+    cursor: pointer;
+    z-index: 1;
+}
+
+.title{
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size:30px;
+    font-variant:small-caps;
+    text-align: left;
+    font-weight:bold;
+    padding:15px 15px 0px 15px;
+}
+
+.third-card-line{
+    margin-inline: 3% !important;
+    position: absolute;
+    display: flex;
+    width: 93%;
+    margin-top: 465px;
+    z-index: 0;
+}
+
+.commentCard{
+    margin-bottom: 5px;
+    height: fit-content;
+    width: inherit;
+    z-index: 6px;
+    
+}
+
+.commentText{
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    width: 75%;
+    overflow-wrap: break-word;
+    z-index: 3;
+}
+
+.date{
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+    z-index: 4;
+    display: flex;
+}
+
+.comments{
+    max-height: 445px;
+    overflow-y: auto;
+    z-index: 5;
+    position:relative;
+}
+
+.commentField{
+    position: relative;
+    z-index: 5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 450px;
+    max-height: 400px;
+    min-width: 450px;
+    margin-left: 20px;
+}
+
+.commentForm{
+    width: 100%;
+    max-height: 400px;
+}
+
+.textArea{
+    max-height: 250px;
+    white-space: pre-wrap;
+}
+
+.smallIcon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 40px;
+    top: 5px;
+    z-index: 4
+}
+
+.editedIcon{
+    width: 20px;
+    height: 20px;
+}
+
+.editTextArea{
+    resize: none;
+    max-height: 250px;
+    height: 250px;
+}
+
+.smallDeleteIcon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    z-index: 4
+}
+
+.saturate { 
+    filter: grayscale(100%); 
+    width: 50px;
+    height: 50px;
+    opacity: 50%;
+}
+
+.void{
+    text-align: center;
+    position: relative;
+    vertical-align:middle;
+    width: 100%;
+}
+
+a { color: inherit; } 
+
+.mat-card-third{
+    margin-top: 20px;
+    height: fit-content;
+    width: 20%;
+    height: 200px;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0 !important;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 400px;
+    z-index: 2;
+}
+
+.mat-card-fourth{
+    margin-top: 20px;
+    height: fit-content;
+    width: 10%;
+    height: 200px;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0 !important;
+    display: inline-block;
+    justify-content:space-between; 
+    min-width: 300px;
+    z-index: 2;
+}
+
+.mat-card-third + .mat-card-fourth{
+    margin-left: 2.3%;
+}
+
+.mat-card-fourth + .mat-card-fourth{
+    margin-left: 2.2%;
+}
+
+
+.userName{
+    position: absolute;
+    left: 80px;
+    font-weight: 1000;
+}

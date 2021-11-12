@@ -1,0 +1,21 @@
+<div class="main">
+    <div class="main-page" [@fadeAnimation]="'in'">
+        <mat-button-toggle-group class="toggle" [value]="this.userService.companyPageStart == 'company' ? 'Cégadatok' : 'Értékesítés összegzés'">
+            <mat-button-toggle #toggleMainSum value="Értékesítés összegzés">Értékesítés összegzés</mat-button-toggle>
+            <mat-button-toggle #toggleMainCD value="Cégadatok">Cégadatok</mat-button-toggle>
+            <mat-button-toggle style="margin-right: 2px;" #toggleMainCont value="Kapcsolat">Kapcsolat</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div *ngIf="toggleMainCD.checked">
+            <fcrm-company-data-page>
+            </fcrm-company-data-page>
+        </div>
+        <div *ngIf="toggleMainSum.checked">
+            <fcrm-summary-page>
+            </fcrm-summary-page>
+        </div>
+        <div *ngIf="toggleMainCont.checked">
+            <fcrm-contact-page>
+            </fcrm-contact-page>
+        </div>
+    </div>
+</div>

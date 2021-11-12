@@ -1,0 +1,242 @@
+.mat-card-third{
+    height: min-content !important;
+    width: 1050px !important;
+}
+
+.second-card-line{
+    height: min-content !important;
+    width: min-content !important;
+}
+
+.mat-card-one{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    height: 130px !important;
+}
+
+.custom-marker {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.mat-card-two{
+    width: 500px !important;
+}
+
+.timeline{
+    width: 820px;
+}
+
+.tasks{
+    width: 100%;
+}
+
+::ng-deep .inProgress .p-fieldset-legend {
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff;    
+}
+
+::ng-deep .survey .p-fieldset-legend {
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: white;
+}
+
+::ng-deep .closedOk .p-fieldset-legend {
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+    color: #ffffff;
+}
+
+::ng-deep .closedNo .p-fieldset-legend {
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+    color: #ffffff;
+}
+
+::ng-deep .survey, ::ng-deep .inProgress{
+    margin-bottom: 20px;
+}
+
+::ng-deep .disabled .p-listbox {
+    margin-bottom: 20px;
+    width: 430px !important;
+    pointer-events:fill !important;
+}
+
+::ng-deep .disabled .p-listbox .p-listbox-list{
+    pointer-events:none !important;
+}
+
+::ng-deep .disabled .p-listbox .p-checkbox-box {
+    pointer-events:none !important;
+}
+
+::ng-deep .disabled .ng-valid {
+    pointer-events:none !important;
+}
+
+::ng-deep .p-fileupload-content{
+    width: auto !important;
+    overflow-x: scroll;
+    overflow-x: overlay;
+}
+
+.file{
+    color: blue;
+    pointer-events: all !important;
+}
+
+
+.p-inputgroup{
+    height: 40px;
+    width: 50px !important;
+}
+
+.p-inputgroup input{
+    width: 140px !important;
+}
+
+.expectedIncome{
+    margin-left: 15px;
+}
+
+button + button{
+    margin-top: 20px;
+    margin-left: 14px;
+}
+
+.inProgressNext{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff;  
+}
+
+.closing{
+    background-image: linear-gradient(to right, #79c57f 0%, #da6565 100%);
+    color: white;  
+}
+
+::ng-deep .disabled{
+    margin-bottom: 20px;
+    pointer-events:none;
+   background-color: rgba(0,0,0,0.1);
+}
+
+::ng-deep .disabled .p-fieldset-legend{
+    pointer-events:all !important;
+}
+
+.avatarPlain{
+    width: 90px;
+    height: 90px;
+    cursor: pointer; 
+    border-radius: 50%;
+    margin-top: 15px;
+    position: relative;
+}
+
+.avatar{
+    width: 70px;
+    height: 70px;
+    cursor: pointer; 
+    border-radius: 50%;
+    margin-top: 25px;
+    position: relative;
+}
+
+.historyTitle{
+    font-weight: 900;
+    margin-top: 30px;
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+.historyDescription{
+    margin-left: 120px;
+    margin-top: -30px;
+}
+
+.historyElem{
+    margin-left: 20px;
+    margin-top: -20px;
+}
+
+.date{
+    position: relative;
+    float: right;
+    top: 15px;
+}
+
+.dropdown{
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+.dropdownFirst{
+    margin-left: auto;
+}
+
+.surveyText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e77645), color-stop(100%,#faa079));
+    color: white;
+}
+
+.inProgressText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(146, 123, 187)), color-stop(100%,rgb(177, 157, 212)));
+    color: #ffffff; 
+}
+
+.closedNoText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(221, 70, 70)), color-stop(100%,rgb(235, 102, 102)));
+    color: #ffffff;
+}
+
+.closedOkText{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(104, 180, 104)), color-stop(100%,rgb(147, 216, 147)));
+    color: #ffffff;
+}
+
+.leftSide{
+    display:flex; 
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100px;
+    align-items:center
+}
+
+.third{
+    max-height: 500px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.avatar + .historyUserName{
+    margin-top: 10px;
+}
+
+.historyUserName{
+    margin-inline: auto;
+}
+
+
+::ng-deep .newTask {
+    left: 890px;
+    top:-31px;
+    position: absolute;
+}
+
+::ng-deep .tasks legend {
+    z-index: 1 !important;
+    height: 55px;
+}
+
+textarea{
+    resize: none;
+     min-height: 100px !important;
+      max-width: 430px !important;
+}

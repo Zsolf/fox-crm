@@ -1,0 +1,66 @@
+.mat-toolbar {
+    z-index: 5;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0479c2), color-stop(40%,#53cbf1), color-stop(100%,#009CFF));
+}
+
+.menubar{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+   z-index: 100;
+}
+
+.logo{
+    padding-right: 5px;
+    padding-bottom: 5px;
+    width: 120px
+}
+
+.icon{
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #E8591B;
+}
+
+.iconPlain{
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.account{
+    position: absolute;
+    right: 30px;
+}
+
+.name{
+    position: relative;
+    top: 2px;
+}
+
+.settings-icon{
+    margin-left: 10px;
+    position: relative;
+    top: 6.5px;
+}
+
+a :hover{
+    cursor: pointer;
+}
+
+.menuButton + .menuButton{
+    margin-left: 10px;
+}
+
+::ng-deep .mat-menu-panel{
+    overflow: none;
+}
+
+mat-icon + span{
+    margin-left: 10px;
+}

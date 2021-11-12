@@ -1,0 +1,83 @@
+<div>
+    <div style="position: relative;display: flex; height: 30px; top: -10px">
+        <h2 style="margin-left: 180px; margin-right: 180px;margin-top: 9px;">Vállalat</h2>
+        <p-divider layout="vertical"></p-divider>
+        <h2 style="margin-left: 160px;margin-top: 9px;">Kapcsolattartó</h2>
+    </div>
+    <p-divider></p-divider>
+    <div class="dialog">
+        <div class=leftDiv>
+            <div class="nameDiv">
+                <h3 class="nameText">A Vállalat neve: </h3>
+                <p-autoComplete [(ngModel)]="selectedCompany" [showEmptyMessage]="true" [suggestions]="filteredCompany" (onSelect)="choosedComp($event)" (completeMethod)="filterComp($event)" field="name" [minLength]="1" appendTo="body" [dropdown]="true" >
+                    <ng-template let-brand let-company pTemplate="item" style="display: flex; flex-direction: row;">
+                        <i class="pi pi-briefcase" style="margin:12px 8px 10px 1px; float: left;"></i>
+                        <div style="font-size:18px;margin-right: 10 auto !important; margin-top: 10px;">{{company.name}}</div>
+                </ng-template>
+                </p-autoComplete>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Cégvezető neve: </h3>
+                <input  type="text" style="margin-left: 55px;" pInputText [(ngModel)]="companyForm.value.ceoName"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Cég E-mail: </h3>
+                <input  type="text" style="margin-left: 90px;" pInputText [(ngModel)]="companyForm.value.email"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Cég telefonszáma: </h3>
+                <p-inputNumber prefix="+36 " class="companyPhone" pInputText [(ngModel)]="companyForm.value.phone"></p-inputNumber>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Cég adószáma: </h3>
+                <input  type="number" style="margin-left: 60px;" pInputText [(ngModel)]="companyForm.value.taxNumber"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Cég weboldala(ha van): </h3>
+                <input  type="text" style="margin-left: 4px;" pInputText [(ngModel)]="companyForm.value.webpage"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Cég székhelyének címe: </h3>
+                <input  type="text" pInputText [(ngModel)]="companyForm.value.address"/>
+            </div>
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="rightDiv">
+            <div class="nameDiv">
+                <h3 class="nameText">Keresztneve: </h3>
+                <input  type="text" style="margin-left: 80px;" pInputText [(ngModel)]="personForm.value.firstName"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Vezetékneve: </h3>
+                <input  type="text" style="margin-left: 75px;" pInputText [(ngModel)]="personForm.value.lastName"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Pozíciója: </h3>
+                <input  type="text" style="margin-left: 100px;" pInputText [(ngModel)]="personForm.value.position"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">E-mail címe: </h3>
+                <input  type="text" style="margin-left: 82px;" pInputText [(ngModel)]="personForm.value.email"/>
+            </div>
+            <div class="nameDiv">
+                <h3 class="nameText">Telefonszáma: </h3>
+                <p-inputNumber prefix="+36 " class="phoneInput" pInputText [(ngModel)]="personForm.value.phone"></p-inputNumber>
+            </div>
+            <div class="saleSection">
+                <div class="saleDiv">
+                    <h3>Értékesítésért felelős kolléga: </h3>
+                    <p-dropdown [options]="users" [(ngModel)]="selectedUser" optionLabel="name" appendTo="body"></p-dropdown>
+                </div>
+                <div class="saleDiv">
+                    <h3>Kezdeti értékelési állapot: </h3>
+                    <p-dropdown class="companyPhone" [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name" appendTo="body"></p-dropdown>
+                </div>
+         </div>
+        </div>
+    </div>
+    
+    <p-divider></p-divider>
+    <div style="margin-left: 360px;">
+        <button mat-raised-button [ngClass]="selectedStatus.id == 'Survey' ? 'newSaleS' : 'newSaleP'" (click)="newSale()" >Új értékesítés indítása</button>    
+    </div>
+</div>

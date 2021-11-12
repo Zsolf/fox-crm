@@ -1,0 +1,187 @@
+<div class="cards" [@fadeAnimation]="'in'">
+    <div class="leftDiv">
+        <mat-card class="mat-card-one">
+            <div class="timeline">
+                <p-timeline [value]="statuses" align="bottom" layout="horizontal"styleClass="customized-timeline" >
+                    <ng-template pTemplate="marker" let-event>
+                        <span class="custom-marker p-shadow-2" [style.backgroundColor]="event.color">
+                            <i [ngClass]="event.icon"></i>
+                        </span>
+                    </ng-template>
+                    <ng-template pTemplate="content" let-event>
+                        {{event.status}}
+                    </ng-template>
+                </p-timeline>
+            </div>     
+        </mat-card>
+        <p-fieldset class="tasks" legend="Teendők">
+            <p-header>
+                <button pButton pRipple type="button" icon="pi pi-plus" (click)="showTaskDialog()" label="Új teendők" class="p-button-rounded newTask"></button>
+            </p-header>
+            <fcrm-task [@fadeAnimation]="'in'" (closeEvent)="showTaskDialog()" [dialog]="{show: displayTaskDialog, saleForm: form.value, users: users}"></fcrm-task>
+        </p-fieldset>
+        <div class="second-card-line"> 
+                <p-fieldset class="mat-card-third" legend="Előzmények" toggleable=true >
+                    <div class="third">
+                    <div *ngFor="let data of histories" [@fadeAnimation]="'in'">
+                        <div class="historyElem" [@fadeAnimation]="'in'">
+                            <div style="display: flex;">
+                                <div class="leftSide">
+                                    <a href="profile/{{data.user.id}}"><img *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar"></a>
+                                    <a href="profile/{{data.user.id}}"><img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain"></a>
+                                    <h5 class="historyUserName">{{data.user.lastName + " " + data.user.firstName}}</h5>
+                                </div>
+                                <h2 class="historyTitle" >{{data.history.name}}</h2>
+                            </div>
+                            <div class="historyDescription">
+                                <div *ngFor="let description of data.history.description">
+                                    
+                                    <span *ngIf="data.history.name != 'Státuszváltozás'"><b>{{description.dataName}}</b>
+                                        <br>
+                                        <del>{{description.oldData}}</del> --> <i>{{description.newData}}</i></span>
+
+                                        <div *ngIf="data.history.name == 'Státuszváltozás'" style="display: flex;">  
+                                            <button [ngClass]="description.oldData == 'Felmérés' ? 'surveyText' : description.oldData == 'Folyamatban van' ? 'inProgressText' : description.oldData == 'Lezárt (Sikertelen)' ? 'closedNoText' : 'closedOkText' " mat-flat-button>
+                                                {{description.oldData}}
+                                            </button>  
+                                            <span style=" margin-left: 5px;"> ___</span> 
+                                            <span style="margin-top: 6px; margin-right: 5px;">></span>  
+                                            <button [ngClass]="description.newData == 'Felmérés' ? 'surveyText' : description.newData == 'Folyamatban van' ? 'inProgressText' : description.newData == 'Lezárt (Sikertelen)' ? 'closedNoText' : 'closedOkText' " mat-flat-button>
+                                                {{description.newData}}
+                                            </button> 
+                                        </div>
+                                    <br *ngIf="data.history.description[data.history.description.length-1].dataName != description.dataName">
+                                    <br *ngIf=" data.history.description[data.history.description.length-1].dataName != description.dataName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="date">
+                            <h3>{{data.history.createdAt | toDateFull }}</h3>
+                        </div>
+                        <p-divider></p-divider>
+                    </div>
+                </div>
+                </p-fieldset>
+        </div>
+    </div>
+    <div class="card-div"> 
+            <p-fieldset class="mat-card-two" legend="Értékesítés" >
+                <p-fieldset legend="Felmérés" [toggleable]="true" [styleClass]="form.value.status != 'Survey' ? 'disabled' : 'survey'" [collapsed]="form.value.status != 'Survey' ? true : false">
+                    <div style="display: flex;">
+                        <h3 style="margin-top: 7px;"><li><strong>Felelős kolléga</strong></li></h3>
+                        <p-dropdown class="dropdownFirst" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" ></p-dropdown>
+                    </div>
+                    <div style="display: flex;">
+                        <h3 style=" margin-top: 25px;"><li><strong> Honnan jött az ügyfél?</strong></li></h3>
+                        <p-dropdown  class="dropdown" [options]="options" [(ngModel)]="form.value.comeFrom" ></p-dropdown>
+                    </div>
+                    <div style="display: flex;">
+                        <h3 style=" margin-top: 25px; margin-bottom: 7px;"><li><strong>Ügyfél típusa</strong></li></h3>
+                    <p-selectButton class="dropdown" [options]="['Egyszeri', 'Állandó', 'Időszakos']" [(ngModel)]="form.value.customerType"></p-selectButton>
+                    </div>
+                    <span style=" margin-top: 30px; margin-bottom: 7px;" class="p-float-label">
+                        <textarea [(ngModel)]="form.value.concerns" style="min-height: 100px !important; max-height: 300px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+                        <label for="float-input"><strong>Kifogások, aggályok</strong></label>
+                    </span>
+                    <span style=" margin-top: 20px; margin-bottom: 7px;" class="p-float-label">
+                        <textarea [(ngModel)]="form.value.surveyInfo" style="min-height: 100px !important; max-height: 300px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+                        <label for="float-input"><strong>Felmérési infók</strong></label>
+                    </span>
+                    <button mat-raised-button [disabled]="form.value.status != 'Survey' ? true : false" color="primary" (click)="saveSale()" >Státusz mentése</button>
+                    <button mat-raised-button [disabled]="form.value.status != 'Survey' ? true : false" class="inProgressNext" (click)="changeStatus('In Progress')" >Státuszváltás</button>
+                    <button mat-raised-button [disabled]="form.value.status != 'Survey' ? true : false" color="warn" (click)="changeStatus('closedNo')" >Azonnali lezárás</button>
+                </p-fieldset>
+                <p-fieldset legend="Folyamatban van" [toggleable]="form.value.status == 'Survey' ? false : true" [styleClass]="form.value.status != 'In Progress' ? 'disabled' : 'inProgress'" [collapsed]="form.value.status != 'In Progress' ? true : false" >
+                    
+                    <div style="display: flex;">
+                        <div>
+                            <h3 style=" margin-top: 7px;"><li><strong> Lezárás várható dátum</strong></li></h3>
+                            <p-calendar inputId="expectedDate" dateFormat="yy-mm-dd" [showIcon]="true" [(ngModel)]="form.value.expectedDate"></p-calendar>
+                            <br>
+                            <mat-hint>YYYY-mm-dd</mat-hint>
+                        </div>
+                        <div class="expectedIncome" >
+                            <h3 style=" margin-top: 7px;"><li> <strong>Várható bevétel</strong></li></h3>
+                            <div class="p-inputgroup">
+                                <input [(ngModel)]="form.value.expectedIncome" type="number" pInputText placeholder="000000">   
+                                <span class="p-inputgroup-addon">HUF</span>    
+                            </div>  
+                        </div>
+                    </div>
+                    <h3 style=" margin-top: 25px;"><li><strong> Érintett termékcsoportok</strong></li></h3>
+                    <p-listbox class="listbox"  [options]="productGroups"  [(ngModel)]="form.value.products" [metaKeySelection]="false" [checkbox]="true" [filter]="true" [multiple]="true" [listStyle]="{'max-height':'150px'}" [style]="{'width':'430px'}">
+                        <ng-template let-group pTemplate="item">
+                                <span>{{group}}</span>
+                        </ng-template>
+                    </p-listbox>
+
+                    <h4 style=" margin-top: 25px;"><li><strong>Dokumentum feltöltése</strong></li></h4>
+                    <p-fileUpload #upload customUpload="true" (uploadHandler)="onUpload($event, upload)" accept="application/pdf" maxFileSize="10000000">
+                        <ng-template styleClass="fileInput" pTemplate="content">
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles"><a class="file" href="{{file.file}}" target="_blank">{{file.text != 'Sikeres feltöltés' ? "Feltött file megnyitása" : ""}}</a></li>
+                            </ul>
+                        </ng-template>
+                    </p-fileUpload>
+                    <span style=" margin-top: 30px; margin-bottom: 7px;" class="p-float-label">
+                        <textarea [(ngModel)]="form.value.concerns" style="min-height: 100px !important; max-height: 300px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+                        <label for="float-input"><strong>Kifogások, aggályok</strong></label>
+                    </span>
+                    <span style=" margin-top: 20px; margin-bottom: 7px;" class="p-float-label">
+                        <textarea [(ngModel)]="form.value.progressInfo" style="min-height: 100px !important; max-height: 300px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+                        <label for="float-input"><strong>Értékesítési infók</strong></label>
+                    </span>
+                    <button mat-raised-button [disabled]="form.value.status != 'In Progress' ? true : false" style="margin-left: 30px;" color="accent" (click)="changeStatus('Survey')" >Vissza</button>
+                    <button mat-raised-button [disabled]="form.value.status != 'In Progress' ? true : false" color="primary" (click)="saveSale()" >Státusz mentése</button>
+                    <button mat-raised-button [disabled]="form.value.status != 'In Progress' ? true : false" class="closing" (click)="showDialog()" >Státuszváltás</button>
+                </p-fieldset>
+                <p-fieldset legend="Lezárt (Sikeres)" [hidden]="form.value.status != 'closedOk' ? true : false" toggleable=true styleClass="closedOk" >
+                    <div style="display: flex;">
+                        <div>
+                            <h3 style=" margin-top: 7px;"><li><strong> Lezárás dátum</strong></li></h3>
+                            <p-calendar dateFormat="yy-mm-dd" [showIcon]="true" [(ngModel)]="form.value.closingDate"></p-calendar>
+                            <br>
+                            <mat-hint>YYYY-mm-dd</mat-hint>
+                        </div>
+                        <div class="expectedIncome" >
+                            <h3 style=" margin-top: 7px;"><li> <strong> Bevétel</strong></li></h3>
+                            <div class="p-inputgroup">
+                                <input [(ngModel)]="form.value.closingIncome" type="number" pInputText placeholder="000000">   
+                                <span class="p-inputgroup-addon">HUF</span>    
+                            </div>  
+                        </div>
+                    </div>
+                    <span style=" margin-top: 20px; margin-bottom: 7px;" class="p-float-label">
+                        <textarea [(ngModel)]="form.value.closingReason" style="resize: none; min-height: 100px !important; max-width: 430px !important;" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+                        <label for="float-input"><strong>Lezárás oka</strong></label>
+                    </span>
+                    <button mat-raised-button class="inProgressNext" (click)="changeStatus('In Progress')" >Vissza</button>
+                    <button mat-raised-button color="primary" (click)="saveSale()" >Státusz mentése</button>
+
+                </p-fieldset>
+                <p-fieldset legend="Lezárt (Sikertelen)" [hidden]="form.value.status != 'closedNo' ? true : false" toggleable=true styleClass="closedNo" >
+                    <div>
+                        <h3 style=" margin-top: 7px;"><li><strong> Lezárás dátum</strong></li></h3>
+                        <p-calendar dateFormat="yy-mm-dd" [showIcon]="true" [(ngModel)]="form.value.closingDate"></p-calendar>
+                        <br>
+                        <mat-hint>YYYY-mm-dd</mat-hint>
+                    </div>
+                    <span style=" margin-top: 20px; margin-bottom: 7px;" class="p-float-label">
+                        <textarea [(ngModel)]="form.value.closingReason" id="float-input" rows="5" cols="53" pInputTextarea></textarea>
+                        <label for="float-input"><strong>Sikertelen lezárás oka</strong></label>
+                    </span>
+                    <button mat-raised-button  class="inProgressNext" color="accent" (click)="changeStatus('In Progress')" >Vissza</button>
+                    <button mat-raised-button color="primary" (click)="saveSale()" >Státusz mentése</button>
+                </p-fieldset>
+                <p-fieldset legend="Lezárt" [hidden]="form.value.status == 'closedNo' || form.value.status == 'closedOk'  ? true : false" [toggleable]="false" styleClass="disabled" [collapsed]="true" >
+                </p-fieldset>
+            </p-fieldset>
+    </div>
+
+    <p-dialog header="Értékesítés lezárása" [(visible)]="displayClosing" [breakpoints]="{'400px': '30vw'}" [modal]="true" [style]="{width: '320px'}"
+    [draggable]="false" [resizable]="false">
+        <button mat-raised-button style="background-color: rgb(104, 180, 104); margin-left: auto" (click)="changeStatus('closedOk')" >Sikeres lezárás</button>
+        <button mat-raised-button  style="background-color: rgb(221, 70, 70); margin-right: auto" (click)="changeStatus('closedNo')" >Sikertelen lezárás</button>
+        
+</p-dialog>
+</div>

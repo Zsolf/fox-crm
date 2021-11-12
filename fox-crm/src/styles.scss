@@ -1,4 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: 'Times New Roman', Times, serif, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Baskerville',Times,'Times New Roman',serif; }
+
+/* Importing Bootstrap SCSS file. */
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap/scss/bootstrap';
+
+@import '~primeng/resources/primeng.min.css';
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+  $primary: mat-palette($mat-blue,500);
+  $accent: mat-palette($mat-orange,800);
+
+  $theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
