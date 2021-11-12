@@ -27,8 +27,8 @@
                         <div class="historyElem" [@fadeAnimation]="'in'">
                             <div style="display: flex;">
                                 <div class="leftSide">
-                                    <img *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar">
-                                    <img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain">
+                                    <a href="profile/{{data.user.id}}"><img *ngIf="data.avatar != 'assets/avatar-icon.png' && data.user.avatarPath != '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatar"></a>
+                                    <a href="profile/{{data.user.id}}"><img *ngIf="data.avatar == 'assets/avatar-icon.png' || data.user.avatarPath == '/avatars/avatar-icon.png'" src="{{data.avatar}}"  class="avatarPlain"></a>
                                     <h5 class="historyUserName">{{data.user.lastName + " " + data.user.firstName}}</h5>
                                 </div>
                                 <h2 class="historyTitle" >{{data.history.name}}</h2>

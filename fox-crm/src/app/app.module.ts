@@ -11,6 +11,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
+import { AngularFireStorageModule} from '@angular/fire/storage'
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { LoginModule } from './login/login.module';
     AngularFirestoreModule,
     AngularFireAuthModule,
     SharedModule,
-    LoginModule
+    LoginModule,
+    AngularFireStorageModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
