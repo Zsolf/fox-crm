@@ -6,7 +6,7 @@ import Firebase from 'firebase';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { StorageService } from 'src/app/services/firebase-file.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { ICompany } from 'src/app/shared/models/company.model';
 import { ISale } from 'src/app/shared/models/sale.model';
 import { ITask } from 'src/app/shared/models/task.model';

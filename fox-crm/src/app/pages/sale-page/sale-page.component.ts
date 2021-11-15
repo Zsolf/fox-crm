@@ -7,7 +7,7 @@ import { ICompany } from 'src/app/shared/models/company.model';
 import { SaleDialogComponent } from './sale-dialog/sale-dialog.component';
 import { ChangeDetectorRef } from '@angular/core'
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 
 @Component({
   selector: 'fcrm-sale-page',

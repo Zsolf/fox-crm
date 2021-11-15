@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/services/firebase-file.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import Firebase from 'firebase';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { ISale } from 'src/app/shared/models/sale.model';
 import { IHistory } from 'src/app/shared/models/sales-history.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { IUser } from 'src/app/shared/models/user.model';
+import { MessageService } from 'primeng/api';
 
 type TimeStamp = Firebase.firestore.Timestamp;
 
@@ -35,7 +36,7 @@ type TimeStamp = Firebase.firestore.Timestamp;
 export class SummaryPageComponent implements OnInit {
 
   constructor(private userService: UserService, private fileService: StorageService, private route:ActivatedRoute,
-     private fbService: FirebaseBaseService, private storageService: StorageService) { }
+     private fbService: FirebaseBaseService, private storageService: StorageService, private messageService: MessageService) { }
 
   statuses: any[]
 
@@ -153,10 +154,10 @@ export class SummaryPageComponent implements OnInit {
       this.selectedUser = this.users.find(res => res.id == result[0].responsibleId)
       this.form.value.createdAt = result[0].createdAt;
       this.form.value.createdBy = result[0].createdBy;
-      this.form.value.concerns = result[0].concerns == undefined ? null : result[0].concerns;
-      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? null : result[0].surveyInfo;
-      this.form.value.comeFrom = result[0].comeFrom == undefined ? null : result[0].comeFrom;
-      this.form.value.customerType = result[0].customerType == undefined ? null : result[0].customerType;
+      this.form.value.concerns = result[0].concerns == undefined ? "" : result[0].concerns;
+      this.form.value.surveyInfo = result[0].surveyInfo == undefined ? "" : result[0].surveyInfo;
+      this.form.value.comeFrom = result[0].comeFrom == undefined ? "" : result[0].comeFrom;
+      this.form.value.customerType = result[0].customerType == undefined ? "" : result[0].customerType;
       this.form.value.status = result[0].status;
       this.form.value.expectedDate =  result[0].expectedDate == null ? null : new Date(result[0].expectedDate.seconds * 1000);
       this.form.value.expectedIncome = result[0].expectedIncome == undefined ? 0 : result[0].expectedIncome;
@@ -164,7 +165,7 @@ export class SummaryPageComponent implements OnInit {
       this.form.value.closingDate =  result[0].closingDate == null ? null : new Date(result[0].closingDate.seconds * 1000);
       this.form.value.closingIncome = result[0].closingIncome == undefined ? 0 : result[0].closingIncome;
       this.form.value.closingReason = result[0].closingReason == undefined ? "" : result[0].closingReason;
-      this.form.value.progressInfo = result[0].progressInfo == undefined ? null : result[0].progressInfo;
+      this.form.value.progressInfo = result[0].progressInfo == undefined ? "" : result[0].progressInfo;
       this.fbService.getFilteredByIdList("sales-history", result[0].id, "salesId").subscribe( res =>{
         res.forEach(element => {
             this.userService.getById(element.createdBy).subscribe(userResult =>{
@@ -349,6 +350,7 @@ export class SummaryPageComponent implements OnInit {
 
     if(saleHistory.description != [] && saleHistory.description.length != 0){
       this.fbService.add("sales-history",saleHistory)
+      this.messageService.add({severity:'success', summary:'Sikeres mentés'});
       this.histories.push({history: saleHistory, user: this.userService.user, avatar: this.fileService.fileUrl})
       this.histories.sort((a,b)=> {
         if(a.history.createdAt > b.history.createdAt){

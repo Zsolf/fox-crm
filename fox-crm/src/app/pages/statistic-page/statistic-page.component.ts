@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { ISale } from 'src/app/shared/models/sale.model';
 import { IUser } from 'src/app/shared/models/user.model';
 

@@ -33,7 +33,8 @@ import { StartPageComponent } from './start-page/start-page.component';
 import {PanelModule} from 'primeng/panel';
 import { StatisticPageComponent } from './statistic-page/statistic-page.component';
 import {ChartModule} from 'primeng/chart';
-
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 
 
@@ -72,7 +73,9 @@ import {ChartModule} from 'primeng/chart';
     InputTextModule,
     ConfirmDialogModule,
     PanelModule,
-    ChartModule
+    ChartModule,
+    MessageModule,
+    MessagesModule
   ],
   exports: []
 })

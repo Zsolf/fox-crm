@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { StorageService } from 'src/app/services/firebase-file.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { ICompany } from 'src/app/shared/models/company.model';
 import { ISale } from 'src/app/shared/models/sale.model';
 import { IHistory } from 'src/app/shared/models/sales-history.model';

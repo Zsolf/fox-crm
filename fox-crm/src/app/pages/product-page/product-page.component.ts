@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MessageService } from 'primeng/api';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { IProduct } from 'src/app/shared/models/product.model';
 import { ProductDialogComponent } from './product-dialog/product-dialog.component';
@@ -29,7 +30,7 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
 })
 export class ProductPageComponent implements OnInit {
 
-  constructor(private fbService: FirebaseBaseService, public dialog: MatDialog) { }
+  constructor(private fbService: FirebaseBaseService, public dialog: MatDialog, private messageService: MessageService) { }
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -81,6 +82,8 @@ export class ProductPageComponent implements OnInit {
       price: Number(this.emptyProduct[0].validator.get("price").value)
     })
 
+    this.messageService.add({severity:'success', summary:'Sikeres létrehozás'});
+
     this.cancelAddField();
 
   }
@@ -119,9 +122,11 @@ export class ProductPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       if(result == "delete"){
         this.fbService.delete("products",row.id);
+        this.messageService.add({severity:'success', summary:'Sikeres törlés'});
       }
       if(result instanceof Object){
       this.fbService.update("products",result.id,result)
+      this.messageService.add({severity:'success', summary:'Sikeres mentés'});
       }
     });
 

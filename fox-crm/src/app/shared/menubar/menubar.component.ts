@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { StorageService } from 'src/app/services/firebase-file.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { IUser } from '../models/user.model';
 
 @Component({
@@ -34,7 +34,6 @@ export class MenubarComponent implements OnInit {
      private storageService: StorageService, private fbService: FirebaseBaseService) { }
 
   email: string;
-  emailTwo: string;
   user: IUser;
 
   ngOnInit(): void {

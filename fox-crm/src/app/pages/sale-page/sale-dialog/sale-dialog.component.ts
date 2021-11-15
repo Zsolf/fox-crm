@@ -4,12 +4,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { ICompany } from 'src/app/shared/models/company.model';
 import { IPerson } from 'src/app/shared/models/person.model';
 import { ISale } from 'src/app/shared/models/sale.model';
 import Firebase from 'firebase';
 import { IHistory } from 'src/app/shared/models/sales-history.model';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { IHistory } from 'src/app/shared/models/sales-history.model';
 export class SaleDialogComponent implements OnInit {
 
   constructor(private ref: DynamicDialogRef, private config: DynamicDialogConfig, private fbService: FirebaseBaseService
-    , private userService: UserService) { }
+    , private userService: UserService, private messageService: MessageService) { }
 
   selectedStatus: {name: string, id: string}
 
@@ -163,7 +164,14 @@ export class SaleDialogComponent implements OnInit {
       createdAt: Firebase.firestore.Timestamp.fromDate(new Date()),
       createdBy: this.userService.user.id,
       expectedIncome: 0,
-      closingIncome: 0
+      closingIncome: 0,
+      concerns: "",
+      customerType: "",
+      surveyInfo: "",
+      progressInfo: "",
+      comeFrom: "",
+      closingReason: "",
+
     } as ISale
 
     let historyEvent = {
@@ -193,9 +201,6 @@ export class SaleDialogComponent implements OnInit {
         email: this.personForm.value.email ,
         phone: this.personForm.value.phone ,
       } as IPerson
-
-
-      console.log(newCompany)
 
       this.fbService.add("persons", newPerson).then(result =>{
         newCompany.contactPersonId = result
@@ -228,6 +233,7 @@ export class SaleDialogComponent implements OnInit {
        }
     }
 
+    this.messageService.add({severity:'success', summary:'Sikeres létrehozás'});
 
   }
 

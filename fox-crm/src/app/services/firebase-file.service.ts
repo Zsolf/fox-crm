@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
-import { UserService } from './firebase-user.services';
+import { UserService } from './firebase-user.service';
 
 @Injectable({
     providedIn: 'root'

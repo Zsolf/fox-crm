@@ -5,10 +5,12 @@ import { IUser } from 'src/app/shared/models/user.model';
 import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/services/firebase-file.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs/operators';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'fcrm-profile-page',
@@ -36,7 +38,8 @@ export class ProfilePageComponent implements OnInit {
     private authService: AuthService,
     private storageService: StorageService, 
     private route: ActivatedRoute,
-    private router: Router ) { }
+    private router: Router ,
+    private messageService: MessageService) { }
 
   user: IUser;
   form: FormGroup;
@@ -55,7 +58,6 @@ export class ProfilePageComponent implements OnInit {
     this.route.params.subscribe(result =>{
       if(result['uid'] == undefined){
         this.isMyProfile = true
-        console.log(this.isMyProfile)
       }else{
         this.isMyProfile = false
         this.userId = result['uid']
@@ -65,7 +67,6 @@ export class ProfilePageComponent implements OnInit {
   this.authService.currentUserObserable().subscribe(result =>{
     if(result != null){
      
-      console.log(result)
     }
   })
   
@@ -139,7 +140,21 @@ export class ProfilePageComponent implements OnInit {
   }
 
   save(){
+
+    let oldEmail = this.user.email
+    
     this.userService.update(this.user.id, this.form.value)
+    this.authService.newEmail(this.form.value.email).then( () =>{
+    this.messageService.add({severity:'success', summary:'Sikeres mentés'});
+    
+    if(this.form.value.email != oldEmail){
+    this.storageService.fileUrl = undefined
+    this.authService.logout()
+    this.router.navigateByUrl("/login")
+    this.storageService.currenUserAvatar = "assets/avatar-icon.png"
+    }
+    })
+    
   }
 
   openDialog(): void {

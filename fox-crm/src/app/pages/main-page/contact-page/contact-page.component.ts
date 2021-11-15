@@ -8,10 +8,12 @@ import Firebase from 'firebase';
 import { ConfirmDialogComponent } from '../company-data-page/confirm-dialog/confirm-dialog.component';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { StorageService } from 'src/app/services/firebase-file.service';
 import { IUser } from 'src/app/shared/models/user.model';
 import { ActivatedRoute } from '@angular/router';
+import {Message} from 'primeng//api';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'fcrm-contact-page',
@@ -34,7 +36,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ContactPageComponent implements OnInit {
 
   constructor( private fbService: FirebaseBaseService, public dialog: MatDialog,
-     private userService: UserService, private storageService: StorageService, private route: ActivatedRoute) { }
+     private userService: UserService, private storageService: StorageService, private route: ActivatedRoute, private messageService: MessageService) { }
 
   person: IPerson;
 
@@ -162,7 +164,7 @@ export class ContactPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined){
         this.person = result
-
+        this.messageService.add({severity:'success', summary:'Sikeres mentés'});
         this.fbService.update("persons",this.person.id, this.person)
       }
     });
@@ -178,6 +180,7 @@ export class ContactPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if(result == "delete"){
+        this.messageService.add({severity:'success', summary:'Sikeres törlés'});
         let index = this.userComments.indexOf(com)
         if (index !== -1) {
           this.userComments.splice(index, 1);

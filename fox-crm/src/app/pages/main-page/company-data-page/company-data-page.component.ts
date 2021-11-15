@@ -9,10 +9,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Firebase from 'firebase';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { UserService } from 'src/app/services/firebase-user.services';
+import { UserService } from 'src/app/services/firebase-user.service';
 import { IUser } from 'src/app/shared/models/user.model';
 import { StorageService } from 'src/app/services/firebase-file.service';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'fcrm-company-data-page',
@@ -36,7 +37,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CompanyDataPageComponent implements OnInit {
 
   constructor( private fbService: FirebaseBaseService, public dialog: MatDialog,
-     private userService: UserService, private storageService: StorageService, private route: ActivatedRoute) { }
+     private userService: UserService, private storageService: StorageService, private route: ActivatedRoute,  private messageService: MessageService) { }
 
   comp: ICompany;
   contactPerson: IPerson;
@@ -129,6 +130,7 @@ export class CompanyDataPageComponent implements OnInit {
 
 
   updateCompany() {
+    this.messageService.add({severity:'success', summary:'Sikeres mentés'});
     this.fbService.update("companies",this.comp.id, this.comp)
   }
 
@@ -253,6 +255,7 @@ export class CompanyDataPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if(result == "delete"){
+        this.messageService.add({severity:'success', summary:'Sikeres törlés'});
         let index = this.userComments.indexOf(com)
         if (index !== -1) {
           this.userComments.splice(index, 1);

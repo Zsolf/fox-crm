@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StorageService } from '../services/firebase-file.service';
-import { UserService } from '../services/firebase-user.services';
+import { UserService } from '../services/firebase-user.service';
 
 @Component({
   selector: 'fcrm-login',
