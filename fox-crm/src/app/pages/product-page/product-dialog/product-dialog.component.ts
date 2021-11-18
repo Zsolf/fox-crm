@@ -41,7 +41,6 @@ export class ProductDialogComponent implements OnInit {
     this.isEdit = false;
     this.isDeleteCorrect = false;
     this.delete = "delete"
-
     this.product = this.data.product;
     this.valueChange();
   }

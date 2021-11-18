@@ -39,28 +39,21 @@ export class ContactPageComponent implements OnInit {
      private userService: UserService, private storageService: StorageService, private route: ActivatedRoute, private messageService: MessageService) { }
 
   person: IPerson;
-
   comments: IComment[];
   commentIds: string[];
   toBeDeletedId: string[];
-
   companyId: string;
-
   isCommentSet: boolean;
   fbReadFinished: boolean;
   isCommentNeedToBeDeleted: boolean;
   firstEditIconVisible: boolean;
   secondEditIconVisible: boolean;
-
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
-
   userComments: {comment: IComment, user: IUser, avatar: string}[];
-
   editRemainingText: number;
   commentRemainingText: number;
 
-  
   form: FormGroup = new FormGroup ({
     textArea: new FormControl('', Validators.maxLength(500))
   })
@@ -72,13 +65,11 @@ export class ContactPageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     this.person = {} as IPerson
-
     this.userComments = []
     this.commentIds = []
     this.showEditIcon = []
     this.showEditArea = []
     this.userComments = []
-
     this.editRemainingText = 0
     this.commentRemainingText = 0
     this.toBeDeletedId = []
@@ -93,14 +84,12 @@ export class ContactPageComponent implements OnInit {
     this.isCommentSet = false;
     this.isCommentNeedToBeDeleted = false;
     await this.getComments()
-    
-
   }
 
   ngDoCheck(){
     if(!this.isCommentSet && this.commentIds.length > 0 && this.fbReadFinished){
-    this.getComments()
-    this.isCommentSet = true;
+      this.getComments()
+      this.isCommentSet = true;
     }
     if(this.isCommentNeedToBeDeleted && this.toBeDeletedId.length > 0){
       this.deleteComment();

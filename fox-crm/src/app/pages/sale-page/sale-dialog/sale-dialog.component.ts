@@ -24,20 +24,13 @@ export class SaleDialogComponent implements OnInit {
     , private userService: UserService, private messageService: MessageService) { }
 
   selectedStatus: {name: string, id: string}
-
   statuses: {name: string, id: string}[]
-
   selectedCompany: any
-
   users: any[];
-
   selectedUser: any;
-
   biggestId: string;
-
   companies: {company: ICompany, contact: IPerson}[]
   filteredCompany: ICompany[]
-
   companyForm: FormGroup;
   personForm: FormGroup;
 
@@ -69,10 +62,8 @@ export class SaleDialogComponent implements OnInit {
     }]
 
     this.selectedStatus = this.statuses[0]
-
     this.companies = []
     this.filteredCompany = []
-
     this.getData()
   }
 
@@ -150,12 +141,9 @@ export class SaleDialogComponent implements OnInit {
         }
       });
     })
-
   }
 
   newSale(){
-
-
     let hasData = false;
     let newSale = {
       status: this.selectedStatus.id,
@@ -171,7 +159,6 @@ export class SaleDialogComponent implements OnInit {
       progressInfo: "",
       comeFrom: "",
       closingReason: "",
-
     } as ISale
 
     let historyEvent = {
@@ -181,7 +168,7 @@ export class SaleDialogComponent implements OnInit {
     } as IHistory
     
     if(this.companies.find(elem => elem.company.name == this.selectedCompany.name) == undefined){
-      
+
       let newCompany = {
         id: "",
         name: this.selectedCompany, 
@@ -232,11 +219,7 @@ export class SaleDialogComponent implements OnInit {
         })
        }
     }
-
     this.messageService.add({severity:'success', summary:'Sikeres létrehozás'});
-
   }
-
-  
 
 }

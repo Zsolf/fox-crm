@@ -28,33 +28,26 @@ export class StatisticPageComponent implements OnInit {
   constructor(private fbService: FirebaseBaseService, private userService: UserService, private route: ActivatedRoute) { }
 
   sales: ISale[]
-
-  
   data: any;
   productData: {labels: string[], datasets: any[]};
   userData: any;
   financeData: any;
-
   statusesByMonth: {closedOk: number, closedNo: number, survey: number, inProgress: number }[]
   productsByMonth: {name: string, occurence: number }[][]
   usersStatusesByMonth: {name: string, statuses: {closedOk: number, closedNo: number}}[][]
   financialByMonth: {expectedIncome: number, closingIncome: number}[]
-
   months = [{name:'Január', id: 0}, {name:'Február', id: 1}, {name:'Március', id: 2}, {name:'Április', id: 3}, {name:'Május', id: 4},
   {name:'Június', id: 5}, {name:'Július', id: 6}, {name:'Augusztus', id: 7}, {name:'Szeptember', id: 8}, {name:'Október', id: 9}, {name:'November', id: 10}, {name:'December', id: 11},]
 
   products: {id: string, name: string}[]
   users: IUser[]
-
   selectedMonthStatus: {name: string, id: number}
   selectedMonthFirst: {name: string, id: number}
   selectedMonthSecond: {name: string, id: number}
   selectedMonthUsers: {name: string, id: number}
   chartOptions: any;
-
   isFinancial: boolean;
   isSale: boolean;
-
   currentExpectedIncome: number;
   currentClosingIncome: number;
 
@@ -101,9 +94,7 @@ export class StatisticPageComponent implements OnInit {
                 this.isSale = true;
                 this.isFinancial = false
             }
-        })
-
-        
+        })   
   }
 
     ngDoCheck(): void {
@@ -160,10 +151,8 @@ export class StatisticPageComponent implements OnInit {
                 }
             ]
         };
-
         this.currentExpectedIncome = this.financialByMonth[new Date().getMonth()].expectedIncome
         this.currentClosingIncome = this.financialByMonth[new Date().getMonth()].closingIncome
-        
     }
 
     getUserData(){
@@ -276,14 +265,12 @@ export class StatisticPageComponent implements OnInit {
             });
             this.productsByMonth.push(productsName)
         }
-
         let products = this.productsByMonth[this.selectedMonthFirst.id]
         let productsName: string[] = []
             this.products.forEach(element => {
                 productsName.push(element.name)
             });
         let data = []
-
         let products2 = this.productsByMonth[this.selectedMonthSecond.id] 
         let data2 = []
 
@@ -344,7 +331,6 @@ export class StatisticPageComponent implements OnInit {
         }
 
         let oldDataset = this.productData.datasets[1]
-        
         this.productData= {labels: productsName,
             datasets: [
                 {
@@ -360,8 +346,6 @@ export class StatisticPageComponent implements OnInit {
                  oldDataset
              ]
         }
-
-        console.log(this.productData.datasets)
     }
 
     changeMonthSecond(event){
@@ -377,7 +361,6 @@ export class StatisticPageComponent implements OnInit {
         }
         
         let oldDataset = this.productData.datasets[0]
-        
         this.productData= {labels: productsName,
             datasets: [
                 oldDataset,
@@ -393,8 +376,6 @@ export class StatisticPageComponent implements OnInit {
                  }
              ]
         }
-        console.log(this.usersStatusesByMonth)
-        
     }
 
     changeMonthStatus(event){

@@ -43,31 +43,24 @@ export class CompanyDataPageComponent implements OnInit {
   contactPerson: IPerson;
   oldComp: ICompany;
   companyId: string;
-
   comments: IComment[];
   commentIds: string[];
   toBeDeletedId: string[];
-
   firstEditIconVisible: boolean;
   secondEditIconVisible: boolean;
   thirdEditIconVisible: boolean;
   fourthEditIconVisible: boolean;
-
   isCommentSet: boolean;
   fbReadFinished: boolean;
   isCommentNeedToBeDeleted: boolean;
   isPersonSet: boolean;
   isCompanyNeedToBeUpdated: boolean;
-
   showEditIcon: {id: string, show: boolean}[];
   showEditArea: {id: string, show: boolean}[];
-
   userComments: {comment: IComment, user: IUser, avatar: string}[];
-
   editRemainingText: number;
   commentRemainingText: number;
 
-  
   form: FormGroup = new FormGroup ({
     textArea: new FormControl('', Validators.maxLength(500))
   })
@@ -183,7 +176,6 @@ export class CompanyDataPageComponent implements OnInit {
                   }
                 )
                 }
-              
             })
         }
         })
@@ -232,7 +224,6 @@ export class CompanyDataPageComponent implements OnInit {
     const dialogRef = this.dialog.open(CompanyDialogComponent, {
       width: '250px',
       data: {company: this.comp, dialogType: dialogType}
-      
     });
 
 
@@ -372,10 +363,7 @@ export class CompanyDataPageComponent implements OnInit {
         this.commentRemainingText = this.form.get("textArea").value.length
         break;
     }
-    
    }
-
-
 }
 
 

@@ -32,12 +32,13 @@ import { IUser } from 'src/app/shared/models/user.model';
     ])
   ]
 })
+
 export class TaskComponent implements OnInit {
   @Input() dialog = {show: false, saleForm: {} as ISale , users: []}
+  
+  @Output() closeEvent = new EventEmitter<boolean>();
 
   @Input() showTask = {currentUser: {} as IUser}
-
-  @Output() closeEvent = new EventEmitter<boolean>();
 
   constructor( private route: ActivatedRoute, private fbService: FirebaseBaseService, private userService: UserService,
      private storageService: StorageService, private confirmationService: ConfirmationService) { }
@@ -146,7 +147,6 @@ export class TaskComponent implements OnInit {
                   hasGroup = true
                 }
               });
-  
               if(hasGroup == false){
                 this.groupedTasks.push({company: res, tasks: [{task: element, user: this.showTask.currentUser, sale: resu}]})
               }
@@ -272,11 +272,9 @@ export class TaskComponent implements OnInit {
         reject: (type) => {
             switch(type) {
                 case ConfirmEventType.REJECT:
-                    
-                break;
-                case ConfirmEventType.CANCEL:
-                    
-                break;
+                  break;
+                case ConfirmEventType.CANCEL:   
+                  break;
             }
         }
     });

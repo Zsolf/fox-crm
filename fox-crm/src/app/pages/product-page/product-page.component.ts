@@ -81,9 +81,7 @@ export class ProductPageComponent implements OnInit {
       madeOf: this.emptyProduct[0].validator.get("madeOf").value.toLowerCase(),
       price: Number(this.emptyProduct[0].validator.get("price").value)
     })
-
     this.messageService.add({severity:'success', summary:'Sikeres létrehozás'});
-
     this.cancelAddField();
 
   }
@@ -95,7 +93,6 @@ export class ProductPageComponent implements OnInit {
       editable: false, 
       validator: this.productForm({} as IProduct)
     }]
-
     this.editActivated= false;
   }
 
@@ -108,9 +105,7 @@ export class ProductPageComponent implements OnInit {
       this.products = result;
       this.dataSource = new MatTableDataSource(this.products)
       this.sortData(this.sort)
-    }).unsubscribe
-
-    
+    }).unsubscribe    
   }
 
   getRow(row: IProduct){
@@ -125,8 +120,8 @@ export class ProductPageComponent implements OnInit {
         this.messageService.add({severity:'success', summary:'Sikeres törlés'});
       }
       if(result instanceof Object){
-      this.fbService.update("products",result.id,result)
-      this.messageService.add({severity:'success', summary:'Sikeres mentés'});
+        this.fbService.update("products",result.id,result)
+        this.messageService.add({severity:'success', summary:'Sikeres mentés'});
       }
     });
 
@@ -152,7 +147,6 @@ export class ProductPageComponent implements OnInit {
       }
     }))
   }
-  
   
   compareNumber(a: number, b: number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

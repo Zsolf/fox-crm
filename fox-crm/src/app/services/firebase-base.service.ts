@@ -39,7 +39,6 @@ export class FirebaseBaseService {
           });
       })
       .catch(function(error) {
-          console.log("Error getting documents: ", error);
       });
         return query
       })

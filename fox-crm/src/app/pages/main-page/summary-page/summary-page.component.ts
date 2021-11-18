@@ -39,26 +39,18 @@ export class SummaryPageComponent implements OnInit {
      private fbService: FirebaseBaseService, private storageService: StorageService, private messageService: MessageService) { }
 
   statuses: any[]
-
   options: string[];
   users: any[];
-
   selectedUser: any;
   uploadedFiles: any[] = [];
-
   productGroups: string[];
-
   displayClosing: boolean;
   displayTaskDialog: boolean;
-
   oldSale: ISale;
   newSale: ISale;
-
   oldStatus: string;
   newStatus: string;
-
   isUserInit: boolean;
-
   histories: {history: IHistory, user: IUser, avatar: string}[]
 
   form: FormGroup = new FormGroup({
@@ -97,12 +89,10 @@ export class SummaryPageComponent implements OnInit {
     this.route.params.subscribe(result =>{
       this.form.value.companyId = result['comp']
       if(result['sale'] != undefined){
-      this.form.value.saleId = result['sale']
+        this.form.value.saleId = result['sale']
       }
     })
- 
     this.changeTimeLine()
-
     this.options = [ "Ajánlás", "Hirdetés", "Megkeresés", "Már ügyfelünk"]
     this.getFile();
   }
@@ -131,7 +121,7 @@ export class SummaryPageComponent implements OnInit {
           if(b.name > a.name){
             return 1
           }
-
+        
         })
         this.selectedUser = this.users[0]
         this.changeTimeLine()
@@ -189,13 +179,9 @@ export class SummaryPageComponent implements OnInit {
                 }
             })
         });
-      
       })
-      
       this.changeTimeLine()
     })
-
-
   }
 
   ngDoCheck(): void {
@@ -332,14 +318,12 @@ export class SummaryPageComponent implements OnInit {
                 saleHistory.description.push({dataName: this.getOriginalName(itemOld[0]),
                   oldData: new Date(itemOld[1].seconds *1000).getFullYear() + "-" + (new Date(itemOld[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemOld[1].seconds *1000).getDate(),
                    newData: new Date(itemNew[1].seconds *1000).getFullYear() + "-" + (new Date(itemNew[1].seconds *1000).getMonth() + 1) + "-" + new Date(itemNew[1].seconds *1000).getDate()})
-              
             }
           }else{
             if(itemOld[0] == 'responsibleId'){
               saleHistory.description.push({dataName: "Felelős kolléga",
                oldData: (this.users.find(res => res.id == itemOld[1]).name.charAt(0) == '(' ? this.users.find(res => res.id == itemOld[1]).name.slice(5) : this.users.find(res => res.id == itemOld[1]).name ),
                 newData: (this.selectedUser.name.charAt(0) == '(' ? this.selectedUser.name.slice(5) : this.selectedUser.name)})
-             
             }else{
               saleHistory.description.push({dataName: this.getOriginalName(itemOld[0]), oldData: itemOld[1], newData: itemNew[1]})
             }
@@ -379,9 +363,8 @@ export class SummaryPageComponent implements OnInit {
     } as IHistory
 
     if(oldStatus != newStatus && oldStatus != null && newStatus != null){
-      saleHistory.description.push({dataName: "Státusz", oldData: this.getOriginalName(oldStatus), newData: this.getOriginalName(newStatus)})
-      this.fbService.add("sales-history",saleHistory)
-      
+        saleHistory.description.push({dataName: "Státusz", oldData: this.getOriginalName(oldStatus), newData: this.getOriginalName(newStatus)})
+        this.fbService.add("sales-history",saleHistory)
         this.histories.push({history: saleHistory, user: this.userService.user, avatar: this.fileService.fileUrl})
         this.histories.sort((a,b)=> {
           if(a.history.createdAt > b.history.createdAt){

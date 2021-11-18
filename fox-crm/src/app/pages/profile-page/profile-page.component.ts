@@ -9,7 +9,6 @@ import { UserService } from 'src/app/services/firebase-user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/services/firebase-file.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -63,13 +62,6 @@ export class ProfilePageComponent implements OnInit {
         this.userId = result['uid']
       }
     })
-
-  this.authService.currentUserObserable().subscribe(result =>{
-    if(result != null){
-     
-    }
-  })
-  
 
     if(this.isMyProfile){
     this.authService.currentUserObserable().subscribe(result =>{
@@ -126,32 +118,27 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
-
-
-
     this.form = new FormGroup ({
       email: new FormControl(this.user.email, [Validators.email, Validators.required]),
       firstName: new FormControl(this.user.firstName, [Validators.minLength(1),Validators.required]),
       lastName: new FormControl(this.user.lastName, [Validators.minLength(1), Validators.required]),
       phone: new FormControl (this.user.phone, [Validators.required, Validators.pattern("^[0-9]*$")]),
       position: new FormControl(this.user.position, [Validators.required])
-  })
+    })
 
   }
 
   save(){
-
     let oldEmail = this.user.email
-    
     this.userService.update(this.user.id, this.form.value)
     this.authService.newEmail(this.form.value.email).then( () =>{
     this.messageService.add({severity:'success', summary:'Sikeres mentés'});
     
     if(this.form.value.email != oldEmail){
-    this.storageService.fileUrl = undefined
-    this.authService.logout()
-    this.router.navigateByUrl("/login")
-    this.storageService.currenUserAvatar = "assets/avatar-icon.png"
+      this.storageService.fileUrl = undefined
+      this.authService.logout()
+      this.router.navigateByUrl("/login")
+      this.storageService.currenUserAvatar = "assets/avatar-icon.png"
     }
     })
     
@@ -163,7 +150,6 @@ export class ProfilePageComponent implements OnInit {
       data: {user: this.user}
       
     });
-
 
     dialogRef.afterClosed().subscribe(async result => {
       this.authService.newPassword(result.password)
@@ -178,20 +164,15 @@ export class ProfilePageComponent implements OnInit {
       return
     }
 
-    
-    
-
     this.fileError = " "
     this.storageService.upload(this.user.id,this.filePath).then( () =>{
       this.user.avatarPath = '/avatars/'+this.user.id
       this.userService.update(this.user.id, this.user)
-      this.getAvatarQuery(this.user.id)
+      this.getAvatarQuery()
     })
-      
-
   }
 
-  getAvatarQuery(userId: string){
+  getAvatarQuery(){
     this.storageService.getAvatarByPath(this.user.avatarPath).subscribe( result => {
       this.avatarURL = result
       this.storageService.currenUserAvatar =this.avatarURL
@@ -204,7 +185,6 @@ export class ProfilePageComponent implements OnInit {
       error =>{
         this.avatarURL="assets/avatar-icon.png"
       })
-
   }
 
   getAvatar(){

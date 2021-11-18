@@ -33,23 +33,16 @@ export class SalePageComponent implements OnInit {
     private router: Router, private userService: UserService){ }
 
     data: TreeNode[];
-    
     selectedNode: TreeNode;
-
     modeSelect: boolean;
     oldMode: boolean;
-
     tree: TreeNode[][]
     closedTree: TreeNode[][]
     allTree: TreeNode[][]
-
     companies: ICompany[]
-
     tmp: any []
-
     saleCounter: number
     saleMax: number
-
     compCounter: number
     compMax: number
 
@@ -96,7 +89,6 @@ export class SalePageComponent implements OnInit {
   getData(){
     this.fbService.getAll("companies").subscribe(result =>{
       this.companies = result
-
       result.forEach(element => {
         this.fbService.getFilteredByIdList("sales",element.id,"companyId").subscribe(res =>{
           let isExist = true;
@@ -185,7 +177,6 @@ export class SalePageComponent implements OnInit {
         data:{companies: this.companies},
         header: 'Új Értékesítés/Vállalat hozzáadása',
         width: '920px'
-        
     });
 
     ref.onClose.subscribe(res =>{

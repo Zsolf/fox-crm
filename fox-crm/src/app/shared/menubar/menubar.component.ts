@@ -63,12 +63,6 @@ export class MenubarComponent implements OnInit {
       })
       }
     })
-
-
-   
-
-
-
   }
 
   getAvatarQuery(userAvatarPath: string){
@@ -78,9 +72,7 @@ export class MenubarComponent implements OnInit {
       })
   }
 
-  ngDoCheck(): void {
-    
-  }
+  ngDoCheck(): void {}
 
   logout(){
     this.storageService.fileUrl = undefined

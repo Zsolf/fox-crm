@@ -36,7 +36,6 @@ export class StartPageComponent implements OnInit {
     this.isDataSet = false;
   }
 
-
   groupedHistories: {company: ICompany, history: IHistory, user: IUser, avatar: string, sale: ISale}[]
 
   getUser(): IUser{

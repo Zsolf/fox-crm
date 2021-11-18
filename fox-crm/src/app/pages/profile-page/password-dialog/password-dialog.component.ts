@@ -30,9 +30,7 @@ export class PasswordDialogComponent implements OnInit {
       this.error = "A két jelszó nem egyezik!"
       return
     }
-
     this.dialogRef.close(this.form.value)
-
   }
 
 }

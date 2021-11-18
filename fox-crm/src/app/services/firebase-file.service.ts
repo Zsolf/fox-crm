@@ -11,9 +11,7 @@ export class StorageService{
     constructor(private fireStorage: AngularFireStorage){}
 
     fileUrl: any;
-
     usersAvatar: {id: string, avatar: string}[]
-
     currenUserAvatar: string;
 
     async upload(userId: string, data: any){

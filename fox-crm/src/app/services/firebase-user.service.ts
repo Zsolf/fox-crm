@@ -10,7 +10,6 @@ export class UserService {
     constructor( private afs: AngularFirestore) { }
 
     user: any;
-
     companyPageStart: string;
 
     getByEmail(email: string): Observable<any>{

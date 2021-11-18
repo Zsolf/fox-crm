@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseBaseService } from 'src/app/services/firebase-base.service';
 import { IUser } from 'src/app/shared/models/user.model';
@@ -27,7 +28,7 @@ import { IUser } from 'src/app/shared/models/user.model';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router, private fbService: FirebaseBaseService) { }
+  constructor(private authService: AuthService, private router: Router, private fbService: FirebaseBaseService, private messageService: MessageService) { }
 
   @HostListener('document:keydown.enter') onKeyDownHandler(){
     this.register();
@@ -74,9 +75,9 @@ export class RegistrationComponent implements OnInit {
           email: this.form.value.email,
           avatarPath: '/avatars/avatar-icon.png'
         } as IUser).then(res => {
+          this.messageService.add({severity:'success', summary:'Sikeres regisztráció'});
           this.router.navigateByUrl("/login")
-        }
-        )
+        })
 
         },
     (error) => {
