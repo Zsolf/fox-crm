@@ -5,13 +5,13 @@
             <form [formGroup]="form">
                 <h2>Email</h2>
                     <mat-form-field>
-                        <img class="icon" src="assets/email-icon.png">
+                        <mat-icon style="transform: scale(1.5); top: 30px; position: relative;">alternate_email</mat-icon>
                         <input matInput formControlName="email" required>
                         <mat-hint style="color: red">{{alertMessage}}</mat-hint>
                     </mat-form-field>
             <h2>Jelszó</h2>
                     <mat-form-field >
-                        <img class="icon" src="assets/password-icon.png">
+                        <mat-icon style="transform: scale(1.5); top: 30px; position: relative;">lock</mat-icon>
                         <input matInput formControlName="password" type="password" required>
                     </mat-form-field>
             </form>
