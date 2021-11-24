@@ -72,8 +72,11 @@ export class SaleDialogComponent implements OnInit {
       if(result != undefined && result != null){
         this.users = []
         result.forEach(element => {
-          let name = this.userService.user.firstName == element.firstName && this.userService.user.lastName == element.lastName ?
-          "(Én) " + element.lastName + " " + element.firstName :  element.lastName + " " + element.firstName;
+          
+          let name = (this.userService.user.firstName == element.firstName && this.userService.user.lastName == element.lastName) ?
+            ("(Én) " + element.lastName + " " + element.firstName) :  
+            (element.lastName + " " + element.firstName);
+
           this.users.push({name: name, id: element.id})
         });
         this.users.sort((a: any, b: any): any =>{
