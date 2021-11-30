@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CoreModule } from './core/core.module';
 import { PagesModule } from './pages/pages.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from '@angular/fire';
@@ -22,7 +21,6 @@ import {MessageModule} from 'primeng/message';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CoreModule,
     PagesModule,
     NgbModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
